@@ -19,14 +19,12 @@ Route::post('/form-dokumen/store', [PPDBController::class, 'storeDokumen'])->nam
 Route::get('/biodata/{id}', [PPDBController::class, 'biodata'])->name('biodata');
 Route::get('/cetak/{id}', [PPDBController::class, 'cetak'])->name('cetak');
 
-
-// Admin auth
-Route::get('/admin/login', [AdminAuthController::class, 'loginForm']);
+Route::get('/admin/login', [AdminAuthController::class, 'loginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login']);
-Route::post('/admin/logout', [AdminAuthController::class, 'logout']);
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-
-// Admin area
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
-Route::get('/admin/{lembaga}', [AdminController::class, 'dataPerLembaga']);
-Route::get('/admin/{lembaga}/export/csv', [AdminController::class, 'exportCsv']);
+Route::middleware('admin')->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/{lembaga}', [AdminController::class, 'dataPerLembaga']);
+    Route::get('/admin/{lembaga}/export/csv', [AdminController::class, 'exportCsv']);
+});
