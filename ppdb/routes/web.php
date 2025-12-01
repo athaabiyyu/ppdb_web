@@ -1,19 +1,32 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PPDBController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminAuthController;
 
-Route::get('/', function() {
-    return view('main');
-});
 
-Route::get('/sma1', function() {
-    return view('sma1/main');
-})->name('sma1.main');
+Route::get('/', [PPDBController::class, 'index']);
+Route::get('/daftar/{jenjang}', [PPDBController::class, 'pilihJenjang']);
+Route::post('/pilih-lembaga', [PPDBController::class, 'pilihLembaga']);
+Route::get('/form-data-pribadi/{id}/{jenjang}', [PPDBController::class, 'formDataPribadi'])->name('form.data.pribadi');
+Route::post('/form-data-pribadi/store', [PPDBController::class, 'storeDataPribadi']);
+Route::get('/form-ortu/{id}', [PPDBController::class, 'formOrtu'])->name('form.ortu');
+Route::post('/form-ortu/store', [PPDBController::class, 'storeOrtu']);
+Route::get('/form-dokumen/{id}', [PPDBController::class, 'formDokumen'])->name('form.dokumen');
+Route::post('/form-dokumen/store', [PPDBController::class, 'storeDokumen'])->name('form.dokumen.store');
+Route::get('/biodata/{id}', [PPDBController::class, 'biodata'])->name('biodata');
+Route::get('/cetak/{id}', [PPDBController::class, 'cetak'])->name('cetak');
 
-Route::get('/sma2', function() {
-    return view('sma2/main');
-})->name('sma2.main');
 
-Route::get('/sma3', function() {
-    return view('sma3/main');
-})->name('sma3.main');
+// Admin auth
+Route::get('/admin/login', [AdminAuthController::class, 'loginForm']);
+Route::post('/admin/login', [AdminAuthController::class, 'login']);
+Route::post('/admin/logout', [AdminAuthController::class, 'logout']);
+
+
+// Admin area
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+Route::get('/admin/{lembaga}', [AdminController::class, 'dataPerLembaga']);
+Route::get('/admin/{lembaga}/export/csv', [AdminController::class, 'exportCsv']);
