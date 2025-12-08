@@ -1,48 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app_user')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Pilih Lembaga</title>
+@section('title', 'Pilih Lembaga')
 
-    <style>
-        .gradient-left {
-            background: linear-gradient(135deg, #66bb6a, #2e7d32, #1b5e20);
-        }
-
-        .blob {
-            position: absolute;
-            width: 380px;
-            height: 380px;
-            background: rgba(255, 255, 255, 0.18);
-            filter: blur(60px);
-            border-radius: 50%;
-            top: -60px;
-            right: -40px;
-        }
-
-        /* --- CHECKBOX STYLE BARU --- */
-        .checkbox-green {
-            background-color: white;
-        }
-
-        .checkbox-green:checked {
-            background-color: white !important;
-            border-color: #1b5e20 !important;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='%231b5e20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.173 14l-4.88-4.88 1.414-1.415L6.172 11.17 13.293 4.05l1.414 1.415z'/%3E%3C/svg%3E");
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 16px 16px;
-        }
-    </style>
-</head>
-
-<body class="min-h-screen flex items-center justify-center" style="background-color: #e8f5e9;">
-
-    
-
+@section('content')
+<div class="min-h-screen w-full flex items-center justify-center">
     <div class="bg-white rounded-3xl shadow-xl max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 overflow-hidden">
 
         <!-- LEFT SECTION -->
@@ -126,21 +87,53 @@
             </form>
         </div>
     </div>
+</div>
+@endsection
 
-    <script>
-        const select = document.getElementById('sumberSelect');
-        const inputLainnya = document.getElementById('lainnyaInput');
+@push('scripts')
+<script>
+    const select = document.getElementById('sumberSelect');
+    const inputLainnya = document.getElementById('lainnyaInput');
 
-        select.addEventListener('change', function() {
-            if (this.value === "Lainnya") {
-                inputLainnya.classList.remove('hidden');
-            } else {
-                inputLainnya.classList.add('hidden');
-                inputLainnya.value = "";
-            }
-        });
-    </script>
+    select.addEventListener('change', function() {
+        if (this.value === "Lainnya") {
+            inputLainnya.classList.remove('hidden');
+        } else {
+            inputLainnya.classList.add('hidden');
+            inputLainnya.value = "";
+        }
+    });
+</script>
+@endpush
 
-</body>
+@push('styles')
+    <style>
+        .gradient-left {
+            background-color :#1b5e20;
+        }
 
-</html>
+        .blob {
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            background: rgba(255, 255, 255, 0.18);
+            filter: blur(60px);
+            border-radius: 50%;
+            top: -60px;
+            right: -40px;
+        }
+
+        .checkbox-green {
+            background-color: white;
+        }
+
+        .checkbox-green:checked {
+            background-color: white !important;
+            border-color: #1b5e20 !important;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='%231b5e20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.173 14l-4.88-4.88 1.414-1.415L6.172 11.17 13.293 4.05l1.414 1.415z'/%3E%3C/svg%3E");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 16px 16px;
+        }
+    </style>
+@endpush

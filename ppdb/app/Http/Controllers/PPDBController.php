@@ -39,7 +39,7 @@ class PPDBController extends Controller
               if ($jenjang === 'SMA') $lembaga = ['MA', 'SMK', 'MAN'];
               if ($jenjang === 'SD') $lembaga = ['SD'];
 
-              return view('pilih-lembaga', compact('jenjang', 'lembaga'));
+              return view('form-ppdb.pilih-lembaga', compact('jenjang', 'lembaga'));
        }
 
        public function pilihLembaga(Request $request)

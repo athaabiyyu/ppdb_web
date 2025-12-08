@@ -9,8 +9,11 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AdminAuthController;
 
 Route::get('/', [PPDBController::class, 'index'])->name('home');
+
+// ROUTE JENJANG DAN LEMBAGA
 Route::get('/daftar/{jenjang}', [PPDBController::class, 'pilihJenjang']);
 Route::post('/pilih-lembaga', [PPDBController::class, 'pilihLembaga']);
+
 Route::get('/form-data-pribadi/{id}/{jenjang}', [PPDBController::class, 'formDataPribadi'])->name('form.data.pribadi');
 Route::post('/form-data-pribadi/store', [PPDBController::class, 'storeDataPribadi']);
 Route::get('/form-ortu/{id}', [PPDBController::class, 'formOrtu'])->name('form.ortu');

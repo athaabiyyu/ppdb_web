@@ -14,6 +14,8 @@
               }
        </style>
 
+       @stack('styles')
+
 </head>
 
 <body class="bg-gradient-to-br from-gray-50 to-gray-100">
@@ -58,6 +60,8 @@
               menu.classList.toggle('hidden');
               });
        </script>
+
+       @stack('scripts')
 </body>
 
 </html>

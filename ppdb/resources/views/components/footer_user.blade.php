@@ -3,17 +3,17 @@
         <div class="grid md:grid-cols-3 gap-8">
             <div>
                 <h3 class="text-white font-bold text-lg mb-4">PPDB Online</h3>
-                <p class="text-sm">Sistem Penerimaan Peserta Didik Baru secara online untuk kemudahan akses
+                <p class="text-sm text-white">Sistem Penerimaan Peserta Didik Baru secara online untuk kemudahan akses
                     pendidikan.</p>
             </div>
             <div>
                 <h3 class="text-white font-bold text-lg mb-4">Menu</h3>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="#home" class="hover:text-white">Home</a></li>
-                    <li><a href="#info-alur" class="hover:text-white">Informasi & Alur Pendaftaran</a></li>
-                    <li><a href="#pendaftaran" class="hover:text-white">Pendaftaran</a></li>
-                    <li><a href="/pengumuman" class="hover:text-white">Pengumuman</a></li>
-                    <li><a href="#kontak" class="hover:text-white">Contact Us</a></li>
+                    <li><a href="{{ route('home') }}#home" class="text-white">Home</a></li>
+                    <li><a href="{{ route('home') }}#info-alur" class="text-white">Informasi & Alur Pendaftaran</a></li>
+                    <li><a href="{{ route('home') }}#pendaftaran" class="text-white">Pendaftaran</a></li>
+                    <li><a href="{{ route('announcements.index') }}" class="text-white">Pengumuman</a></li>
+                    <li><a href="{{ route('home') }}#kontak" class="text-white">Contact Us</a></li>
                 </ul>
             </div>
             <div>
