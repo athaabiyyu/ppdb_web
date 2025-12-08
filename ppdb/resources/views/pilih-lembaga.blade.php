@@ -41,10 +41,12 @@
 
 <body class="min-h-screen flex items-center justify-center" style="background-color: #e8f5e9;">
 
+    
+
     <div class="bg-white rounded-3xl shadow-xl max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 overflow-hidden">
 
         <!-- LEFT SECTION -->
-        <div class="relative p-10 flex flex-col justify-center text-white overflow-hidden gradient-left text-center">
+        <div class="relative p-10 flex flex-col justify-center text-white overflow-hidden bg-[#31694E] text-center">
 
             <div class="blob"></div>
 
@@ -55,9 +57,16 @@
                 Selamat Datang!
             </h1>
 
-            <p class="relative z-10 mt-2 text-white/80 text-lg">
-                Silakan pilih lembaga untuk melanjutkan proses pendaftaran.
-            </p>
+
+            @unless ($jenjang === 'SD')
+                <p class="relative z-10 mt-2 text-white/80 text-lg">
+                    Silakan pilih lembaga untuk melanjutkan proses pendaftaran.
+                </p>
+            @else
+                <p class="relative z-10 mt-2 text-white/80 text-lg">
+                    Silakan isi informasi yang kamu dapatkan.
+                </p>
+            @endunless
 
         </div>
 
@@ -72,25 +81,26 @@
                 @csrf
                 <input type="hidden" name="jenjang" value="{{ $jenjang }}">
 
-                <div class="mb-6">
-                    <p class="font-semibold mb-2 text-gray-700">Pilih maksimal 2 lembaga:</p>
+                @unless ($jenjang === 'SD')
+                    <div class="mb-6">
+                        <p class="font-semibold mb-2 text-gray-700">Pilih maksimal 2 lembaga:</p>
 
-                    <div class="grid grid-cols-1 gap-3">
-
-                        @foreach ($lembaga as $item)
-                            <label
-                                class="flex items-center gap-3 p-3 rounded-xl border border-gray-300 hover:border-green-600 transition cursor-pointer bg-white shadow-sm">
-
-                                <!-- CHECKBOX BARU -->
-                                <input type="checkbox" name="pilihan[]" value="{{ $item }}"
-                                    class="checkbox-green appearance-none w-5 h-5 rounded border border-gray-400 cursor-pointer">
-
-                                <span class="text-gray-700 font-medium">{{ $item }}</span>
-                            </label>
-                        @endforeach
-
+                        <div class="grid grid-cols-1 gap-3">
+                            @foreach ($lembaga as $item)
+                                <label
+                                    class="flex items-center gap-3 p-3 rounded-xl border border-gray-300 hover:border-green-600 transition cursor-pointer bg-white shadow-sm">
+                                    <input type="checkbox" name="pilihan[]" value="{{ $item }}"
+                                        class="checkbox-green appearance-none w-5 h-5 rounded border border-gray-400 cursor-pointer">
+                                    <span class="text-gray-700 font-medium">{{ $item }}</span>
+                                </label>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
+                @else
+                    <!-- Jika jenjang SD, langsung kirim pilihan SD otomatis -->
+                    <input type="hidden" name="pilihan[]" value="SD">
+                @endunless
+
 
                 <div class="mb-6">
                     <p class="font-semibold mb-2 text-gray-700">Mendapatkan informasi dari mana?</p>
@@ -109,7 +119,7 @@
                 </div>
 
                 <button
-                    class="w-full mt-4 bg-green-700 hover:bg-green-800 text-white font-semibold py-3 rounded-xl shadow-lg transition">
+                    class="w-full mt-4 bg-[#31694E] hover:bg-green-800 text-white font-semibold py-3 rounded-xl shadow-lg transition">
                     Selanjutnya
                 </button>
 

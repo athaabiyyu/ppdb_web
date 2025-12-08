@@ -1,20 +1,17 @@
 <?php
 
-
 namespace App\Models;
-
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ParentInfo;
 use App\Models\Document;
 use App\Models\Choice;
-
+use App\Models\Guardian;
 
 class Student extends Model
 {
        use HasFactory;
-
 
        protected $fillable = [
               'registration_number',
@@ -30,7 +27,8 @@ class Student extends Model
               'cita_cita',
               'no_kk',
               'nik',
-              'ttl',
+              'tempat_lahir',
+              'tanggal_lahir',
               'anak_ke',
               'jumlah_saudara',
               'tinggal_dengan',
@@ -42,35 +40,35 @@ class Student extends Model
               'foto'
        ];
 
-
        protected $casts = [
               'selected_schools' => 'array',
+              'tanggal_lahir' => 'date',
        ];
-
 
        public function parentInfo()
        {
               return $this->hasOne(ParentInfo::class);
        }
 
+       public function guardian()
+       {
+              return $this->hasOne(Guardian::class);
+       }
 
        public function documents()
        {
               return $this->hasOne(Document::class);
        }
 
-
        public function choice()
        {
               return $this->hasOne(Choice::class);
        }
 
-
        // Auto-generate registration number
        public static function boot()
        {
               parent::boot();
-
 
               static::creating(function ($model) {
                      if (empty($model->registration_number)) {

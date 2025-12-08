@@ -15,23 +15,23 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
 
-
             $table->string('kk')->nullable();
             $table->string('akte')->nullable();
             $table->string('ktp_ayah')->nullable();
             $table->string('ktp_ibu')->nullable();
             $table->string('surat_aktif')->nullable();
-            $table->string('transkrip_smp_1_12')->nullable(); // SMP
-            $table->string('transkrip_ma_1_5')->nullable(); // MA
+            
+            // Kolom JSON untuk menyimpan transkrip per semester
+            // Format: {"semester_1": "path/to/file", "semester_2": "path/to/file", ...}
+            $table->json('transkrip_semester')->nullable();
+            
             $table->string('prestasi')->nullable();
             $table->string('kip_pkh')->nullable();
             $table->string('foto_anak')->nullable();
 
-
             $table->timestamps();
         });
     }
-
 
     public function down()
     {

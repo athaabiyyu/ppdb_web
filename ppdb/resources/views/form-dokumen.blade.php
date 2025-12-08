@@ -14,7 +14,7 @@
         }
 
         .gradient-bg {
-            background: linear-gradient(135deg, #66bb6a, #2e7d32, #1b5e20);
+            background: #31694E;
         }
 
         .card-shadow {
@@ -79,20 +79,35 @@
 
 <body class="min-h-screen" style="background-color: #e8f5e9;">
 
-    <!-- Header dengan Gradient Hijau -->
+    <!-- Header -->
     <div class="gradient-bg text-white py-8 shadow-lg">
-        <div class="max-w-5xl mx-auto px-4">
-            <div class="flex items-center justify-between">
+        <div class="w-full px-4">
+            <div class="flex flex-col md:flex-row items-center md:justify-between relative">
+
+                <!-- Logo dan Nama Yayasan -->
+                <div class="flex items-center gap-2">
+                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16">
+                    <div>
+                        <span class="text-2xl font-bold block">PPDB Online</span>
+                        <span class="text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
+                    </div>
+                </div>
+
                 <div>
-                    <h1 class="text-3xl font-bold mb-2">📎 Upload Dokumen Persyaratan</h1>
+                    <h1 class="text-3xl font-bold text-center mt-6 md:mt-0 md:text-left w-full md:w-auto">
+                        Upload Dokumen Persyaratan
+                    </h1>
                     <p class="text-green-100">Ukuran maksimal: <span class="font-semibold">5MB per file</span></p>
                 </div>
+
+                <!-- Progress Info -->
                 <div class="hidden md:block">
                     <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
-                        <p class="text-sm text-green-100">Langkah 3 dari 3</p>
+                        <p class="text-sm text-green-100">Langkah 3 dari 4</p>
                         <p class="text-xl font-bold">Upload Dokumen</p>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -177,13 +192,14 @@
                 </div>
 
                 <div class="space-y-5">
+                    <!-- KK -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             Kartu Keluarga (KK) <span class="text-red-500">*</span>
                         </label>
                         <div class="file-input-wrapper">
                             <input type="file" name="kk" id="kk" accept=".pdf,.jpg,.jpeg,.png"
-                                onchange="updateFileName(this)">
+                                onchange="updateFileName(this)" required>
                             <label for="kk" class="file-input-label">
                                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -194,15 +210,19 @@
                                 <span class="file-name placeholder">Pilih file PDF, JPG, atau PNG</span>
                             </label>
                         </div>
+                        @error('kk')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
+                    <!-- Akte -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             Akte Kelahiran <span class="text-red-500">*</span>
                         </label>
                         <div class="file-input-wrapper">
                             <input type="file" name="akte" id="akte" accept=".pdf,.jpg,.jpeg,.png"
-                                onchange="updateFileName(this)">
+                                onchange="updateFileName(this)" required>
                             <label for="akte" class="file-input-label">
                                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -213,15 +233,19 @@
                                 <span class="file-name placeholder">Pilih file PDF, JPG, atau PNG</span>
                             </label>
                         </div>
+                        @error('akte')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
+                    <!-- Foto Anak -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             Foto Anak 3x4 (Background Merah) <span class="text-red-500">*</span>
                         </label>
                         <div class="file-input-wrapper">
                             <input type="file" name="foto_anak" id="foto_anak" accept=".jpg,.jpeg,.png"
-                                onchange="updateFileName(this)">
+                                onchange="updateFileName(this)" required>
                             <label for="foto_anak" class="file-input-label">
                                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -232,6 +256,9 @@
                                 <span class="file-name placeholder">Pilih file JPG atau PNG</span>
                             </label>
                         </div>
+                        @error('foto_anak')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -249,16 +276,19 @@
                     </div>
                     <div>
                         <h2 class="text-2xl font-bold text-gray-800">Dokumen Identitas Orang Tua</h2>
-                        <p class="text-sm text-gray-500 mt-1">KTP Ayah dan Ibu (jika ada)</p>
+                        <p class="text-sm text-gray-500 mt-1">KTP Ayah dan Ibu</p>
                     </div>
                 </div>
 
                 <div class="space-y-5">
+                    <!-- KTP Ayah -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">KTP Ayah</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            KTP Ayah <span class="text-red-500">*</span>
+                        </label>
                         <div class="file-input-wrapper">
                             <input type="file" name="ktp_ayah" id="ktp_ayah" accept=".pdf,.jpg,.jpeg,.png"
-                                onchange="updateFileName(this)">
+                                onchange="updateFileName(this)" required>
                             <label for="ktp_ayah" class="file-input-label">
                                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -269,13 +299,19 @@
                                 <span class="file-name placeholder">Pilih file PDF, JPG, atau PNG</span>
                             </label>
                         </div>
+                        @error('ktp_ayah')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
+                    <!-- KTP Ibu -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">KTP Ibu</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            KTP Ibu <span class="text-red-500">*</span>
+                        </label>
                         <div class="file-input-wrapper">
                             <input type="file" name="ktp_ibu" id="ktp_ibu" accept=".pdf,.jpg,.jpeg,.png"
-                                onchange="updateFileName(this)">
+                                onchange="updateFileName(this)" required>
                             <label for="ktp_ibu" class="file-input-label">
                                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -286,9 +322,13 @@
                                 <span class="file-name placeholder">Pilih file PDF, JPG, atau PNG</span>
                             </label>
                         </div>
+                        @error('ktp_ibu')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
+
 
             <!-- Section 3: Dokumen Akademik -->
             <div class="section-card bg-white rounded-2xl shadow-lg p-8 mb-6">
@@ -312,13 +352,14 @@
                 </div>
 
                 <div class="space-y-5">
+                    <!-- Surat Keterangan Aktif -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Surat Keterangan Aktif
+                            Surat Keterangan Aktif <span class="text-red-500">*</span>
                         </label>
                         <div class="file-input-wrapper">
                             <input type="file" name="surat_aktif" id="surat_aktif" accept=".pdf,.jpg,.jpeg,.png"
-                                onchange="updateFileName(this)">
+                                onchange="updateFileName(this)" required>
                             <label for="surat_aktif" class="file-input-label">
                                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -329,18 +370,37 @@
                                 <span class="file-name placeholder">Pilih file PDF, JPG, atau PNG</span>
                             </label>
                         </div>
+                        @error('surat_aktif')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
+                    <!-- Transkrip Nilai Per Semester (Conditional) -->
+                    @if($semesterCount > 0)
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg mb-4">
+                        <div class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div>
+                                <h4 class="font-semibold text-blue-900 text-sm">Upload Transkrip Nilai Per Semester</h4>
+                                <p class="text-xs text-blue-800 mt-1">
+                                    Untuk jenjang <strong>{{ $student->jenjang }}</strong>, Anda perlu mengupload transkrip nilai dari Semester 1 sampai {{ $semesterCount }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    @for($i = 1; $i <= $semesterCount; $i++)
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Transkrip Nilai Semester 1-12 <span class="text-xs text-gray-500">(Wajib untuk SMP)</span>
+                            Transkrip Nilai Semester {{ $i }} <span class="text-red-500">*</span>
                         </label>
                         <div class="file-input-wrapper">
-                            <input type="file" name="transkrip_smp_1_12" id="transkrip_smp_1_12"
-                                accept=".pdf,.jpg,.jpeg,.png" onchange="updateFileName(this)">
-                            <label for="transkrip_smp_1_12" class="file-input-label">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                            <input type="file" name="transkrip_semester_{{ $i }}" id="transkrip_semester_{{ $i }}" 
+                                accept=".pdf,.jpg,.jpeg,.png" onchange="updateFileName(this)" required>
+                            <label for="transkrip_semester_{{ $i }}" class="file-input-label">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
                                     </path>
@@ -348,26 +408,28 @@
                                 <span class="file-name placeholder">Pilih file PDF, JPG, atau PNG</span>
                             </label>
                         </div>
+                        @error("transkrip_semester_{$i}")
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
+                    @endfor
 
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Transkrip Nilai Semester 1-5 <span class="text-xs text-gray-500">(Untuk MA)</span>
-                        </label>
-                        <div class="file-input-wrapper">
-                            <input type="file" name="transkrip_ma_1_5" id="transkrip_ma_1_5"
-                                accept=".pdf,.jpg,.jpeg,.png" onchange="updateFileName(this)">
-                            <label for="transkrip_ma_1_5" class="file-input-label">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
-                                    </path>
-                                </svg>
-                                <span class="file-name placeholder">Pilih file PDF, JPG, atau PNG</span>
-                            </label>
+                    @else
+                    <!-- Info untuk SD -->
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
+                        <div class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div>
+                                <h4 class="font-semibold text-green-900 text-sm">Transkrip Nilai Tidak Diperlukan</h4>
+                                <p class="text-xs text-green-800 mt-1">
+                                    Untuk pendaftaran jenjang <strong>{{ $student->jenjang }}</strong>, Anda tidak perlu mengupload transkrip nilai.
+                                </p>
+                            </div>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
 
@@ -388,6 +450,7 @@
                 </div>
 
                 <div class="space-y-5">
+                    <!-- Sertifikat Prestasi -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             Sertifikat Prestasi <span class="text-xs text-gray-500">(Akademik/Non-akademik)</span>
@@ -405,8 +468,12 @@
                                 <span class="file-name placeholder">Pilih file PDF, JPG, atau PNG</span>
                             </label>
                         </div>
+                        @error('prestasi')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
+                    <!-- KIP/PKH/KKS/SKTM -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             KIP/PKH/KKS/SKTM <span class="text-xs text-gray-500">(Jika memiliki)</span>
@@ -424,6 +491,9 @@
                                 <span class="file-name placeholder">Pilih file PDF, JPG, atau PNG</span>
                             </label>
                         </div>
+                        @error('kip_pkh')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -443,6 +513,9 @@
                             <li>Format file yang diterima: PDF, JPG, atau PNG</li>
                             <li>Ukuran maksimal per file adalah 5MB</li>
                             <li>Dokumen bertanda <span class="text-red-500 font-semibold">*</span> wajib diupload</li>
+                            @if($semesterCount > 0)
+                            <li>Upload transkrip nilai untuk setiap semester secara terpisah (Semester 1 sampai {{ $semesterCount }})</li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -479,13 +552,12 @@
 
             if (input.files && input.files[0]) {
                 const fileName = input.files[0].name;
-                const fileSize = (input.files[0].size / 1024 / 1024).toFixed(2); // Convert to MB
+                const fileSize = (input.files[0].size / 1024 / 1024).toFixed(2);
 
                 fileNameSpan.textContent = fileName + ' (' + fileSize + ' MB)';
                 fileNameSpan.classList.remove('placeholder');
                 label.classList.add('has-file');
 
-                // Check file size
                 if (input.files[0].size > 5 * 1024 * 1024) {
                     alert('Ukuran file terlalu besar! Maksimal 5MB per file.');
                     input.value = '';
