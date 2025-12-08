@@ -145,66 +145,80 @@
                         class="w-10 h-10 rounded-lg gradient-bg text-white flex items-center justify-center mr-3 shadow-md">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                     </div>
                     <h2 class="text-2xl font-bold text-gray-800">Data Ayah</h2>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 gap-6">
+
                     <!-- Nama Lengkap Ayah -->
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap Ayah</label>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap<span
+                                class="text-red-500">*</span></label>
                         <input type="text" name="nama_ayah"
                             value="{{ old('nama_ayah', $student->parentInfo->nama_ayah ?? '') }}"
-                            placeholder="Masukkan nama lengkap ayah"
+                            placeholder="Tuliskan nama lengkap"
                             class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('nama_ayah') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('nama_ayah'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('nama_ayah') }}</p>
-                        @endif
+                        @error('nama_ayah')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- NIK Ayah -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">NIK Ayah</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">NIK<span
+                                class="text-red-500">*</span></label>
                         <input type="text" name="nik_ayah"
                             value="{{ old('nik_ayah', $student->parentInfo->nik_ayah ?? '') }}"
-                            placeholder="16 digit NIK" maxlength="16"
+                            placeholder="Tuliskan nomor NIK" maxlength="16"
                             class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('nik_ayah') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('nik_ayah'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('nik_ayah') }}</p>
-                        @endif
+                        @error('nik_ayah')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
+
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
 
                     <!-- Tempat Lahir Ayah -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tempat Lahir Ayah</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tempat Lahir<span
+                                class="text-red-500">*</span></label>
                         <input type="text" name="tempat_lahir_ayah"
                             value="{{ old('tempat_lahir_ayah', $student->parentInfo->tempat_lahir_ayah ?? '') }}"
                             placeholder="Contoh: Jakarta"
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('tempat_lahir_ayah') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('tempat_lahir_ayah'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('tempat_lahir_ayah') }}</p>
-                        @endif
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
+                        @error('tempat_lahir_ayah')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Tanggal Lahir Ayah -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Lahir Ayah</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Lahir<span
+                                class="text-red-500">*</span></label>
                         <input type="date" name="tanggal_lahir_ayah"
                             value="{{ old('tanggal_lahir_ayah', $student->parentInfo->tanggal_lahir_ayah ?? '') }}"
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('tanggal_lahir_ayah') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('tanggal_lahir_ayah'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('tanggal_lahir_ayah') }}</p>
-                        @endif
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
+                        @error('tanggal_lahir_ayah')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
+                </div>
+
+                <div class="grid grid-cols-1 gap-6 mt-6">
+
                     <!-- Pendidikan Terakhir -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pendidikan Terakhir</label>
+                    <div class="relative">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pendidikan Terakhir<span
+                                class="text-red-500">*</span></label>
                         <select name="pendidikan_ayah"
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('pendidikan_ayah') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all appearance-none bg-white">
-                            <option value="">-- Pilih Pendidikan --</option>
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl appearance-none bg-white">
+                            <option value="">Pilih pendidikan terakhir</option>
                             @foreach ($pendidikanOptions as $value => $label)
                                 <option value="{{ $value }}"
                                     {{ old('pendidikan_ayah', $student->parentInfo->pendidikan_ayah ?? '') == $value ? 'selected' : '' }}>
@@ -212,40 +226,23 @@
                                 </option>
                             @endforeach
                         </select>
-                        @if ($errors->has('pendidikan_ayah'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('pendidikan_ayah') }}</p>
-                        @endif
+                        <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                        @error('pendidikan_ayah')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
-                    <!-- Pekerjaan -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pekerjaan</label>
-                        <input type="text" name="pekerjaan_ayah"
-                            value="{{ old('pekerjaan_ayah', $student->parentInfo->pekerjaan_ayah ?? '') }}"
-                            placeholder="Contoh: Wiraswasta, PNS, dll"
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('pekerjaan_ayah') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('pekerjaan_ayah'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('pekerjaan_ayah') }}</p>
-                        @endif
-                    </div>
-
-                    <!-- Penghasilan per Bulan -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Penghasilan per Bulan</label>
-                        <input type="text" name="penghasilan_ayah"
-                            value="{{ old('penghasilan_ayah', $student->parentInfo->penghasilan_ayah ?? '') }}"
-                            placeholder="Contoh: Rp 5.000.000"
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('penghasilan_ayah') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('penghasilan_ayah'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('penghasilan_ayah') }}</p>
-                        @endif
-                    </div>
-
-                    <!-- Status -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
+                    <!-- Status Ayah -->
+                    <div class="relative">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Status<span
+                                class="text-red-500">*</span></label>
                         <select name="status_ayah"
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('status_ayah') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all appearance-none bg-white">
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl appearance-none bg-white">
+                            <option value="">Pilih status</option>
                             <option value="Hidup"
                                 {{ old('status_ayah', $student->parentInfo->status_ayah ?? '') == 'Hidup' ? 'selected' : '' }}>
                                 Masih Hidup</option>
@@ -253,26 +250,65 @@
                                 {{ old('status_ayah', $student->parentInfo->status_ayah ?? '') == 'Meninggal' ? 'selected' : '' }}>
                                 Meninggal Dunia</option>
                         </select>
-                        @if ($errors->has('status_ayah'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('status_ayah') }}</p>
-                        @endif
+                        <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                        @error('status_ayah')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+
+                    <!-- Pekerjaan -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pekerjaan<span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="pekerjaan_ayah"
+                            value="{{ old('pekerjaan_ayah', $student->parentInfo->pekerjaan_ayah ?? '') }}"
+                            placeholder="Contoh: Wiraswasta"
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
+                        @error('pekerjaan_ayah')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
-                    <!-- No. HP Ayah -->
+                    <!-- Penghasilan -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">No. HP Ayah</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Penghasilan per Bulan<span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="penghasilan_ayah"
+                            value="{{ old('penghasilan_ayah', $student->parentInfo->penghasilan_ayah ?? '') }}"
+                            placeholder="Contoh: 5.000.000"
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
+                        @error('penghasilan_ayah')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="grid grid-cols-1 gap-6 mt-6">
+                    <!-- No HP Ayah -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">No. HP Ayah<span
+                                class="text-red-500">*</span></label>
                         <input type="text" name="hp_ayah"
                             value="{{ old('hp_ayah', $student->parentInfo->hp_ayah ?? '') }}"
                             placeholder="Contoh: 08123456789"
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('hp_ayah') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('hp_ayah'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('hp_ayah') }}</p>
-                        @endif
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
+                        @error('hp_ayah')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
+
                 </div>
+
             </div>
 
-            <!-- Section 2: Data Ibu -->
             <!-- Section 2: Data Ibu -->
             <div class="section-card bg-white rounded-2xl shadow-lg p-8 mb-6">
                 <div class="flex items-center mb-6 pb-4 border-b-2 border-green-100">
@@ -286,61 +322,72 @@
                     <h2 class="text-2xl font-bold text-gray-800">Data Ibu</h2>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 gap-6">
+
                     <!-- Nama Lengkap Ibu -->
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap Ibu</label>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap<span
+                                class="text-red-500">*</span></label>
                         <input type="text" name="nama_ibu"
                             value="{{ old('nama_ibu', $student->parentInfo->nama_ibu ?? '') }}"
-                            placeholder="Masukkan nama lengkap ibu" 
+                            placeholder="Tuliskan nama lengkap"
                             class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('nama_ibu') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('nama_ibu'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('nama_ibu') }}</p>
-                        @endif
+                        @error('nama_ibu')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- NIK Ibu -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">NIK Ibu</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">NIK<span
+                                class="text-red-500">*</span></label>
                         <input type="text" name="nik_ibu"
                             value="{{ old('nik_ibu', $student->parentInfo->nik_ibu ?? '') }}"
-                            placeholder="16 digit NIK" maxlength="16"
+                            placeholder="Tuliskan nomor NIK" maxlength="16"
                             class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('nik_ibu') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('nik_ibu'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('nik_ibu') }}</p>
-                        @endif
+                        @error('nik_ibu')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
 
                     <!-- Tempat Lahir Ibu -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tempat Lahir Ibu</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tempat Lahir<span
+                                class="text-red-500">*</span></label>
                         <input type="text" name="tempat_lahir_ibu"
                             value="{{ old('tempat_lahir_ibu', $student->parentInfo->tempat_lahir_ibu ?? '') }}"
-                            placeholder="Contoh: Surabaya" 
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('tempat_lahir_ibu') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('tempat_lahir_ibu'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('tempat_lahir_ibu') }}</p>
-                        @endif
+                            placeholder="Contoh: Surabaya"
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
+                        @error('tempat_lahir_ibu')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Tanggal Lahir Ibu -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Lahir Ibu</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Lahir<span
+                                class="text-red-500">*</span></label>
                         <input type="date" name="tanggal_lahir_ibu"
                             value="{{ old('tanggal_lahir_ibu', $student->parentInfo->tanggal_lahir_ibu ?? '') }}"
-                            
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('tanggal_lahir_ibu') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('tanggal_lahir_ibu'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('tanggal_lahir_ibu') }}</p>
-                        @endif
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
+                        @error('tanggal_lahir_ibu')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6 mt-6">
 
                     <!-- Pendidikan Terakhir -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pendidikan Terakhir</label>
-                        <select name="pendidikan_ibu" 
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('pendidikan_ibu') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all appearance-none bg-white">
-                            <option value="">-- Pilih Pendidikan --</option>
+                    <div class="relative">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pendidikan Terakhir<span
+                                class="text-red-500">*</span></label>
+                        <select name="pendidikan_ibu"
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl appearance-none bg-white">
+                            <option value="">Pilih pendidikan terakhir</option>
                             @foreach ($pendidikanOptions as $value => $label)
                                 <option value="{{ $value }}"
                                     {{ old('pendidikan_ibu', $student->parentInfo->pendidikan_ibu ?? '') == $value ? 'selected' : '' }}>
@@ -348,40 +395,23 @@
                                 </option>
                             @endforeach
                         </select>
-                        @if ($errors->has('pendidikan_ibu'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('pendidikan_ibu') }}</p>
-                        @endif
+                        <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                        @error('pendidikan_ibu')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
-                    <!-- Pekerjaan -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pekerjaan</label>
-                        <input type="text" name="pekerjaan_ibu"
-                            value="{{ old('pekerjaan_ibu', $student->parentInfo->pekerjaan_ibu ?? '') }}"
-                            placeholder="Contoh: Ibu Rumah Tangga, Guru, dll" 
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('pekerjaan_ibu') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('pekerjaan_ibu'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('pekerjaan_ibu') }}</p>
-                        @endif
-                    </div>
-
-                    <!-- Penghasilan per Bulan -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Penghasilan per Bulan</label>
-                        <input type="text" name="penghasilan_ibu"
-                            value="{{ old('penghasilan_ibu', $student->parentInfo->penghasilan_ibu ?? '') }}"
-                            placeholder="Contoh: Rp 3.000.000" 
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('penghasilan_ibu') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('penghasilan_ibu'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('penghasilan_ibu') }}</p>
-                        @endif
-                    </div>
-
-                    <!-- Status -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
-                        <select name="status_ibu" 
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('status_ibu') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all appearance-none bg-white">
+                    <!-- Status Ibu -->
+                    <div class="relative">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Status<span
+                                class="text-red-500">*</span></label>
+                        <select name="status_ibu"
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl appearance-none bg-white">
+                            <option value="">Pilih status</option>
                             <option value="Hidup"
                                 {{ old('status_ibu', $student->parentInfo->status_ibu ?? '') == 'Hidup' ? 'selected' : '' }}>
                                 Masih Hidup</option>
@@ -389,25 +419,62 @@
                                 {{ old('status_ibu', $student->parentInfo->status_ibu ?? '') == 'Meninggal' ? 'selected' : '' }}>
                                 Meninggal Dunia</option>
                         </select>
-                        @if ($errors->has('status_ibu'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('status_ibu') }}</p>
-                        @endif
+                        <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                        @error('status_ibu')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+
+                    <!-- Pekerjaan Ibu -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pekerjaan<span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="pekerjaan_ibu"
+                            value="{{ old('pekerjaan_ibu', $student->parentInfo->pekerjaan_ibu ?? '') }}"
+                            placeholder="Contoh: Guru"
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
+                        @error('pekerjaan_ibu')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
-                    <!-- No. HP Ibu -->
+                    <!-- Penghasilan Ibu -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">No. HP Ibu</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Penghasilan per Bulan<span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="penghasilan_ibu"
+                            value="{{ old('penghasilan_ibu', $student->parentInfo->penghasilan_ibu ?? '') }}"
+                            placeholder="Contoh: 3.000.000"
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
+                        @error('penghasilan_ibu')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6 mt-6">
+
+                    <!-- No HP Ibu -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">No. HP Ibu<span
+                                class="text-red-500">*</span></label>
                         <input type="text" name="hp_ibu"
                             value="{{ old('hp_ibu', $student->parentInfo->hp_ibu ?? '') }}"
-                            placeholder="Contoh: 08123456789" 
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('hp_ibu') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
-                        @if ($errors->has('hp_ibu'))
-                            <p class="text-red-500 text-sm mt-1">{{ $errors->first('hp_ibu') }}</p>
-                        @endif
+                            placeholder="Contoh: 08123456789"
+                            class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
+                        @error('hp_ibu')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
-
 
             <!-- Section 3: Alamat -->
             <div class="section-card bg-white rounded-2xl shadow-lg p-8 mb-8">
@@ -429,8 +496,9 @@
                     <!-- Alamat KK -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat Sesuai Kartu Keluarga
-                            (KK)</label>
-                        <textarea name="alamat_kk" rows="2" placeholder="Masukkan alamat lengkap sesuai KK"
+                            (KK)<span
+                                class="text-red-500">*</span></label>
+                        <textarea name="alamat_kk" rows="2" placeholder="Tuliskan alamat lengkap sesuai Kartu Keluarga"
                             class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('alamat_kk') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all resize-none">{{ old('alamat_kk', $student->alamat_kk ?? '') }}</textarea>
                         @if ($errors->has('alamat_kk'))
                             <p class="text-red-500 text-sm mt-1">{{ $errors->first('alamat_kk') }}</p>
@@ -439,8 +507,9 @@
 
                     <!-- Alamat Domisili -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat Domisili Saat Ini</label>
-                        <textarea name="alamat" rows="2" placeholder="Jika berbeda dengan alamat KK, masukkan alamat domisili"
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat Domisili Saat Ini<span
+                                class="text-red-500">*</span></label>
+                        <textarea name="alamat" rows="2" placeholder="Tuliskan alamat domisili"
                             class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('alamat') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all resize-none">{{ old('alamat', $student->alamat ?? '') }}</textarea>
                         @if ($errors->has('alamat'))
                             <p class="text-red-500 text-sm mt-1">{{ $errors->first('alamat') }}</p>
@@ -450,9 +519,10 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Desa / Kelurahan -->
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Desa / Kelurahan</label>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Desa / Kelurahan<span
+                                class="text-red-500">*</span></label>
                             <input type="text" name="desa" value="{{ old('desa', $student->desa ?? '') }}"
-                                placeholder="Nama desa/kelurahan" 
+                                placeholder="Tuliskan desa/kelurahan"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('desa') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                             @if ($errors->has('desa'))
                                 <p class="text-red-500 text-sm mt-1">{{ $errors->first('desa') }}</p>
@@ -461,10 +531,11 @@
 
                         <!-- Kecamatan -->
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Kecamatan</label>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Kecamatan<span
+                                class="text-red-500">*</span></label>
                             <input type="text" name="kecamatan"
                                 value="{{ old('kecamatan', $student->kecamatan ?? '') }}"
-                                placeholder="Nama kecamatan" 
+                                placeholder="Tuliskan kecamatan"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('kecamatan') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                             @if ($errors->has('kecamatan'))
                                 <p class="text-red-500 text-sm mt-1">{{ $errors->first('kecamatan') }}</p>
@@ -473,10 +544,11 @@
 
                         <!-- Kabupaten / Kota -->
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Kabupaten / Kota</label>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Kabupaten / Kota<span
+                                class="text-red-500">*</span></label>
                             <input type="text" name="kabupaten"
                                 value="{{ old('kabupaten', $student->kabupaten ?? '') }}"
-                                placeholder="Nama kabupaten/kota" 
+                                placeholder="Tuliskan kabupaten/kota"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('kabupaten') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                             @if ($errors->has('kabupaten'))
                                 <p class="text-red-500 text-sm mt-1">{{ $errors->first('kabupaten') }}</p>
@@ -485,10 +557,10 @@
 
                         <!-- Provinsi -->
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Provinsi</label>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Provinsi<span
+                                class="text-red-500">*</span></label>
                             <input type="text" name="provinsi"
-                                value="{{ old('provinsi', $student->provinsi ?? '') }}" placeholder="Nama provinsi"
-                                
+                                value="{{ old('provinsi', $student->provinsi ?? '') }}" placeholder="Tuliskan provinsi"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('provinsi') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                             @if ($errors->has('provinsi'))
                                 <p class="text-red-500 text-sm mt-1">{{ $errors->first('provinsi') }}</p>
@@ -496,11 +568,12 @@
                         </div>
 
                         <!-- Kode Pos -->
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Kode Pos</label>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Kode Pos<span
+                                class="text-red-500">*</span></label>
                             <input type="text" name="kode_pos"
                                 value="{{ old('kode_pos', $student->kode_pos ?? '') }}"
-                                placeholder="5 digit kode pos" maxlength="5" 
+                                placeholder="Tuliskan kode pos" maxlength="5"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('kode_pos') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                             @if ($errors->has('kode_pos'))
                                 <p class="text-red-500 text-sm mt-1">{{ $errors->first('kode_pos') }}</p>
@@ -509,7 +582,7 @@
                     </div>
                 </div>
             </div>
- 
+
 
             <!-- Submit Button -->
             <div
