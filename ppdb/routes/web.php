@@ -21,8 +21,10 @@ Route::post('/form-data-pribadi/store', [PPDBController::class, 'storeDataPribad
 
 Route::get('/form-ortu/{id}', [PPDBController::class, 'formOrtu'])->name('form.ortu');
 Route::post('/form-ortu/store', [PPDBController::class, 'storeOrtu']);
+
 Route::get('/form-dokumen/{id}', [PPDBController::class, 'formDokumen'])->name('form.dokumen');
 Route::post('/form-dokumen/store', [PPDBController::class, 'storeDokumen'])->name('form.dokumen.store');
+
 Route::get('/biodata/{id}', [PPDBController::class, 'biodata'])->name('biodata');
 Route::put('/biodata/{id}/update-dokumen', [PPDBController::class, 'updateDokumen'])->name('biodata.update.dokumen');
 

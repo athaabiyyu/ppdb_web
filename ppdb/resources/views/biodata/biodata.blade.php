@@ -79,22 +79,69 @@
         <div class="section-card bg-white rounded-2xl shadow-lg p-8 mb-6">
 
             <!-- Heading -->
-            <div class="flex items-center mb-6 pb-4 border-b-2 border-green-100">
-                <div
-                    class="w-10 h-10 rounded-lg gradient-bg text-white flex items-center justify-center mr-3 shadow-md">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
+            <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-green-100">
+
+                <!-- ICON + TEXT -->
+                <div class="flex items-center">
+                    <div
+                        class="w-10 h-10 rounded-lg gradient-bg text-white flex items-center justify-center mr-3 shadow-md">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-800">Ringkasan Biodata</h2>
                 </div>
-                <h2 class="text-2xl font-bold text-gray-800">Ringkasan Biodata</h2>
+
+                <!-- BUTTONS -->
+                <div class="flex items-center gap-3">
+
+                     <!-- EDIT DOKUMEN -->
+                    <button onclick="openEditDokumenModal()"
+                        class="bg-lime-600 hover:bg-lime-700 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transition flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                        <span class="hidden md:block">Edit Dokumen</span>
+                    </button>
+
+                    <!-- EDIT BIODATA -->
+                    <button onclick="openEditModal()"
+                        class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transition flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                            </path>
+                        </svg>
+                        <span class="hidden md:block">Edit Biodata</span>
+                    </button>
+
+                    <!-- CETAK -->
+                    <a href="/cetak/{{ $student->id }}"
+                        class="bg-green-700 hover:bg-green-800 text-white px-5 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+                            </path>
+                        </svg>
+                        <span class="hidden md:block">Cetak</span>
+                    </a>
+
+                </div>
+
+
             </div>
 
             <!-- FOTO + IDENTITAS UTAMA -->
-            <div class="flex flex-col md:flex-row gap-6 mb-8">
+            <div class="flex flex-col gap-6 mb-8">
+
+                <h1 class="text-4xl font-bold text-gray-800 mb-2 text-center">Detail Data Diri</h1>
 
                 <!-- Foto -->
-                <div class="flex-shrink-0">
+                <div class="flex-shrink-0 flex items-center justify-center">
                     <div class="w-32 h-40 bg-gray-100 rounded-xl overflow-hidden border-4 border-gray-100 shadow-lg">
                         @if ($student->foto)
                             <img src="{{ asset('storage/' . $student->foto) }}" class="w-full h-full object-cover">
@@ -111,9 +158,11 @@
 
                 <!-- Data Utama -->
                 <div class="flex-1">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">{{ $student->nama }}</h2>
+                    <h6 class="text-xl font-bold text-gray-800 mb-12 text-center">{{ $student->nama }}</h6>
 
-                    <div class="bg-gray-100 p-6 rounded-xl border border-gray-200 mb-10">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Data Utama</h3>
+
+                    <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                             <div class="bg-white rounded-xl p-4">
@@ -167,7 +216,7 @@
 
             <!-- DATA DIRI LENGKAP -->
             <h3 class="text-xl font-bold text-gray-800 mb-4">Data Diri Lengkap</h3>
-            <div class="bg-gray-100 p-6 rounded-xl border border-gray-200 mb-10">
+            <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
@@ -200,7 +249,7 @@
             @if ($student->tinggal_dengan === 'Wali' && $student->guardian)
                 <h3 class="text-xl font-bold text-gray-800 mb-4">Data Wali</h3>
 
-                <div class="bg-gray-100 p-6 rounded-xl border border-gray-200 mb-10">
+                <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                         <div class="bg-white rounded-lg p-4">
@@ -288,7 +337,7 @@
                         Data Orang Tua
                     @endif
                 </h3>
-                <div class="bg-gray-100 p-6 rounded-xl border border-gray-200 mb-10">
+                <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- AYAH -->
                         <div class="bg-white rounded-lg p-4">
@@ -407,7 +456,7 @@
 
                 <!-- Alamat Orang Tua -->
                 <h3 class="text-xl font-bold text-gray-800 mb-4">Alamat Orang Tua</h3>
-                <div class="bg-gray-100 p-6 rounded-xl border border-gray-200 mb-10">
+                <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="bg-white rounded-lg p-4 md:col-span-2">
                             <p class="text-xs text-gray-600">Alamat Sesuai KK</p>
@@ -444,7 +493,7 @@
             <!-- DOCUMENT SECTION -->
             @if ($student->documents)
                 <h3 class="text-xl font-bold text-gray-800 mb-3">Dokumen Upload</h3>
-                <div class="bg-gray-100 p-6 rounded-xl border border-gray-200 mb-10">
+                <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
 
                     <!-- Dokumen Umum -->
                     <h4 class="font-semibold text-gray-700 mb-3">Dokumen Umum</h4>
@@ -468,7 +517,7 @@
                                 @if ($student->documents->$key)
                                     <button
                                         onclick="openModal('{{ asset('storage/' . $student->documents->$key) }}', '{{ $label }}')"
-                                        class="text-green-700 font-semibold hover:text-green-800 flex items-center gap-2">
+                                        class="text-blue-600 font-semibold hover:text-blue-700 flex items-center gap-2">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -515,7 +564,7 @@
                                     <p class="text-xs text-gray-500 mb-2">Semester {{ $semesterNumber }}</p>
                                     <button
                                         onclick="openModal('{{ asset('storage/' . $path) }}', 'Transkrip Nilai Semester {{ $semesterNumber }}')"
-                                        class="text-green-700 font-semibold hover:text-green-800 flex items-center gap-2">
+                                        class="text-blue-600 font-semibold hover:text-blue-700 flex items-center gap-2">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -564,87 +613,6 @@
 
         </div>
 
-        <!-- Action Buttons -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <a href="/cetak/{{ $student->id }}"
-                class="bg-[#31694E] text-white px-8 py-5 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-center gap-3">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
-                    </path>
-                </svg>
-                <span>Cetak Bukti Pendaftaran</span>
-            </a>
-
-            <div class="flex gap-4 mb-6">
-                <button onclick="openEditModal()"
-                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 flex items-center justify-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                        </path>
-                    </svg>
-                    Edit Biodata
-                </button>
-
-                <button onclick="openEditDokumenModal()"
-                    class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-300 flex items-center justify-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                        </path>
-                    </svg>
-                    Edit Dokumen
-                </button>
-            </div>
-        </div>
-
-        <!-- Info Next Steps -->
-        <div class="bg-white rounded-2xl shadow-lg p-6">
-            <h3 class="font-bold text-lg text-gray-800 mb-4 flex items-center gap-2">
-                <svg class="w-6 h-6 text-[#31694E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Langkah Selanjutnya
-            </h3>
-            <ul class="space-y-3">
-                <li class="flex items-start gap-3">
-                    <div
-                        class="w-6 h-6 bg-[#31694E] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span class="text-white text-xs font-bold">1</span>
-                    </div>
-                    <div>
-                        <p class="font-semibold text-gray-800">Cetak Bukti Pendaftaran</p>
-                        <p class="text-sm text-gray-600">Download dan simpan bukti pendaftaran untuk keperluan
-                            administrasi</p>
-                    </div>
-                </li>
-                <li class="flex items-start gap-3">
-                    <div
-                        class="w-6 h-6 bg-[#31694E] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span class="text-white text-xs font-bold">2</span>
-                    </div>
-                    <div>
-                        <p class="font-semibold text-gray-800">Tunggu Pengumuman</p>
-                        <p class="text-sm text-gray-600">Pantau email atau nomor HP yang didaftarkan untuk
-                            informasi
-                            selanjutnya</p>
-                    </div>
-                </li>
-                <li class="flex items-start gap-3">
-                    <div
-                        class="w-6 h-6 bg-[#31694E] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span class="text-white text-xs font-bold">3</span>
-                    </div>
-                    <div>
-                        <p class="font-semibold text-gray-800">Hubungi Sekolah</p>
-                        <p class="text-sm text-gray-600">Jika ada pertanyaan, silakan hubungi pihak sekolah untuk
-                            informasi lebih lanjut</p>
-                    </div>
-                </li>
-            </ul>
-        </div>
     </div>
 
     <!-- MODAL EDIT (Improved Styling) -->
@@ -655,7 +623,7 @@
         <div
             class="relative bg-white rounded-3xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden animate-slideUp">
             <!-- HEADER STICKY -->
-            <div class="sticky top-0 bg-gradient-to-r from-green-600 to-emerald-600 p-6 z-10 shadow-lg">
+            <div class="sticky top-0 bg-[#31694E] p-6 z-10 shadow-lg">
                 <div class="flex items-center justify-between text-white">
                     <div>
                         <h3 class="text-2xl font-bold flex items-center gap-3">
@@ -689,7 +657,7 @@
                     <div
                         class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-100 shadow-sm">
                         <div class="flex items-center gap-3 mb-6">
-                            <div class="p-3 bg-green-600 rounded-xl">
+                            <div class="p-3 bg-[#31694E] rounded-xl">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1307,7 +1275,7 @@
                 <div class="sticky bottom-0 bg-white border-t-2 border-gray-200 p-6 shadow-2xl">
                     <div class="flex justify-end gap-4">
                         <button type="button" onclick="closeEditModal()"
-                            class="px-8 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-all duration-200 flex items-center gap-2 shadow-md">
+                            class="px-8 py-3 bg-red-600 text-white font-semibold rounded-xl hover:bg-gray-200 transition-all duration-200 flex items-center gap-2 shadow-md">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M6 18L18 6M6 6l12 12"></path>
@@ -1315,7 +1283,7 @@
                             Batal
                         </button>
                         <button type="submit"
-                            class="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 flex items-center gap-2 shadow-lg">
+                            class="px-8 py-3 bg-[#31694E] text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 flex items-center gap-2 shadow-lg">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M5 13l4 4L19 7"></path>
@@ -1387,22 +1355,34 @@
         }
     </script>
 
+    
+
     <!-- MODAL EDIT DOKUMEN -->
     <div id="editDokumenModal" class="fixed inset-0 hidden items-center justify-center z-50">
         <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" onclick="closeEditDokumenModal()"></div>
         <div
             class="relative bg-white rounded-2xl shadow-2xl w-[95%] max-w-6xl max-h-[90vh] overflow-y-auto modal-content">
-            <div class="sticky top-0 bg-white p-6 border-b border-gray-200 rounded-t-2xl z-10">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-2xl font-bold text-gray-800">Edit Dokumen</h3>
-                    <button onclick="closeEditDokumenModal()" class="text-gray-500 hover:text-gray-800">
+            <div class="sticky top-0 bg-[#31694E] p-6 z-10 shadow-lg">
+                <div class="flex items-center justify-between text-white">
+                    <div>
+                        <h3 class="text-2xl font-bold flex items-center gap-3">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                </path>
+                            </svg>
+                            Edit Dokumen
+                        </h3>
+                        <p class="text-sm text-green-100 mt-2">Upload file baru untuk mengganti dokumen yang ada</p>
+                    </div>
+                    <button onclick="closeEditDokumenModal()"
+                        class="hover:bg-white/20 p-2 rounded-full transition-all duration-200">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
-                <p class="text-sm text-gray-600 mt-2">Upload file baru untuk mengganti dokumen yang ada</p>
             </div>
 
             <form action="/biodata/{{ $student->id }}/update-dokumen" method="POST" enctype="multipart/form-data"
@@ -1599,7 +1579,7 @@
 
                 <div class="flex justify-end gap-4 mt-8 sticky bottom-0 bg-white pt-4 border-t">
                     <button type="button" onclick="closeEditDokumenModal()"
-                        class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-400">
+                        class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-gray-400">
                         Batal
                     </button>
                     <button type="submit" class="px-6 py-3 bg-[#31694E] text-white rounded-lg hover:bg-[#2a5a42]">

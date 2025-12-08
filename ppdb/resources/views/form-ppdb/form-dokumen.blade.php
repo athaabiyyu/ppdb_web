@@ -77,7 +77,7 @@
     </style>
 </head>
 
-<body class="min-h-screen" style="background-color: #e8f5e9;">
+<body class="min-h-screen bg-gray-100">
 
     <!-- Header -->
     <div class="gradient-bg text-white py-8 shadow-lg">

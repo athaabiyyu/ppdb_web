@@ -199,26 +199,11 @@ class PPDBController extends Controller
               return redirect()->route('form.ortu', ['id' => $student->id]);
        }
 
-       public function biodata($id)
-       {
-              $student = Student::with(['parentInfo', 'guardian', 'documents', 'choice'])->findOrFail($id);
-              $pendidikanOptions = Guardian::PENDIDIKAN_OPTIONS;
-              return view('biodata', compact('student', 'pendidikanOptions'));
-       }
-
-       public function cetak($id)
-       {
-              $student = Student::with(['parentInfo', 'guardian', 'documents', 'choice'])->findOrFail($id);
-              return view('cetak', compact('student'));
-       }
-
-
-
        public function formOrtu($id)
        {
               $student = Student::findOrFail($id);
               $pendidikanOptions = ParentInfo::PENDIDIKAN_OPTIONS;
-              return view('form-ortu', compact('student', 'pendidikanOptions'));
+              return view('form-ppdb.form-ortu', compact('student', 'pendidikanOptions'));
        }
 
        public function storeOrtu(Request $request)
@@ -287,7 +272,7 @@ class PPDBController extends Controller
               }
               // SD tidak perlu transkrip (semesterCount = 0)
 
-              return view('form-dokumen', compact('student', 'semesterCount'));
+              return view('form-ppdb.form-dokumen', compact('student', 'semesterCount'));
        }
 
        public function storeDokumen(Request $request)
@@ -371,10 +356,23 @@ class PPDBController extends Controller
               return redirect()->route('biodata', ['id' => $student->id]);
        }
 
+       public function biodata($id)
+       {
+              $student = Student::with(['parentInfo', 'guardian', 'documents', 'choice'])->findOrFail($id);
+              $pendidikanOptions = Guardian::PENDIDIKAN_OPTIONS;
+              return view('biodata.biodata', compact('student', 'pendidikanOptions'));
+       }
+
+       public function cetak($id)
+       {
+              $student = Student::with(['parentInfo', 'guardian', 'documents', 'choice'])->findOrFail($id);
+              return view('biodata.cetak', compact('student'));
+       }
+
        public function downloadPdf($id)
        {
               $student = Student::findOrFail($id);
-              $pdf = Pdf::loadView('pdf', compact('student'));
+              $pdf = Pdf::loadView('biodata.pdf', compact('student'));
               return $pdf->download('Bukti_Pendaftaran_' . $student->nama . '.pdf');
        }
 
