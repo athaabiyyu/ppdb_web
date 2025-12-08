@@ -25,7 +25,7 @@ class PPDBController extends Controller
               $requirements = RegistrationRequirement::all();
               $flows = RegistrationFlow::orderBy('step_number')->get();
               $setting = HomeSetting::first() ?? HomeSetting::create([]);
-               $units = Unit::orderBy('name')->get();
+              $units = Unit::orderBy('name')->get();
 
               return view('home', compact('sliders', 'requirements', 'flows', 'setting', 'units'));
        }
@@ -52,9 +52,7 @@ class PPDBController extends Controller
                      'informasi_lainnya' => 'nullable|string'
               ]);
 
-              // ============================
-              // LOGIC BARU UNTUK SD
-              // ============================
+              // logic pemilihan lembaga
               if (strtoupper($data['jenjang']) === 'SD') {
                      // lembaga otomatis SD
                      $selected = ['SD'];
@@ -83,23 +81,23 @@ class PPDBController extends Controller
        public function formDataPribadi($id, $jenjang)
        {
               $pendidikanOptions = Guardian::PENDIDIKAN_OPTIONS;
-              return view('form-data-pribadi', compact('jenjang', 'id', 'pendidikanOptions'));
+              return view('form-ppdb.form-data-pribadi', compact('jenjang', 'id', 'pendidikanOptions'));
        }
 
        public function storeDataPribadi(Request $request)
        {
-              // Validasi data siswa
+              // RULES DASAR
               $rules = [
                      'id' => 'required|exists:students,id',
                      'jenjang' => 'string',
                      'nama' => 'required|string|max:255',
                      'jenis_kelamin' => 'required|string',
                      'agama' => 'required|string',
-                     'nisn' => 'required',
+                     'nisn' => 'required|string',
                      'hobi' => 'required|string',
                      'cita_cita' => 'required|string',
-                     'no_kk' => 'required',
-                     'nik' => 'required',
+                     'no_kk' => 'required|string|size:16',
+                     'nik' => 'required|string|size:16',
                      'tempat_lahir' => 'required|string',
                      'tanggal_lahir' => 'required|date',
                      'anak_ke' => 'required|integer|min:1',
@@ -112,11 +110,11 @@ class PPDBController extends Controller
                      'npsn_nsm' => 'required|string',
               ];
 
-              // TAMBAH VALIDASI WALI JIKA DIPILIH
+              // RULES TAMBAHAN JIKA MILIH WALI
               if ($request->tinggal_dengan === 'Wali') {
                      $rules = array_merge($rules, [
-                            'nama_wali' => 'required|string',
-                            'nik_wali' => 'required|string',
+                            'nama_wali' => 'required|string|max:255',
+                            'nik_wali' => 'required|string|size:16',
                             'tempat_lahir_wali' => 'required|string',
                             'tanggal_lahir_wali' => 'required|date',
                             'pendidikan_wali' => 'required|in:SD,SMP,SMA/SMK,Diploma (D1-D4),Sarjana (S1),Magister (S2),Doktoral (S3)',
@@ -132,24 +130,24 @@ class PPDBController extends Controller
                      ]);
               }
 
-              $req = $request->validate($rules, [
-                     'nama.required' => 'Nama lengkap wajib diisi.',
-                     'jenis_kelamin.required' => 'Silakan pilih jenis kelamin.',
-                     'anak_ke.min' => 'Anak ke- minimal 1.',
-                     'jumlah_saudara.min' => 'Jumlah saudara minimal 0.',
-                     'tinggal_dengan.in' => 'Pilihan tinggal dengan tidak valid.',
-                     'tanggal_lahir.date' => 'Format tanggal lahir tidak valid.',
-                     'no_kk.required' => 'Nomor KK wajib diisi.',
-                     'nik.required' => 'NIK wajib diisi.',
-                     'nisn.required' => 'NISN wajib diisi.',
-                     'sekolah_asal.required' => 'Nama sekolah asal wajib diisi.',
-                     'alamat_sekolah_asal.required' => 'Alamat sekolah asal wajib diisi.',
-                     'npsn_nsm.required' => 'NPSN/NSM wajib diisi.',
-              ]);
+              // PESAN ERROR (MODEL STORE ORTU)
+              $messages = [
+                     'required' => ':attribute wajib diisi.',
+                     'string' => ':attribute harus berupa teks.',
+                     'size' => ':attribute harus :size karakter.',
+                     'integer' => ':attribute harus angka.',
+                     'date' => ':attribute harus tanggal yang valid.',
+                     'min' => ':attribute minimal :min.',
+                     'in' => ':attribute pilihan tidak valid.',
+                     'exists' => 'Data siswa tidak ditemukan.',
+              ];
 
+              // VALIDASI
+              $req = $request->validate($rules, $messages);
+
+
+              // SIMPAN DATA SISWA
               $student = Student::find($req['id']);
-
-              // Data siswa saja (tanpa data wali)
               $studentData = [
                      'nama' => $req['nama'],
                      'jenjang' => $req['jenjang'],
@@ -172,41 +170,34 @@ class PPDBController extends Controller
                      'npsn_nsm' => $req['npsn_nsm'],
               ];
 
-              if (!$student) {
-                     $student = Student::create($studentData);
-              } else {
-                     $student->update($studentData);
-              }
+              $student ? $student->update($studentData) : $student = Student::create($studentData);
 
-              // JIKA TINGGAL DENGAN WALI, SIMPAN DATA WALI
+              // SIMPAN DATA WALI (HANYA JIKA DIPILIH)
               if ($req['tinggal_dengan'] === 'Wali') {
-                     $guardianData = [
-                            'student_id' => $student->id,
-                            'nama_wali' => $req['nama_wali'],
-                            'nik_wali' => $req['nik_wali'],
-                            'tempat_lahir_wali' => $req['tempat_lahir_wali'],
-                            'tanggal_lahir_wali' => $req['tanggal_lahir_wali'],
-                            'pendidikan_wali' => $req['pendidikan_wali'],
-                            'pekerjaan_wali' => $req['pekerjaan_wali'],
-                            'penghasilan_wali' => $req['penghasilan_wali'],
-                            'hp_wali' => $req['hp_wali'],
-                            'alamat' => $req['alamat_wali'],
-                            'desa' => $req['desa_wali'],
-                            'kecamatan' => $req['kecamatan_wali'],
-                            'kabupaten' => $req['kabupaten_wali'],
-                            'provinsi' => $req['provinsi_wali'],
-                            'kode_pos' => $req['kode_pos_wali'],
-                     ];
-
                      Guardian::updateOrCreate(
                             ['student_id' => $student->id],
-                            $guardianData
+                            [
+                                   'student_id' => $student->id,
+                                   'nama_wali' => $req['nama_wali'],
+                                   'nik_wali' => $req['nik_wali'],
+                                   'tempat_lahir_wali' => $req['tempat_lahir_wali'],
+                                   'tanggal_lahir_wali' => $req['tanggal_lahir_wali'],
+                                   'pendidikan_wali' => $req['pendidikan_wali'],
+                                   'pekerjaan_wali' => $req['pekerjaan_wali'],
+                                   'penghasilan_wali' => $req['penghasilan_wali'],
+                                   'hp_wali' => $req['hp_wali'],
+                                   'alamat' => $req['alamat_wali'],
+                                   'desa' => $req['desa_wali'],
+                                   'kecamatan' => $req['kecamatan_wali'],
+                                   'kabupaten' => $req['kabupaten_wali'],
+                                   'provinsi' => $req['provinsi_wali'],
+                                   'kode_pos' => $req['kode_pos_wali'],
+                            ]
                      );
               }
 
               return redirect()->route('form.ortu', ['id' => $student->id]);
        }
-
 
        public function biodata($id)
        {

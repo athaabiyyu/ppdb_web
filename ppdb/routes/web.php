@@ -14,8 +14,11 @@ Route::get('/', [PPDBController::class, 'index'])->name('home');
 Route::get('/daftar/{jenjang}', [PPDBController::class, 'pilihJenjang']);
 Route::post('/pilih-lembaga', [PPDBController::class, 'pilihLembaga']);
 
+// ROUTE FORM DATA PRIBADI
 Route::get('/form-data-pribadi/{id}/{jenjang}', [PPDBController::class, 'formDataPribadi'])->name('form.data.pribadi');
 Route::post('/form-data-pribadi/store', [PPDBController::class, 'storeDataPribadi']);
+
+
 Route::get('/form-ortu/{id}', [PPDBController::class, 'formOrtu'])->name('form.ortu');
 Route::post('/form-ortu/store', [PPDBController::class, 'storeOrtu']);
 Route::get('/form-dokumen/{id}', [PPDBController::class, 'formDokumen'])->name('form.dokumen');

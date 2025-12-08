@@ -45,13 +45,12 @@
     </style>
 </head>
 
-<body class="min-h-screen" style="background-color: #e8f5e9;">
+<body class="min-h-screen  bg-gray-100">
 
-    <!-- Header -->
+    <!-- Navbar -->
     <div class="gradient-bg text-white py-8 shadow-lg">
         <div class="w-full px-4">
             <div class="flex flex-col md:flex-row items-center md:justify-between relative">
-
                 <!-- Logo dan Nama Yayasan -->
                 <div class="flex items-center gap-2">
                     <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16">
@@ -60,12 +59,10 @@
                         <span class="text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
                     </div>
                 </div>
-
                 <!-- Judul Form -->
                 <h1 class="text-3xl font-bold text-center mt-6 md:mt-0 md:text-left w-full md:w-auto">
                     Form Data Pribadi
                 </h1>
-
                 <!-- Progress Info -->
                 <div class="hidden md:block">
                     <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
@@ -73,11 +70,10 @@
                         <p class="text-xl font-bold">Data Siswa</p>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-
+    <!-- End Navbar -->
 
     <div class="max-w-5xl mx-auto px-4 py-8">
 
@@ -139,47 +135,55 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap <span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="nama" value="{{ old('nama', $nama ?? '') }}"
-                            placeholder="Masukkan nama lengkap sesuai kartu keluarga anda"
+                            placeholder="Tuliskan nama lengkap sesuai Kartu Keluarga"
                             class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
                         @error('nama')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <!-- Nomor Kartu Keluarga -->
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">No. Kartu Keluarga <span
-                                class="text-red-500">*</span></label>
-                        <input type="number" name="no_kk" maxlength="16" value="{{ old('no_kk', $no_kk ?? '') }}"
-                            placeholder="Masukkan nomor kartu keluarga anda"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
-                        @error('no_kk')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <!-- No KK, NIK, NISN dalam 1 baris -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:col-span-2">
 
-                    <!-- NIK -->
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">NIK <span
-                                class="text-red-500">*</span></label>
-                        <input type="number" name="nik" maxlength="16" value="{{ old('nik', $nik ?? '') }}"
-                            placeholder="Masukkan nomor induk kependudukan anda"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
-                        @error('nik')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                        <!-- No KK -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                No. Kartu Keluarga <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" name="no_kk" maxlength="16" value="{{ old('no_kk', $no_kk ?? '') }}"
+                                placeholder="Tuliskan nomor Kartu Keluarga"
+                                class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
+                            @error('no_kk')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
 
-                    <!-- NISN -->
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">NISN <span
-                                class="text-red-500">*</span></label>
-                        <input type="number" name="nisn" value="{{ old('nisn', $nisn ?? '') }}"
-                            placeholder="Masukkan nomor induk siswa nasional anda"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
-                        @error('nisn')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                        <!-- NIK -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                NIK <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" name="nik" maxlength="16" value="{{ old('nik', $nik ?? '') }}"
+                                placeholder="Tuliskan NIK"
+                                class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
+                            @error('nik')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- NISN -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                NISN <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" name="nisn" value="{{ old('nisn', $nisn ?? '') }}"
+                                placeholder="Tuliskan NISN"
+                                class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
+                            @error('nisn')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                     </div>
 
                     <!-- Tempat & Tanggal Lahir -->
@@ -187,8 +191,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Tempat Lahir <span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="tempat_lahir"
-                            value="{{ old('tempat_lahir', $tempat_lahir ?? '') }}"
-                            placeholder="Masukkan tempat lahir anda"
+                            value="{{ old('tempat_lahir', $tempat_lahir ?? '') }}" placeholder="Contoh: Bali"
                             class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
                         @error('tempat_lahir')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -205,25 +208,54 @@
                         @enderror
                     </div>
 
-                    <!-- Jenis Kelamin & Agama -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Jenis Kelamin <span
-                                class="text-red-500">*</span></label>
-                        <select name="jenis_kelamin"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all appearance-none bg-white">
-                            <option value="" class="text-center">-- Pilih --</option>
-                            <option value="L"
-                                {{ old('jenis_kelamin', $jenis_kelamin ?? '') == 'L' ? 'selected' : '' }}>Laki-laki
-                            </option>
-                            <option value="P"
-                                {{ old('jenis_kelamin', $jenis_kelamin ?? '') == 'P' ? 'selected' : '' }}>Perempuan
-                            </option>
-                        </select>
+                    <!-- Jenis Kelamin -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Jenis Kelamin <span class="text-red-500">*</span>
+                        </label>
+
+                        <div class="relative">
+                            <!-- Custom Arrow -->
+                            <span
+                                class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </span>
+
+                            <select name="jenis_kelamin"
+                                class="w-full appearance-none px-4 py-3 border-2 border-gray-200 rounded-xl bg-white
+                   text-gray-700 pr-12 cursor-pointer transition-all
+                   hover:border-gray-300
+                   focus:ring-2 focus:ring-green-500 focus:border-green-500">
+
+                                <option value="" disabled selected class="text-gray-400">
+                                    Pilih jenis kelamin
+                                </option>
+
+                                <option value="L"
+                                    {{ old('jenis_kelamin', $jenis_kelamin ?? '') == 'L' ? 'selected' : '' }}>
+                                    Laki-laki
+                                </option>
+
+                                <option value="P"
+                                    {{ old('jenis_kelamin', $jenis_kelamin ?? '') == 'P' ? 'selected' : '' }}>
+                                    Perempuan
+                                </option>
+
+                            </select>
+                        </div>
+
                         @error('jenis_kelamin')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div>
+
+
+                    <!-- Agama -->
+                    <div class="md:col-span-2">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Agama <span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="agama" value="{{ old('agama', $agama ?? '') }}"
@@ -235,7 +267,6 @@
                     </div>
                 </div>
             </div>
-
 
             <!-- Section 2: Minat & Bakat -->
             <div class="section-card bg-white rounded-2xl shadow-lg p-8 mb-6">
@@ -251,13 +282,13 @@
                     <h2 class="text-2xl font-bold text-gray-800">Minat & Bakat</h2>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
                     <!-- Hobi & Cita-cita -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Hobi <span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="hobi" value="{{ old('hobi', $hobi ?? '') }}"
-                            placeholder="Masukkan hobi anda"
+                            placeholder="Contoh: Basket"
                             class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
                         @error('hobi')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -267,7 +298,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Cita-cita <span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="cita_cita" value="{{ old('cita_cita', $cita_cita ?? '') }}"
-                            placeholder="Masukkan cita-cita anda"
+                            placeholder="Contoh: Dokter"
                             class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
                         @error('cita_cita')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -296,7 +327,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Anak ke- <span
                                 class="text-red-500">*</span></label>
                         <input type="number" name="anak_ke" min="1"
-                            value="{{ old('anak_ke', $anak_ke ?? '') }}" placeholder="1"
+                            value="{{ old('anak_ke', $anak_ke ?? '') }}" placeholder="0"
                             class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
                         @error('anak_ke')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -313,24 +344,52 @@
                         @enderror
                     </div>
 
-                    <!-- Tinggal Dengan (full-width) -->
+                    <!-- Tinggal Dengan -->
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Tinggal Dengan <span
-                                class="text-red-500">*</span></label>
-                        <select name="tinggal_dengan" id="tinggal_dengan"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all appearance-none bg-white">
-                            <option value="" class="text-center">-- Pilih --</option>
-                            <option value="Orang Tua"
-                                {{ old('tinggal_dengan', $tinggal_dengan ?? '') == 'Orang Tua' ? 'selected' : '' }}>
-                                Orang Tua</option>
-                            <option value="Wali"
-                                {{ old('tinggal_dengan', $tinggal_dengan ?? '') == 'Wali' ? 'selected' : '' }}>Wali
-                            </option>
-                        </select>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Tinggal Dengan <span class="text-red-500">*</span>
+                        </label>
+
+                        <div class="relative">
+                            <!-- Custom Arrow -->
+                            <span
+                                class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </span>
+
+                            <select name="tinggal_dengan" id="tinggal_dengan"
+                                class="w-full appearance-none px-4 py-3 border-2 border-gray-200 rounded-xl bg-white
+            text-gray-700 pr-12 cursor-pointer transition-all
+            hover:border-gray-300
+            focus:ring-2 focus:ring-green-500 focus:border-green-500">
+
+                                <option value="" disabled class="text-gray-400"
+                                    {{ old('tinggal_dengan', $tinggal_dengan ?? '') == '' ? 'selected' : '' }}>
+                                    Sekarang tinggal dengan
+                                </option>
+
+                                <option value="Orang Tua"
+                                    {{ old('tinggal_dengan', $tinggal_dengan ?? '') == 'Orang Tua' ? 'selected' : '' }}>
+                                    Orang Tua
+                                </option>
+
+                                <option value="Wali"
+                                    {{ old('tinggal_dengan', $tinggal_dengan ?? '') == 'Wali' ? 'selected' : '' }}>
+                                    Wali
+                                </option>
+
+                            </select>
+                        </div>
+
                         @error('tinggal_dengan')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+
                 </div>
             </div>
 
@@ -353,7 +412,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap Wali <span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="nama_wali" value="{{ old('nama_wali') }}"
-                            placeholder="Masukkan nama lengkap wali"
+                            placeholder="Tuliskan nama lengkap wali"
                             class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
                         @error('nama_wali')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -364,40 +423,55 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">NIK Wali <span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="nik_wali" value="{{ old('nik_wali') }}"
-                            placeholder="16 digit NIK" maxlength="16"
+                            placeholder="Tuliskan NIK wali" maxlength="16"
                             class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
                         @error('nik_wali')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">No. HP Wali <span
-                                class="text-red-500">*</span></label>
-                        <input type="text" name="hp_wali" value="{{ old('hp_wali') }}"
-                            placeholder="Contoh: 08123456789"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
-                        @error('hp_wali')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Pendidikan Terakhir <span class="text-red-500">*</span>
+                        </label>
 
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pendidikan Terakhir <span
-                                class="text-red-500">*</span></label>
-                        <select name="pendidikan_wali"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all appearance-none bg-white">
-                            <option value="" class="text-center">-- Pilih Pendidikan --</option>
-                            @foreach ($pendidikanOptions as $value => $label)
-                                <option value="{{ $value }}"
-                                    {{ old('pendidikan_wali') == $value ? 'selected' : '' }}>{{ $label }}
+                        <div class="relative">
+                            <!-- Custom Arrow -->
+                            <span
+                                class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </span>
+
+                            <select name="pendidikan_wali"
+                                class="w-full appearance-none px-4 py-3 border-2 border-gray-200 rounded-xl bg-white
+            text-gray-700 pr-12 cursor-pointer transition-all
+            hover:border-gray-300
+            focus:ring-2 focus:ring-green-500 focus:border-green-500">
+
+                                <!-- Placeholder -->
+                                <option value="" disabled class="text-gray-400"
+                                    {{ old('pendidikan_wali') == '' ? 'selected' : '' }}>
+                                    Pilih pendidikan terakhir
                                 </option>
-                            @endforeach
-                        </select>
+
+                                @foreach ($pendidikanOptions as $value => $label)
+                                    <option value="{{ $value }}"
+                                        {{ old('pendidikan_wali') == $value ? 'selected' : '' }}>
+                                        {{ $label }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         @error('pendidikan_wali')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+
                 </div>
 
                 <!-- Tempat & Tanggal Lahir Wali (1 baris, 2 kolom) -->
@@ -449,61 +523,75 @@
                     </div>
                 </div>
 
-                <!-- Alamat Wali (1 kolom penuh) -->
-                <h3 class="text-lg font-bold text-gray-800 mb-4 mt-6">Alamat Wali</h3>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">No. HP Wali <span
+                            class="text-red-500">*</span></label>
+                    <input type="text" name="hp_wali" value="{{ old('hp_wali') }}"
+                        placeholder="Contoh: 08123456789"
+                        class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
+                    @error('hp_wali')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Alamat Wali-->
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 mt-12">Alamat Wali</h2>
                 <div class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat Lengkap <span
-                                class="text-red-500">*</span></label>
-                        <textarea name="alamat_wali" rows="2" placeholder="Masukkan alamat lengkap wali"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all resize-none">{{ old('alamat_wali') }}</textarea>
-                        @error('alamat_wali')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
 
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Desa/Kelurahan <span
-                                class="text-red-500">*</span></label>
-                        <input type="text" name="desa_wali" value="{{ old('desa_wali') }}"
-                            placeholder="Nama desa/kelurahan"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
-                        @error('desa_wali')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Kecamatan <span
-                                class="text-red-500">*</span></label>
-                        <input type="text" name="kecamatan_wali" value="{{ old('kecamatan_wali') }}"
-                            placeholder="Nama kecamatan"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
-                        @error('kecamatan_wali')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                        <!-- Desa/Kelurahan -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Desa/Kelurahan <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="desa_wali" value="{{ old('desa_wali') }}"
+                                placeholder="Tuliskan desa/kelurahan"
+                                class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
+                            @error('desa_wali')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
 
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Kabupaten/Kota <span
-                                class="text-red-500">*</span></label>
-                        <input type="text" name="kabupaten_wali" value="{{ old('kabupaten_wali') }}"
-                            placeholder="Nama kabupaten/kota"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
-                        @error('kabupaten_wali')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                        <!-- Kecamatan -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Kecamatan <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="kecamatan_wali" value="{{ old('kecamatan_wali') }}"
+                                placeholder="Tuliskan kecamatan"
+                                class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
+                            @error('kecamatan_wali')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
 
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Provinsi <span
-                                class="text-red-500">*</span></label>
-                        <input type="text" name="provinsi_wali" value="{{ old('provinsi_wali') }}"
-                            placeholder="Nama provinsi"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
-                        @error('provinsi_wali')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                        <!-- Kabupaten/Kota -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Kabupaten/Kota <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="kabupaten_wali" value="{{ old('kabupaten_wali') }}"
+                                placeholder="Tuliskan kabupaten/kota"
+                                class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
+                            @error('kabupaten_wali')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Provinsi -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Provinsi <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="provinsi_wali" value="{{ old('provinsi_wali') }}"
+                                placeholder="Tuliskan provinsi"
+                                class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
+                            @error('provinsi_wali')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                     </div>
 
                     <div>
@@ -516,11 +604,18 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat Lengkap <span
+                                class="text-red-500">*</span></label>
+                        <textarea name="alamat_wali" rows="2" placeholder="Masukkan alamat lengkap wali"
+                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all resize-none">{{ old('alamat_wali') }}</textarea>
+                        @error('alamat_wali')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
             </div>
-
-
-
 
             <!-- Section 4: Tempat Tinggal -->
             <div class="section-card bg-white rounded-2xl shadow-lg p-8 mb-6">
@@ -538,44 +633,76 @@
                     <h2 class="text-2xl font-bold text-gray-800">Tempat Tinggal</h2>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Rencana Tempat Tinggal <span
-                                class="text-red-500">*</span></label>
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+                    <!-- Rencana Tempat Tinggal -->
+                    <div class="relative">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Rencana Tempat Tinggal <span class="text-red-500">*</span>
+                        </label>
+
                         <select name="rencana_tinggal"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all appearance-none bg-white">
-                            <option value="" class="text-center">-- Pilih --</option>
+                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl bg-white text-gray-700
+               focus:border-green-600 focus:ring-green-600 transition-all appearance-none">
+                            <option value="" class="text-gray-400">Pilih rencana tempat tinggal</option>
                             <option value="Asrama"
                                 {{ old('rencana_tinggal', $rencana_tinggal ?? '') == 'Asrama' ? 'selected' : '' }}>
-                                Asrama</option>
+                                Asrama
+                            </option>
                             <option value="Rumah"
-                                {{ old('rencana_tinggal', $rencana_tinggal ?? '') == 'Rumah' ? 'selected' : '' }}>Rumah
+                                {{ old('rencana_tinggal', $rencana_tinggal ?? '') == 'Rumah' ? 'selected' : '' }}>
+                                Rumah
                             </option>
                         </select>
+
+                        <!-- Panah Dropdown -->
+                        <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+
                         @error('rencana_tinggal')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Jarak ke Sekolah <span
-                                class="text-red-500">*</span></label>
+
+
+                    <!-- Jarak ke Sekolah -->
+                    <div class="relative">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Jarak ke Sekolah <span class="text-red-500">*</span>
+                        </label>
+
                         <select name="jarak_tempat_tinggal"
-                            class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all appearance-none bg-white">
-                            <option value="" class="text-center">-- Pilih --</option>
+                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl bg-white text-gray-700
+               focus:border-green-600 focus:ring-green-600 transition-all appearance-none">
+                            <option value="" class="text-gray-400">Pilih jarak ke sekolah</option>
                             <option value="<1 km"
                                 {{ old('jarak_tempat_tinggal', $jarak_tempat_tinggal ?? '') == '<1 km' ? 'selected' : '' }}>
-                                Kurang dari 1 km</option>
+                                Kurang dari 1 km
+                            </option>
                             <option value="1-5 km"
                                 {{ old('jarak_tempat_tinggal', $jarak_tempat_tinggal ?? '') == '1-5 km' ? 'selected' : '' }}>
-                                1-5 km</option>
+                                1-5 km
+                            </option>
                             <option value=">5 km"
                                 {{ old('jarak_tempat_tinggal', $jarak_tempat_tinggal ?? '') == '>5 km' ? 'selected' : '' }}>
-                                Lebih dari 5 km</option>
+                                Lebih dari 5 km
+                            </option>
                         </select>
+
+                        <!-- Panah Dropdown -->
+                        <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+
                         @error('jarak_tempat_tinggal')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+
                 </div>
             </div>
 
@@ -614,7 +741,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">NPSN / NSM <span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="npsn_nsm" value="{{ old('npsn_nsm', $npsn_nsm ?? '') }}"
-                            placeholder="Nomor Pokok Sekolah Nasional"
+                            placeholder="Tuliskan nomor Pokok Sekolah Nasional"
                             class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
                         @error('npsn_nsm')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -625,7 +752,7 @@
                                 class="text-red-500">*</span></label>
                         <textarea name="alamat_sekolah_asal" rows="3"
                             class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all resize-none"
-                            placeholder="Masukkan alamat lengkap sekolah asal">{{ old('alamat_sekolah_asal', $alamat_sekolah_asal ?? '') }}</textarea>
+                            placeholder="Tuliskan alamat lengkap sekolah asal">{{ old('alamat_sekolah_asal', $alamat_sekolah_asal ?? '') }}</textarea>
                         @error('alamat_sekolah_asal')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -676,8 +803,6 @@
         // Check on page load (untuk old value)
         window.addEventListener('DOMContentLoaded', toggleWaliSection);
     </script>
-
-
 </body>
 
 </html>
