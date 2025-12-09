@@ -108,7 +108,7 @@ class AdminController extends Controller
                      });
               }
 
-              return view('admin.data-siswa', compact('lembagaList'));
+              return view('admin.data-siswa.data-siswa', compact('lembagaList'));
        }
 
        public function exportCSV($lembaga)

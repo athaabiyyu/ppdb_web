@@ -1,185 +1,168 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app_admin')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Admin Dashboard - PPDB</title>
-</head>
+@section('title', 'Pengumuman')
 
-<body class="bg-gray-50">
+@section('content')
+    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4">
+        <div class="max-w-7xl mx-auto">
 
-    <!-- ================== NAVBAR ================== -->
-    <nav class="bg-[#31694E] text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <!-- Left Logo & Title -->
-                <div class="flex items-center space-x-4">
-                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16">
+            {{-- Header Section --}}
+            <div class="mb-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                        <h1 class="text-xl font-bold">PPDB Admin</h1>
-                        <p class="text-xs text-green-100">Yayasan Mambaul Maarif Denanyar Jombang</p>
-                    </div>
-                </div>
-
-                <!-- Center Menu -->
-                <ul class="hidden md:flex space-x-1">
-                    <li>
-                        <a href="/admin/dashboard"
-                            class="px-4 py-2 rounded-lg bg-white/20 font-medium flex items-center gap-3">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
-                                </path>
-                            </svg>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.data_siswa') }}"
-                            class="px-4 py-2 rounded-lg hover:bg-white/10 font-medium transition flex items-center gap-3">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                                <path fill-rule="evenodd"
-                                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Data Pendaftaran
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="px-4 py-2 rounded-lg hover:bg-white/10 font-medium transition flex items-center gap-3">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                <path fill-rule="evenodd"
-                                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Pengumuman
-                        </a>
-                    </li>
-                </ul>
-
-                <!-- Right User Menu -->
-                <div class="flex items-center space-x-4">
-                    <!-- Tombol Admin -->
-                    <div class="ml-auto">
-                        <form action="{{ route('admin.editProfile') }}" method="GET">
-                            @csrf
-                            <button type="submit"
-                                class="flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition">
-                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                                    <span class="text-green-600 font-bold text-sm">A</span>
-                                </div>
-                                <span class="font-medium">Admin</span>
-                            </button>
-                        </form>
+                        <div class="flex items-center gap-3 mb-2">
+                            <h1 class="text-4xl font-bold text-gray-800">Kelola Pengumuman</h1>
+                        </div>
+                        <p class="text-gray-600 ml-0">Atur dan publikasikan pengumuman untuk pengguna aplikasi</p>
                     </div>
 
-
-                    <!-- Logout -->
-                    <form method="POST" action="{{ route('admin.logout') }}" class="inline">
-                        @csrf
-                        <button type="submit"
-                            class="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg font-medium transition">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Logout
-                        </button>
-                    </form>
+                    <a href="{{ route('admin.announcements.create') }}" 
+                       class="inline-flex items-center gap-2 bg-[#4CAF7C] hover:bg-[#5CB88D] text-white font-semibold px-6 py-3 rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl whitespace-nowrap">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Tambah Pengumuman
+                    </a>
                 </div>
             </div>
-        </div>
-    </nav>
-    <!-- ================== END NAVBAR ================== -->
 
-    <div class="container-fluid py-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3>📋 Kelola Pengumuman</h3>
-            <a href="{{ route('admin.announcements.create') }}" class="btn btn-primary">
-                + Tambah Pengumuman
-            </a>
-        </div>
+            {{-- Flash Message --}}
+            @if (session('success'))
+                <div class="mb-8 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 text-green-700 rounded-lg shadow-md flex items-center gap-3 animate-pulse">
+                    <svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="font-medium">{{ session('success') }}</span>
+                </div>
+            @endif
 
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
+            {{-- Table Card --}}
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                {{-- Table Header --}}
+                <div class="bg-[#31694E] p-6">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        Daftar Pengumuman
+                    </h2>
+                </div>
 
-        <div class="card shadow-sm">
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Judul</th>
-                            <th>Deskripsi</th>
-                            <th>Status</th>
-                            <th>Tanggal Publikasi</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($announcements as $announcement)
-                            <tr>
-                                <td><strong>{{ $announcement->title }}</strong></td>
-                                <td>{{ Str::limit($announcement->description, 50) }}</td>
-                                <td>
-                                    @if ($announcement->is_active)
-                                        <span class="badge bg-success">Aktif</span>
-                                    @else
-                                        <span class="badge bg-secondary">Nonaktif</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    {{ $announcement->published_at?->format('d M Y') ?? '-' }}
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.announcements.edit', $announcement->id) }}"
-                                        class="btn btn-sm btn-warning">Edit</a>
-
-                                    <form action="{{ route('admin.announcements.toggle', $announcement->id) }}"
-                                        method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="btn btn-sm btn-info">
-                                            {{ $announcement->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
-                                        </button>
-                                    </form>
-
-                                    <form action="{{ route('admin.announcements.destroy', $announcement->id) }}"
-                                        method="POST" style="display:inline;"
-                                        onsubmit="return confirm('Yakin ingin menghapus?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                                    </form>
-                                </td>
+                {{-- Table --}}
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50 border-b-2 border-gray-200">
+                                <th class="px-6 py-4 text-left text-sm font-bold text-gray-700">Judul</th>
+                                <th class="px-6 py-4 text-left text-sm font-bold text-gray-700">Deskripsi</th>
+                                <th class="px-6 py-4 text-center text-sm font-bold text-gray-700">Status</th>
+                                <th class="px-6 py-4 text-center text-sm font-bold text-gray-700">Tanggal</th>
+                                <th class="px-6 py-4 text-center text-sm font-bold text-gray-700">Aksi</th>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center py-4 text-muted">
-                                    Belum ada pengumuman.
-                                    <a href="{{ route('admin.announcements.create') }}">Buat yang baru</a>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            @forelse($announcements as $announcement)
+                                <tr class="hover:bg-blue-50 transition-colors duration-150">
+                                    <td class="px-6 py-4">
+                                        <span class="font-bold text-gray-800 block text-sm">{{ $announcement->title }}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-gray-600 text-sm">{{ Str::limit($announcement->description, 50) }}</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        @if ($announcement->is_active)
+                                            <span class="inline-flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
+                                                <span class="w-2 h-2 bg-green-600 rounded-full"></span>
+                                                Aktif
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center gap-1 bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-bold">
+                                                <span class="w-2 h-2 bg-gray-600 rounded-full"></span>
+                                                Nonaktif
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <span class="text-gray-600 text-sm font-medium">
+                                            {{ $announcement->published_at?->format('d M Y') ?? '-' }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center justify-center gap-2">
+                                            {{-- Edit Button --}}
+                                            <a href="{{ route('admin.announcements.edit', $announcement->id) }}"
+                                               class="inline-flex items-center gap-1 bg-amber-100 text-amber-700 hover:bg-amber-200 px-3 py-2 rounded-lg transition-colors duration-200 font-medium text-sm">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                </svg>
+                                                Edit
+                                            </a>
 
-        <div class="d-flex justify-content-center mt-4">
-            {{ $announcements->links() }}
+                                            {{-- Toggle Button --}}
+                                            <form action="{{ route('admin.announcements.toggle', $announcement->id) }}"
+                                                method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" 
+                                                    class="inline-flex items-center gap-1 {{ $announcement->is_active ? 'bg-red-100 text-red-700 hover:bg-red-200' : 'bg-blue-100 text-blue-700 hover:bg-blue-200' }} px-3 py-2 rounded-lg transition-colors duration-200 font-medium text-sm">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-4.803m5.596-3.856a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    </svg>
+                                                    {{ $announcement->is_active ? 'Nonaktif' : 'Aktif' }}
+                                                </button>
+                                            </form>
+
+                                            {{-- Delete Button --}}
+                                            <form action="{{ route('admin.announcements.destroy', $announcement->id) }}"
+                                                method="POST" 
+                                                onsubmit="return confirm('Yakin ingin menghapus pengumuman ini?')"
+                                                class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" 
+                                                    class="inline-flex items-center gap-1 bg-red-100 text-red-700 hover:bg-red-200 px-3 py-2 rounded-lg transition-colors duration-200 font-medium text-sm">
+                                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                                    </svg>
+                                                    Hapus
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="px-6 py-12 text-center">
+                                        <div class="flex flex-col items-center justify-center">
+                                            <svg class="w-16 h-16 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                            </svg>
+                                            <p class="text-gray-600 font-medium mb-2">Belum ada pengumuman</p>
+                                            <p class="text-gray-500 text-sm mb-4">Mulai dengan membuat pengumuman baru</p>
+                                            <a href="{{ route('admin.announcements.create') }}" 
+                                               class="inline-flex items-center gap-2 bg-[#4CAF7C] hover:bg-[#5CB88D] text-white px-4 py-2 rounded-lg transition-colors duration-200 font-medium">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                                </svg>
+                                                Buat Pengumuman
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- Pagination --}}
+                @if($announcements->hasPages())
+                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-center">
+                        <div class="pagination-wrapper">
+                            {{ $announcements->links() }}
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
-</body>
-
-</html>
+@endsection

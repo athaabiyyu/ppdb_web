@@ -1,103 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app_admin')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Admin Dashboard - PPDB</title>
-</head>
+@section('title', 'Dashboard Admin')
 
-<body class="bg-gray-50">
-
-    <!-- ================== NAVBAR ================== -->
-    <nav class="bg-[#31694E] text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <!-- Left Logo & Title -->
-                <div class="flex items-center space-x-4">
-                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16">
-                    <div>
-                        <h1 class="text-xl font-bold">PPDB Admin</h1>
-                        <p class="text-xs text-green-100">Yayasan Mambaul Maarif Denanyar Jombang</p>
-                    </div>
-                </div>
-
-                <!-- Center Menu -->
-                <ul class="hidden md:flex space-x-1">
-                    <li>
-                        <a href="/admin/dashboard"
-                            class="px-4 py-2 rounded-lg bg-white/20 font-medium flex items-center gap-3">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
-                                </path>
-                            </svg>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.data_siswa') }}"
-                            class="px-4 py-2 rounded-lg hover:bg-white/10 font-medium transition flex items-center gap-3">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                                <path fill-rule="evenodd"
-                                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Data Pendaftaran
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.announcements.index') }}"
-                            class="px-4 py-2 rounded-lg hover:bg-white/10 font-medium transition flex items-center gap-3">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                <path fill-rule="evenodd"
-                                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Pengumuman
-                        </a>
-                    </li>
-                </ul>
-
-                <!-- Right User Menu -->
-                <div class="flex items-center space-x-4">
-                    <!-- Tombol Admin -->
-                    <div class="ml-auto">
-                        <form action="{{ route('admin.editProfile') }}" method="GET">
-                            @csrf
-                            <button type="submit"
-                                class="flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition">
-                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                                    <span class="text-green-600 font-bold text-sm">A</span>
-                                </div>
-                                <span class="font-medium">Admin</span>
-                            </button>
-                        </form>
-                    </div>
-
-
-                    <!-- Logout -->
-                    <form method="POST" action="{{ route('admin.logout') }}" class="inline">
-                        @csrf
-                        <button type="submit"
-                            class="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg font-medium transition">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Logout
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <!-- ================== END NAVBAR ================== -->
+@section('content')
 
     <!-- ================== MAIN CONTENT ================== -->
     <div class="max-w-7xl mx-auto px-6 py-8">
@@ -257,21 +162,6 @@
                         </div>
                     </a>
 
-                    <a href="/admin/laporan"
-                        class="flex items-center gap-3 p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition group">
-                        <div class="bg-purple-500 p-2 rounded-lg group-hover:scale-110 transition">
-                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z">
-                                </path>
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-semibold text-gray-800">Generate Laporan</p>
-                            <p class="text-xs text-gray-600">Export data</p>
-                        </div>
-                    </a>
-
                     <a href="{{ route('admin.home_settings') }}"
                         class="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition group">
                         <div class="bg-gray-500 p-2 rounded-lg group-hover:scale-110 transition">
@@ -292,7 +182,9 @@
 
     </div>
     <!-- ================== END MAIN CONTENT ================== -->
+@endsection
 
+@push('scripts')
     <script>
         // Data dari backend - dinamis dari database
         const chartData = {
@@ -312,13 +204,11 @@
                         @php
                             $color = '';
                             if (strpos($lembaga, 'SD') !== false) {
-                                $color = 'rgba(54, 162, 235, 0.8)';
-                            } elseif (strpos($lembaga, 'SMP') !== false) {
-                                $greens = ['rgba(75, 192, 192, 0.8)', 'rgba(60, 179, 113, 0.8)', 'rgba(0, 128, 0, 0.8)'];
-                                $color = $greens[$loop->index % 3];
-                            } elseif (strpos($lembaga, 'SMA') !== false) {
-                                $purples = ['rgba(153, 102, 255, 0.8)', 'rgba(148, 0, 211, 0.8)', 'rgba(128, 0, 128, 0.8)'];
-                                $color = $purples[$loop->index % 3];
+                                $color = 'rgb(125, 211, 252)';
+                            } elseif (preg_match('/MTS|SMP|MTSN/i', $lembaga)) {
+                                $color = 'rgb(134, 239, 172)';
+                            } elseif (preg_match('/MA|SMK|MAN/i', $lembaga)) {
+                                $color = 'rgb(216, 180, 254)';
                             } else {
                                 $color = 'rgba(100, 100, 100, 0.8)';
                             }
@@ -326,14 +216,6 @@
                             '{{ $color }}',
                     @endforeach
                 ],
-                borderColors: [
-                    @foreach ($lembagaCounts as $lembaga => $count)
-                        @php
-                            $border = str_replace('0.8', '1', $color);
-                        @endphp
-                            '{{ $border }}',
-                    @endforeach
-                ]
             },
             @foreach ($lembagaCounts as $lembaga => $count)
                 '{{ $lembaga }}': {
@@ -343,13 +225,11 @@
                         @php
                             $color = '';
                             if (strpos($lembaga, 'SD') !== false) {
-                                $color = 'rgba(54, 162, 235, 0.8)';
-                            } elseif (strpos($lembaga, 'SMP') !== false) {
-                                $greens = ['rgba(75, 192, 192, 0.8)', 'rgba(60, 179, 113, 0.8)', 'rgba(0, 128, 0, 0.8)'];
-                                $color = $greens[$loop->index % 3];
-                            } elseif (strpos($lembaga, 'SMA') !== false) {
-                                $purples = ['rgba(153, 102, 255, 0.8)', 'rgba(148, 0, 211, 0.8)', 'rgba(128, 0, 128, 0.8)'];
-                                $color = $purples[$loop->index % 3];
+                                $color = 'rgb(125, 211, 252)';
+                            } elseif (preg_match('/MTS|SMP|MTSN/i', $lembaga)) {
+                                $color = 'rgb(134, 239, 172)';
+                            } elseif (preg_match('/MA|SMK|MAN/i', $lembaga)) {
+                                $color = 'rgb(216, 180, 254)';
                             } else {
                                 $color = 'rgba(100, 100, 100, 0.8)';
                             }
@@ -441,7 +321,4 @@
             myChart.update();
         });
     </script>
-
-</body>
-
-</html>
+@endpush

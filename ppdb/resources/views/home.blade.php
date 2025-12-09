@@ -3,7 +3,7 @@
 @section('title', 'PPDB')
 
 @section('content')
-    <!-- ================== HERO SECTION FULL WIDTH ================== -->
+    <!-- ================== HERO ================== -->
     <section class="relative w-full h-screen" id="home">
         <div class="swiper mySwiper w-full h-full">
             <div class="swiper-wrapper w-full h-full">

@@ -1,176 +1,189 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app_admin')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Admin Dashboard - PPDB</title>
-</head>
+@section('title', 'Edit Pengumuman')
 
-<body class="bg-gray-50">
+@section('content')
+    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4">
+        <div class="max-w-4xl mx-auto">
 
-    <!-- ================== NAVBAR ================== -->
-    <nav class="bg-[#31694E] text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <!-- Left Logo & Title -->
-                <div class="flex items-center space-x-4">
-                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16">
-                    <div>
-                        <h1 class="text-xl font-bold">PPDB Admin</h1>
-                        <p class="text-xs text-green-100">Yayasan Mambaul Maarif Denanyar Jombang</p>
-                    </div>
+            {{-- Header Section --}}
+            <div class="mb-8">
+                <div class="flex items-center gap-3 mb-2">
+                    <h1 class="text-4xl font-bold text-gray-800">Edit Pengumuman</h1>
                 </div>
-
-                <!-- Center Menu -->
-                <ul class="hidden md:flex space-x-1">
-                    <li>
-                        <a href="/admin/dashboard"
-                            class="px-4 py-2 rounded-lg bg-white/20 font-medium flex items-center gap-3">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
-                                </path>
-                            </svg>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.data_siswa') }}"
-                            class="px-4 py-2 rounded-lg hover:bg-white/10 font-medium transition flex items-center gap-3">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                                <path fill-rule="evenodd"
-                                    d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Data Pendaftaran
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#"
-                            class="px-4 py-2 rounded-lg hover:bg-white/10 font-medium transition flex items-center gap-3">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                <path fill-rule="evenodd"
-                                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Pengumuman
-                        </a>
-                    </li>
-                </ul>
-
-                <!-- Right User Menu -->
-                <div class="flex items-center space-x-4">
-                    <!-- Tombol Admin -->
-                    <div class="ml-auto">
-                        <form action="{{ route('admin.editProfile') }}" method="GET">
-                            @csrf
-                            <button type="submit"
-                                class="flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition">
-                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                                    <span class="text-green-600 font-bold text-sm">A</span>
-                                </div>
-                                <span class="font-medium">Admin</span>
-                            </button>
-                        </form>
-                    </div>
-
-
-                    <!-- Logout -->
-                    <form method="POST" action="{{ route('admin.logout') }}" class="inline">
-                        @csrf
-                        <button type="submit"
-                            class="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg font-medium transition">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Logout
-                        </button>
-                    </form>
-                </div>
+                <p class="text-gray-600 ml-0">Perbarui informasi pengumuman yang telah dibuat</p>
             </div>
-        </div>
-    </nav>
-    <!-- ================== END NAVBAR ================== -->
 
-    <div class="container-fluid py-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h3 class="mb-4">✏️ Edit Pengumuman</h3>
-
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <form action="{{ route('admin.announcements.update', $announcement->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-
-                            <div class="mb-3">
-                                <label for="title" class="form-label">Judul Pengumuman *</label>
-                                <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                    id="title" name="title" value="{{ old('title', $announcement->title) }}"
-                                    required>
-                                @error('title')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Deskripsi Singkat *</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
-                                    rows="2" required>{{ old('description', $announcement->description) }}</textarea>
-                                <small class="text-muted">Ini yang akan ditampilkan di daftar pengumuman</small>
-                                @error('description')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="content" class="form-label">Isi Lengkap Pengumuman *</label>
-                                <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content" rows="10"
-                                    required>{{ old('content', $announcement->content) }}</textarea>
-                                @error('content')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="published_at" class="form-label">Tanggal & Waktu Publikasi</label>
-                                    <input type="datetime-local" class="form-control" id="published_at"
-                                        name="published_at"
-                                        value="{{ old('published_at', $announcement->published_at?->format('Y-m-d\TH:i')) }}">
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label for="is_active" class="form-label">Status</label>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="is_active"
-                                            name="is_active" value="1"
-                                            {{ old('is_active', $announcement->is_active) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="is_active">
-                                            Tampilkan di halaman utama
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <button type="submit" class="btn btn-primary">Update Pengumuman</button>
-                                <a href="{{ route('admin.announcements.index') }}"
-                                    class="btn btn-secondary">Batal</a>
-                            </div>
-                        </form>
-                    </div>
+            {{-- Form Card --}}
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                {{-- Form Header --}}
+                <div class="bg-[#31694E] p-6">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Form Pengumuman
+                    </h2>
                 </div>
+
+                {{-- Form Body --}}
+                <form action="{{ route('admin.announcements.update', $announcement->id) }}" method="POST" class="p-8">
+                    @csrf
+                    @method('PUT')
+
+                    {{-- Title --}}
+                    <div class="mb-6">
+                        <label for="title" class="block text-sm font-bold text-gray-800 mb-2">Judul Pengumuman <span
+                                class="text-red-500">*</span></label>
+                        <input type="text"
+                            class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200 transition-all duration-200 @error('title') border-red-500 @enderror"
+                            id="title" name="title" placeholder="Contoh: Pendaftaran Dibuka"
+                            value="{{ old('title', $announcement->title) }}" required>
+                        @error('title')
+                            <p class="text-red-600 text-sm mt-2 flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    {{-- Description --}}
+                    <div class="mb-6">
+                        <label for="description" class="block text-sm font-bold text-gray-800 mb-2">Deskripsi Singkat <span
+                                class="text-red-500">*</span></label>
+                        <textarea
+                            class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200 transition-all duration-200 resize-none @error('description') border-red-500 @enderror"
+                            id="description" name="description" rows="3"
+                            placeholder="Ringkasan maksimal 500 karakter - ini akan ditampilkan di daftar pengumuman" required>{{ old('description', $announcement->description) }}</textarea>
+                        <p class="text-gray-500 text-sm mt-2 flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Ini yang akan ditampilkan di daftar pengumuman
+                        </p>
+                        @error('description')
+                            <p class="text-red-600 text-sm mt-2 flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    {{-- Content --}}
+                    <div class="mb-6">
+                        <label for="content" class="block text-sm font-bold text-gray-800 mb-2">Isi Lengkap Pengumuman
+                            <span class="text-red-500">*</span></label>
+                        <textarea
+                            class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200 transition-all duration-200 resize-none @error('content') border-red-500 @enderror"
+                            id="content" name="content" rows="12" placeholder="Tuliskan konten pengumuman secara lengkap dan detail..."
+                            required>{{ old('content', $announcement->content) }}</textarea>
+                        @error('content')
+                            <p class="text-red-600 text-sm mt-2 flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
+                    {{-- Publication Settings --}}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 pb-8 border-b border-gray-200">
+                        {{-- Published Date --}}
+                        <div>
+                            <label for="published_at" class="block text-sm font-bold text-gray-800 mb-2">Tanggal & Waktu
+                                Publikasi</label>
+                            <input type="datetime-local"
+                                class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200 transition-all duration-200"
+                                id="published_at" name="published_at"
+                                value="{{ old('published_at', $announcement->published_at?->format('Y-m-d\TH:i')) }}">
+                            <p class="text-gray-500 text-sm mt-2 flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Kosongkan untuk publikasi sekarang
+                            </p>
+                        </div>
+
+                        {{-- Status Toggle --}}
+                        <div>
+                            <label class="block text-sm font-bold text-gray-800 mb-3">Status Pengumuman</label>
+                            <div class="flex items-center gap-3">
+                                <!-- Toggle Switch -->
+                                <label for="is_active" class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="is_active" name="is_active" value="1"
+                                        class="sr-only peer"
+                                        {{ old('is_active', $announcement->is_active) ? 'checked' : '' }}>
+                                    <div
+                                        class="w-12 h-6 bg-gray-300 rounded-full peer-checked:bg-[#10b981] transition-colors duration-300">
+                                    </div>
+                                    <div
+                                        class="absolute left-0 top-0 w-6 h-6 bg-white rounded-full shadow-md
+                        peer-checked:translate-x-6 transform transition-transform duration-300">
+                                    </div>
+                                </label>
+
+                                <!-- Label Toggle -->
+                                <span id="status-text" class="text-gray-700 font-bold">
+                                    {{ old('is_active', $announcement->is_active) ? 'Tampilkan' : 'Sembunyikan' }}
+                                </span>
+                                <span class="text-gray-700">di halaman utama</span>
+                            </div>
+
+                            <p class="text-gray-500 text-sm mt-2 flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Pengumuman akan {{ old('is_active', $announcement->is_active) ? '' : 'tidak ' }}ditampilkan
+                                kepada pengguna
+                            </p>
+                        </div>
+                    </div>
+
+                    {{-- Buttons --}}
+                    <div class="flex justify-between mt-6">
+                        <a href="{{ route('admin.announcements.index') }}"
+                            class="inline-flex items-center gap-2 bg-red-500 text-white font-bold px-8 py-3 rounded-lg hover:bg-red-600 transition-all duration-200 shadow-lg hover:shadow-xl">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Batal
+                        </a>
+                        <button type="submit"
+                            class="inline-flex items-center gap-2 bg-[#31694E] text-white font-bold px-8 py-3 rounded-lg hover:bg-[#2a5840] transition-all duration-200 shadow-lg hover:shadow-xl">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                            Update Pengumuman
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</body>
 
-</html>
+    <script>
+        const toggleCheckbox = document.getElementById('is_active');
+        const statusText = document.getElementById('status-text');
+
+        toggleCheckbox.addEventListener('change', function() {
+            statusText.textContent = this.checked ? 'Tampilkan' : 'Sembunyikan';
+        });
+    </script>
+@endsection
