@@ -5,13 +5,16 @@
 @section('content')
 
     <!-- ================== MAIN CONTENT ================== -->
-    <div class="max-w-7xl mx-auto px-6 py-8">
+    <div class="max-w-7xl mx-auto px-6 py-12">
 
-        <!-- Page Header -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-800 mb-2">Dashboard Admin</h1>
-            <p class="text-gray-600">Selamat datang di panel administrasi PPDB Online</p>
-        </div>
+        {{-- Header Section --}}
+            <div class="mb-12">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="h-10 w-1 bg-gradient-to-b from-[#31694E] to-[#4a9b6f] rounded-full"></div>
+                    <h1 class="text-4xl font-bold text-[#31694E]">Dashboard Admin</h1>
+                </div>
+                <p class="text-gray-600 ml-4">Selamat datang di panel administrasi PPDB Online</p>
+            </div>
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

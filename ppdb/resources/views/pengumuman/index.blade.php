@@ -61,12 +61,12 @@
                                     <!-- Title -->
                                     <h3
                                         class="text-2xl md:text-3xl font-bold text-[#31694E] mb-4 line-clamp-2 group-hover:text-[#2a5840] transition-colors">
-                                        {{ $announcement->title }}
+                                        {{ ucfirst(strtolower($announcement->title)) }}
                                     </h3>
 
                                     <!-- Description -->
                                     <p class="text-gray-600 text-base leading-relaxed mb-6 flex-grow line-clamp-3">
-                                        {{ $announcement->description }}
+                                        {{ ucfirst(strtolower($announcement->descriptione)) }}
                                     </p>
 
                                     <!-- Footer Section -->

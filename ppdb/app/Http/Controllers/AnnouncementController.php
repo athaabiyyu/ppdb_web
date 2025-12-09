@@ -46,19 +46,23 @@ class AnnouncementController extends Controller
        // ADMIN - Simpan pengumuman baru
        public function store(Request $request)
        {
+              // Validasi sesuai input yang dikirim user
               $validated = $request->validate([
                      'title' => 'required|string|max:255',
                      'description' => 'required|string|max:500',
                      'content' => 'required|string',
-                     'is_active' => 'boolean',
-                     'published_at' => 'nullable|date',
               ]);
+
+              // Tambahkan field otomatis
+              $validated['is_active'] = 1;       // otomatis aktif
+              $validated['published_at'] = now(); // tanggal otomatis
 
               Announcement::create($validated);
 
               return redirect()->route('admin.announcements.index')
                      ->with('success', 'Pengumuman berhasil ditambahkan');
        }
+
 
        // ADMIN - Tampilkan form edit
        public function edit($id)

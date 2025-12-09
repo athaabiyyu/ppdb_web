@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <link rel="icon" type="image/png" href="/assets/logo_yayasan.png">
+
     <title>@yield('title', 'Admin - PPDB')</title>
 </head>
 

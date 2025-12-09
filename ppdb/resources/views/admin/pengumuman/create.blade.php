@@ -3,15 +3,16 @@
 @section('title', 'Tambah Pengumuman')
 
 @section('content')
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4">
+    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4">
         <div class="max-w-4xl mx-auto">
 
             {{-- Header Section --}}
-            <div class="mb-8">
-                <div class="flex items-center gap-3 mb-2">
-                    <h1 class="text-4xl font-bold text-gray-800">Tambah Pengumuman Baru</h1>
+            <div class="mb-12">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="h-10 w-1 bg-gradient-to-b from-[#31694E] to-[#4a9b6f] rounded-full"></div>
+                    <h1 class="text-4xl font-bold text-[#31694E]">Tambah Pengumuman Baru</h1>
                 </div>
-                <p class="text-gray-600 ml-0">Buat dan publikasikan pengumuman penting untuk pengguna</p>
+                <p class="text-gray-600 ml-4">Buat dan publikasikan pengumuman penting untuk pengguna</p>
             </div>
 
             {{-- Form Card --}}
@@ -96,58 +97,6 @@
                                 {{ $message }}
                             </p>
                         @enderror
-                    </div>
-
-                    {{-- Publication Settings --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 pb-8 border-b border-gray-200">
-                        {{-- Published Date --}}
-                        <div>
-                            <label for="published_at" class="block text-sm font-bold text-gray-800 mb-2">Tanggal & Waktu
-                                Publikasi</label>
-                            <input type="datetime-local"
-                                class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200 transition-all duration-200"
-                                id="published_at" name="published_at" value="{{ old('published_at') }}">
-                            <p class="text-gray-500 text-sm mt-2 flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                Kosongkan untuk publikasi sekarang
-                            </p>
-                        </div>
-
-                        {{-- Status Toggle --}}
-                        <div>
-                            <label class="block text-sm font-bold text-gray-800 mb-3">Status Pengumuman</label>
-                            <div class="flex items-center gap-3">
-                                <!-- Toggle Switch -->
-                                <label for="is_active" class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" id="is_active" name="is_active" value="1"
-                                        class="sr-only peer" {{ old('is_active', true) ? 'checked' : '' }}>
-                                    <div
-                                        class="w-12 h-6 bg-gray-300 rounded-full peer-checked:bg-[#10b981] transition-colors duration-300">
-                                    </div>
-                                    <div
-                                        class="absolute left-0 top-0 w-6 h-6 bg-white rounded-full shadow-md
-                        peer-checked:translate-x-6 transform transition-transform duration-300">
-                                    </div>
-                                </label>
-
-                                <!-- Label Toggle -->
-                                <span id="status-text" class="text-gray-700 font-bold">
-                                    {{ old('is_active', true) ? 'Tampilkan' : 'Sembunyikan' }}
-                                </span>
-                                <span class="text-gray-700">di halaman utama</span>
-                            </div>
-
-                            <p class="text-gray-500 text-sm mt-2 flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                Pengumuman akan {{ old('is_active', true) ? '' : 'tidak ' }}ditampilkan kepada pengguna
-                            </p>
-                        </div>
                     </div>
 
                     {{-- Buttons --}}

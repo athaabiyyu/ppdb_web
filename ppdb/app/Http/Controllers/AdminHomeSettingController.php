@@ -6,6 +6,7 @@ use App\Models\HomeSetting;
 use App\Models\RegistrationFlow;
 use App\Models\SliderImage;
 use Illuminate\Http\Request;
+use App\Models\Unit;
 
 class AdminHomeSettingController extends Controller
 {
@@ -16,6 +17,7 @@ class AdminHomeSettingController extends Controller
             'requirements' => RegistrationRequirement::all(),
             'flows' => RegistrationFlow::orderBy('step_number')->get(),
             'setting' => HomeSetting::first() ?? HomeSetting::create([]),
+            'units' => Unit::orderBy('name')->get(),
         ]);
     }
 
@@ -84,5 +86,41 @@ class AdminHomeSettingController extends Controller
         ]);
 
         return back();
+    }
+
+    public function storeUnit(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        Unit::create([
+            'name' => $request->name,
+            'google_drive_link' => null,
+        ]);
+
+        return redirect()->route('admin.home_settings')->with('success', 'Unit pendidikan berhasil ditambahkan!');
+    }
+
+    public function updateUnitLink(Request $request, $id)
+    {
+        $request->validate([
+            'google_drive_link' => 'nullable|url',
+        ]);
+
+        $unit = Unit::findOrFail($id);
+        $unit->update([
+            'google_drive_link' => $request->google_drive_link,
+        ]);
+
+        return redirect()->route('admin.home_settings')->with('success', 'Link Google Drive berhasil diperbarui!');
+    }
+
+    public function destroyUnit($id)
+    {
+        $unit = Unit::findOrFail($id);
+        $unit->delete();
+
+        return redirect()->route('admin.home_settings')->with('success', 'Unit pendidikan berhasil dihapus!');
     }
 }

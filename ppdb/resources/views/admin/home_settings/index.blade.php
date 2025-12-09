@@ -1,128 +1,234 @@
 @extends('layouts.app_admin')
 
-@section('title', 'Edit Halaman Home User')
+@section('title', 'Pengaturan Halaman Home')
 
 @section('content')
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4">
+    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4">
         <div class="max-w-7xl mx-auto">
 
             {{-- Header Section --}}
             <div class="mb-10">
                 <div class="flex items-center gap-3 mb-2">
-                    <h1 class="text-4xl font-bold text-gray-800">Pengaturan Halaman Home</h1>
+                    <div class="h-10 w-1 bg-gradient-to-b from-[#31694E] to-[#4a9b6f] rounded-full"></div>
+                    <h1 class="text-3xl font-bold text-[#31694E]">Pengaturan Halaman Home</h1>
                 </div>
-                <p class="text-gray-600 ml-0">Kelola konten dan pengaturan halaman utama pendaftar</p>
+                <p class="text-gray-600 ml-4 text-sm">Kelola konten dan pengaturan halaman utama pendaftar</p>
+
+                {{-- Quick Stats --}}
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 ml-4">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-[#31694E]/10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-[#31694E]/10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#31694E]" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Slider</p>
+                                <p class="text-lg font-bold text-[#31694E]">{{ $sliders->count() }} Gambar</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-[#31694E]/10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-[#31694E]/10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#31694E]" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Syarat</p>
+                                <p class="text-lg font-bold text-[#31694E]">{{ $requirements->count() }} Item</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-[#31694E]/10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-[#31694E]/10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#31694E]" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Alur</p>
+                                <p class="text-lg font-bold text-[#31694E]">{{ $flows->count() }} Langkah</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-[#31694E]/10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-[#31694E]/10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#31694E]" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Unit</p>
+                                <p class="text-lg font-bold text-[#31694E]">{{ $units->count() }} Unit</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {{-- Flash Message --}}
-            @if(session('success'))
-                <div class="mb-8 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 text-green-700 rounded-lg shadow-sm flex items-center gap-3">
-                    <svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            @if (session('success'))
+                <div
+                    class="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-[#31694E] text-green-700 rounded-lg shadow-sm flex items-center gap-3 animate-fade-in">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd" />
                     </svg>
-                    <span>{{ session('success') }}</span>
+                    <span class="text-sm">{{ session('success') }}</span>
                 </div>
             @endif
 
-            {{-- GRID: SLIDER - SYARAT - ALUR - TOGGLE --}}
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {{-- Main Grid --}}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-                {{-- ===================== SLIDER ===================== --}}
-                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div class="bg-gradient-to-r from-blue-600 to-blue-500 p-6">
-                        <div class="flex items-center gap-3">
-                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <h2 class="text-2xl font-bold text-white">Slider Gambar</h2>
+                {{-- ===================== SLIDER GAMBAR ===================== --}}
+                <div
+                    class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-[#31694E]/10">
+                    <div class="bg-gradient-to-r from-[#31694E] to-[#4a9b6f] p-5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-white">Slider Gambar</h2>
+                                    <p class="text-white/80 text-sm">Halaman utama</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/20 text-white text-xs font-medium px-3 py-1 rounded-full">{{ $sliders->count() }}</span>
                         </div>
                     </div>
 
-                    <div class="p-6">
+                    <div class="p-5">
                         {{-- Upload Form --}}
-                        <form action="/admin/home-settings/slider" method="POST" enctype="multipart/form-data" class="mb-6">
-                            @csrf
-                            <label class="block mb-2 font-semibold text-gray-700">Upload Gambar Slider</label>
-                            <p class="text-sm text-gray-500 mb-3">Format: JPG, PNG | Ukuran maksimal: 5MB</p>
-                            
-                            <div class="relative mb-4">
-                                <input type="file" name="image" 
-                                       class="block w-full border-2 border-dashed border-blue-300 rounded-lg p-4 mb-3 hover:border-blue-500 transition-colors cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                            </div>
-
-                            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold px-4 py-3 rounded-lg hover:from-blue-700 hover:to-blue-600 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                </svg>
-                                Tambah Gambar
-                            </button>
-                        </form>
+                        <div class="mb-6 p-4 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                            <label class="block mb-2 font-medium text-gray-700 text-sm">Upload Gambar Baru</label>
+                            <form action="{{ route('admin.home_settings.slider.store') }}" method="POST"
+                                enctype="multipart/form-data" class="space-y-3">
+                                @csrf
+                                <div class="flex items-center gap-3">
+                                    <input type="file" name="image" accept="image/*" required
+                                        class="flex-1 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#31694E]/10 file:text-[#31694E] hover:file:bg-[#31694E]/20">
+                                    <button type="submit"
+                                        class="bg-gradient-to-r from-[#31694E] to-[#4a9b6f] text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:from-[#25523a] hover:to-[#3d8560] transition-all duration-200 shadow-sm hover:shadow flex items-center gap-2 whitespace-nowrap">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 4v16m8-8H4" />
+                                        </svg>
+                                        Upload
+                                    </button>
+                                </div>
+                                <p class="text-xs text-gray-400">Format: JPG, PNG, GIF • Max: 5MB</p>
+                            </form>
+                        </div>
 
                         {{-- List Slider --}}
-                        <div class="border-t pt-6">
-                            <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                Daftar Slider Saat Ini
-                            </h3>
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-[#31694E]">Daftar Gambar</h3>
+                                <span class="text-xs text-gray-500">{{ $sliders->count() }} gambar</span>
+                            </div>
 
-                            <div class="space-y-3 max-h-96 overflow-y-auto">
-                                @foreach($sliders as $s)
-                                <div class="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200 rounded-lg hover:border-blue-300 transition-all duration-200">
-                                    <div class="flex items-center gap-3">
-                                        <img src="{{ asset('storage/'.$s->image_path) }}" 
-                                             class="w-20 h-14 object-cover rounded-lg shadow-sm border border-gray-200">
-                                        <span class="text-sm text-gray-600">{{ basename($s->image_path) }}</span>
+                            <div class="space-y-2 max-h-80 overflow-y-auto pr-2">
+                                @forelse ($sliders as $s)
+                                    <div
+                                        class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-[#31694E]/30 transition-colors duration-200 group">
+                                        <div class="flex items-center gap-3">
+                                            <img src="{{ asset('storage/' . $s->image_path) }}"
+                                                class="w-16 h-12 object-cover rounded-lg border border-gray-300">
+                                            <div class="min-w-0">
+                                                <p class="font-medium text-gray-700 text-sm truncate">
+                                                    {{ basename($s->image_path) }}</p>
+                                                <p class="text-xs text-gray-400">
+                                                    {{ \Carbon\Carbon::parse($s->created_at)->format('d M Y') }}</p>
+                                            </div>
+                                        </div>
+                                        <form action="{{ route('admin.home_settings.slider.destroy', $s->id) }}"
+                                            method="POST" onsubmit="return confirm('Hapus gambar ini?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit"
+                                                class="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors duration-200">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd"
+                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        </form>
                                     </div>
-
-                                    <form action="/admin/home-settings/slider/{{ $s->id }}" method="POST" class="inline">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-2 rounded-lg transition-colors duration-200 font-medium text-sm flex items-center gap-1">
-                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                            </svg>
-                                            Hapus
-                                        </button>
-                                    </form>
-                                </div>
-                                @endforeach
-
-                                @if($sliders->count() == 0)
-                                    <div class="flex flex-col items-center justify-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                                        <svg class="w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                @empty
+                                    <div
+                                        class="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                                        <svg class="w-10 h-10 text-gray-400 mx-auto mb-2" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg>
-                                        <p class="text-gray-500 font-medium">Belum ada slider</p>
-                                        <p class="text-gray-400 text-sm">Tambahkan gambar untuk memulai</p>
+                                        <p class="text-gray-500 font-medium text-sm">Belum ada gambar slider</p>
                                     </div>
-                                @endif
+                                @endforelse
                             </div>
                         </div>
                     </div>
                 </div>
 
-
-                {{-- ===================== SYARAT PENDAFTARAN ===================== --}}
-                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div class="bg-gradient-to-r from-purple-600 to-purple-500 p-6">
-                        <div class="flex items-center gap-3">
-                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <h2 class="text-2xl font-bold text-white">Syarat Pendaftaran</h2>
+                {{-- ===================== UNIT PENDIDIKAN ===================== --}}
+                <div
+                    class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-[#31694E]/10">
+                    <div class="bg-gradient-to-r from-[#31694E] to-[#4a9b6f] p-5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-white">Unit Pendidikan</h2>
+                                    <p class="text-white/80 text-sm">Lembaga pendidikan</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/20 text-white text-xs font-medium px-3 py-1 rounded-full">{{ $units->count() }}</span>
                         </div>
                     </div>
 
-                    <div class="p-6">
-                        {{-- Tambah --}}
-                        <form action="/admin/home-settings/requirement" method="POST" class="mb-6">
+                    <div class="p-5">
+                        {{-- Add Form --}}
+                        <form action="{{ route('admin.home_settings.units.store') }}" method="POST" class="mb-6">
                             @csrf
-                            <label class="block mb-2 font-semibold text-gray-700">Tambah Syarat Baru</label>
                             <div class="flex gap-2">
-                                <input type="text" name="text" placeholder="Contoh: Fotokopi KK"
-                                       class="flex-1 border-2 border-gray-300 rounded-lg p-3 focus:border-purple-500 focus:outline-none transition-colors">
-
-                                <button type="submit" class="bg-gradient-to-r from-purple-600 to-purple-500 text-white font-semibold px-6 py-3 rounded-lg hover:from-purple-700 hover:to-purple-600 transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2 whitespace-nowrap">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                <input type="text" name="name" placeholder="Nama unit pendidikan..." required
+                                    class="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-[#31694E] focus:ring-1 focus:ring-[#31694E] focus:outline-none transition-colors">
+                                <button type="submit"
+                                    class="bg-gradient-to-r from-[#31694E] to-[#4a9b6f] text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:from-[#25523a] hover:to-[#3d8560] transition-all duration-200 shadow-sm hover:shadow flex items-center gap-2 whitespace-nowrap">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4v16m8-8H4" />
                                     </svg>
                                     Tambah
                                 </button>
@@ -130,168 +236,399 @@
                         </form>
 
                         {{-- List --}}
-                        <div class="border-t pt-6">
-                            <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                            
-                                Daftar Syarat
-                            </h3>
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-[#31694E]">Daftar Unit</h3>
+                            </div>
 
-                            <ul class="space-y-2 max-h-96 overflow-y-auto">
-                                @foreach($requirements as $req)
-                                <li class="flex justify-between items-center bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg border border-purple-200 hover:border-purple-300 transition-all duration-200">
-                                    <span class="text-gray-700 font-medium">{{ $req->text }}</span>
-                                    <form action="/admin/home-settings/requirement/{{ $req->id }}" method="POST" class="inline">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-2 rounded-lg transition-colors duration-200 font-medium text-sm">
-                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                </li>
-                                @endforeach
+                            <div class="space-y-3 max-h-80 overflow-y-auto pr-2">
+                                @forelse ($units as $unit)
+                                    <div
+                                        class="bg-gray-50 rounded-lg border border-gray-200 hover:border-[#31694E]/30 transition-colors duration-200 overflow-hidden">
+                                        <div class="p-4">
+                                            <div class="flex justify-between items-start mb-3">
+                                                <h4 class="font-semibold text-[#31694E] text-sm">{{ $unit->name }}</h4>
+                                                <form action="{{ route('admin.home_settings.units.destroy', $unit->id) }}"
+                                                    method="POST" onsubmit="return confirm('Hapus unit ini?')"
+                                                    class="flex-shrink-0">
+                                                    @csrf @method('DELETE')
+                                                    <button type="submit"
+                                                        class="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors duration-200">
+                                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd"
+                                                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                                clip-rule="evenodd" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            </div>
 
-                                @if($requirements->count() == 0)
-                                    <div class="flex flex-col items-center justify-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                                        <svg class="w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        <p class="text-gray-500 font-medium">Belum ada syarat</p>
-                                        <p class="text-gray-400 text-sm">Tambahkan syarat pendaftaran</p>
+                                            <form action="{{ route('admin.home_settings.units.updateLink', $unit->id) }}"
+                                                method="POST" class="space-y-2">
+                                                @csrf
+                                                <div>
+                                                    <label class="block text-xs font-medium text-gray-700 mb-1">Google
+                                                        Drive Link</label>
+                                                    <div class="flex gap-2">
+                                                        <input type="url" name="google_drive_link"
+                                                            value="{{ $unit->google_drive_link }}"
+                                                            placeholder="https://drive.google.com/..."
+                                                            class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-[#31694E] focus:ring-1 focus:ring-[#31694E] focus:outline-none transition-colors">
+                                                        <button type="submit"
+                                                            class="bg-gradient-to-r from-green-600 to-green-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:from-green-700 hover:to-green-600 transition-all duration-200 shadow-sm hover:shadow whitespace-nowrap">
+                                                            Simpan
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <div class="mt-3">
+                                                @if ($unit->google_drive_link)
+                                                    <a href="{{ $unit->google_drive_link }}" target="_blank"
+                                                        class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 text-xs font-medium bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-all duration-200">
+                                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd"
+                                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"
+                                                                clip-rule="evenodd" />
+                                                        </svg>
+                                                        Buka Link
+                                                    </a>
+                                                @else
+                                                    <span
+                                                        class="text-gray-400 italic text-xs bg-gray-100 px-3 py-1.5 rounded-lg">
+                                                        Belum ada link
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
-                                @endif
+                                @empty
+                                    <div
+                                        class="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                                        <svg class="w-10 h-10 text-gray-400 mx-auto mb-2" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                        </svg>
+                                        <p class="text-gray-500 font-medium text-sm">Belum ada unit pendidikan</p>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- ===================== SYARAT PENDAFTARAN ===================== --}}
+                <div
+                    class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-[#31694E]/10 mt-12">
+                    <div class="bg-gradient-to-r from-[#31694E] to-[#4a9b6f] p-5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-white">Syarat Pendaftaran</h2>
+                                    <p class="text-white/80 text-sm">Persyaratan umum</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/20 text-white text-xs font-medium px-3 py-1 rounded-full">{{ $requirements->count() }}</span>
+                        </div>
+                    </div>
+
+                    <div class="p-5">
+                        {{-- Add Form --}}
+                        <form action="{{ route('admin.home_settings.requirement.store') }}" method="POST"
+                            class="mb-6">
+                            @csrf
+                            <div class="flex gap-2">
+                                <input type="text" name="text" placeholder="Tambah syarat baru..." required
+                                    class="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:border-[#31694E] focus:ring-1 focus:ring-[#31694E] focus:outline-none transition-colors">
+                                <button type="submit"
+                                    class="bg-gradient-to-r from-[#31694E] to-[#4a9b6f] text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:from-[#25523a] hover:to-[#3d8560] transition-all duration-200 shadow-sm hover:shadow flex items-center gap-2 whitespace-nowrap">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4v16m8-8H4" />
+                                    </svg>
+                                    Tambah
+                                </button>
+                            </div>
+                        </form>
+
+                        {{-- List --}}
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-[#31694E]">Daftar Syarat</h3>
+                            </div>
+
+                            <ul class="space-y-2 max-h-80 overflow-y-auto pr-2">
+                                @forelse ($requirements as $req)
+                                    <li
+                                        class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-[#31694E]/30 transition-colors duration-200 group">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-6 h-6 rounded-full bg-[#31694E]/10 flex items-center justify-center flex-shrink-0">
+                                                <span
+                                                    class="text-[#31694E] text-xs font-bold">{{ $loop->iteration }}</span>
+                                            </div>
+                                            <span class="text-gray-700 text-sm">{{ $req->text }}</span>
+                                        </div>
+                                        <form action="{{ route('admin.home_settings.requirement.destroy', $req->id) }}"
+                                            method="POST" onsubmit="return confirm('Hapus syarat ini?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit"
+                                                class="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors duration-200 opacity-0 group-hover:opacity-100">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd"
+                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </li>
+                                @empty
+                                    <div
+                                        class="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                                        <svg class="w-10 h-10 text-gray-400 mx-auto mb-2" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <p class="text-gray-500 font-medium text-sm">Belum ada syarat pendaftaran</p>
+                                    </div>
+                                @endforelse
                             </ul>
                         </div>
                     </div>
                 </div>
 
-
                 {{-- ===================== ALUR PENDAFTARAN ===================== --}}
-                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div class="bg-gradient-to-r from-amber-600 to-orange-500 p-6">
-                        <div class="flex items-center gap-3">
-                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                            <h2 class="text-2xl font-bold text-white">Alur Pendaftaran</h2>
+                <div
+                    class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-[#31694E]/10 mt-12">
+                    <div class="bg-gradient-to-r from-[#31694E] to-[#4a9b6f] p-5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-white">Alur Pendaftaran</h2>
+                                    <p class="text-white/80 text-sm">Tahapan pendaftaran</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/20 text-white text-xs font-medium px-3 py-1 rounded-full">{{ $flows->count() }}</span>
                         </div>
                     </div>
 
-                    <div class="p-6">
-                        {{-- Tambah --}}
-                        <form action="/admin/home-settings/flow" method="POST" class="mb-6">
+                    <div class="p-5">
+                        {{-- Add Form --}}
+                        <form action="{{ route('admin.home_settings.flow.store') }}" method="POST" class="mb-6">
                             @csrf
-                            <div class="grid grid-cols-3 gap-3 mb-4">
+                            <div class="grid grid-cols-4 gap-3 mb-3">
                                 <div>
-                                    <label class="block mb-2 font-semibold text-gray-700 text-sm">Step Number</label>
-                                    <input type="number" name="step_number" placeholder="1" 
-                                           class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-amber-500 focus:outline-none transition-colors">
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">Step</label>
+                                    <input type="number" name="step_number" placeholder="1" min="1" required
+                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-[#31694E] focus:ring-1 focus:ring-[#31694E] focus:outline-none transition-colors">
                                 </div>
-
-                                <div class="col-span-2">
-                                    <label class="block mb-2 font-semibold text-gray-700 text-sm">Deskripsi</label>
-                                    <input type="text" name="text" placeholder="Contoh: Mengisi formulir pendaftaran"
-                                           class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-amber-500 focus:outline-none transition-colors">
+                                <div class="col-span-3">
+                                    <label class="block text-xs font-medium text-gray-700 mb-1">Deskripsi</label>
+                                    <input type="text" name="text" placeholder="Deskripsi langkah..." required
+                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-[#31694E] focus:ring-1 focus:ring-[#31694E] focus:outline-none transition-colors">
                                 </div>
                             </div>
-
-                            <button type="submit" class="w-full bg-gradient-to-r from-amber-600 to-orange-500 text-white font-semibold px-4 py-3 rounded-lg hover:from-amber-700 hover:to-orange-600 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            <button type="submit"
+                                class="w-full bg-gradient-to-r from-[#31694E] to-[#4a9b6f] text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:from-[#25523a] hover:to-[#3d8560] transition-all duration-200 shadow-sm hover:shadow flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
                                 </svg>
-                                Tambah Alur
+                                Tambah Langkah
                             </button>
                         </form>
 
                         {{-- List --}}
-                        <div class="border-t pt-6">
-                            <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                
-                                Daftar Alur
-                            </h3>
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-[#31694E]">Daftar Alur</h3>
+                                <span class="text-xs text-gray-500">Urutan langkah</span>
+                            </div>
 
-                            <ul class="space-y-3 max-h-96 overflow-y-auto">
-                                @foreach($flows as $flow)
-                                <li class="flex justify-between items-start bg-gradient-to-r from-amber-50 to-orange-50 p-4 rounded-lg border border-amber-200 hover:border-amber-300 transition-all duration-200">
-                                    <div class="flex gap-3 flex-1">
-                                        <div class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 text-white font-bold text-sm">
-                                            {{ $flow->step_number }}
+                            <ul class="space-y-2 max-h-80 overflow-y-auto pr-2">
+                                @forelse ($flows->sortBy('step_number') as $flow)
+                                    <li
+                                        class="flex justify-between items-start p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-[#31694E]/30 transition-colors duration-200 group">
+                                        <div class="flex items-start gap-3 flex-1">
+                                            <div
+                                                class="flex-shrink-0 flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-[#31694E] to-[#4a9b6f] text-white text-xs font-bold">
+                                                {{ $flow->step_number }}
+                                            </div>
+                                            <span class="text-gray-700 text-sm pt-0.5">{{ $flow->text }}</span>
                                         </div>
-                                        <span class="text-gray-700 font-medium pt-1">{{ $flow->text }}</span>
-                                    </div>
-                                    <form action="/admin/home-settings/flow/{{ $flow->id }}" method="POST" class="inline">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-2 rounded-lg transition-colors duration-200 font-medium text-sm flex-shrink-0">
-                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                </li>
-                                @endforeach
-
-                                @if($flows->count() == 0)
-                                    <div class="flex flex-col items-center justify-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                                        <svg class="w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                        <form action="{{ route('admin.home_settings.flow.destroy', $flow->id) }}"
+                                            method="POST" onsubmit="return confirm('Hapus langkah ini?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit"
+                                                class="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors duration-200 opacity-0 group-hover:opacity-100">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd"
+                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </li>
+                                @empty
+                                    <div
+                                        class="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                                        <svg class="w-10 h-10 text-gray-400 mx-auto mb-2" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 10V3L4 14h7v7l9-11h-7z" />
                                         </svg>
-                                        <p class="text-gray-500 font-medium">Belum ada alur</p>
-                                        <p class="text-gray-400 text-sm">Tambahkan alur pendaftaran</p>
+                                        <p class="text-gray-500 font-medium text-sm">Belum ada alur pendaftaran</p>
                                     </div>
-                                @endif
+                                @endforelse
                             </ul>
                         </div>
                     </div>
                 </div>
+            </div>
 
-
-                {{-- ===================== PENGATURAN TOMBOL DAFTAR ===================== --}}
-                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div class="bg-gradient-to-r from-green-600 to-teal-500 p-6">
-                        <div class="flex items-center gap-3">
-                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2z" />
-                            </svg>
-                            <h2 class="text-2xl font-bold text-white">Pengaturan Tombol Daftar</h2>
+            {{-- ===================== PENGATURAN TOMBOL DAFTAR ===================== --}}
+                <div
+                    class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-[#31694E]/10 mt-12">
+                    <div class="bg-gradient-to-r from-[#31694E] to-[#4a9b6f] p-5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 15l-2 5L9 9l11 4-5 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-white">Status Pendaftaran</h2>
+                                    <p class="text-white/80 text-sm">Tombol utama</p>
+                                </div>
+                            </div>
+                            <div
+                                class="w-3 h-3 rounded-full {{ $setting->show_register_button ? 'bg-green-400' : 'bg-red-400' }}">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="p-6">
-                        <p class="mb-6 text-gray-700">Kelola status tombol <span class="font-bold text-gray-800">"Daftar Sekarang"</span> di halaman utama</p>
-
-                        <form action="/admin/home-settings/toggle-register-button" method="POST" class="mb-6">
-                            @csrf
-                            <button type="submit"
-                                class="w-full {{ $setting->show_register_button ? 'bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600' : 'bg-gradient-to-r from-green-600 to-teal-500 hover:from-green-700 hover:to-teal-600' }} 
-                                   text-white font-bold px-6 py-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-lg flex items-center justify-center gap-3">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
-                                {{ $setting->show_register_button ? 'Nonaktifkan Tombol' : 'Aktifkan Tombol' }}
-                            </button>
-                        </form>
-
-                        <div class="bg-gradient-to-r {{ $setting->show_register_button ? 'from-red-50 to-pink-50 border-red-200' : 'from-green-50 to-teal-50 border-green-200' }} border-l-4 {{ $setting->show_register_button ? 'border-red-500' : 'border-green-500' }} p-4 rounded-lg">
-                            <div class="flex items-center gap-3">
-                                <div class="flex-shrink-0">
-                                    <div class="flex items-center justify-center h-8 w-8 rounded-full {{ $setting->show_register_button ? 'bg-red-200' : 'bg-green-200' }}">
-                                        <span class="text-lg">{{ $setting->show_register_button ? '🔴' : '🟢' }}</span>
-                                    </div>
+                    <div class="p-5">
+                        <div class="space-y-4">
+                            <div class="text-center">
+                                <div class="inline-flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full mb-2">
+                                    <span
+                                        class="w-2 h-2 rounded-full {{ $setting->show_register_button ? 'bg-green-500' : 'bg-red-500' }}"></span>
+                                    <span
+                                        class="text-sm font-medium {{ $setting->show_register_button ? 'text-green-600' : 'text-red-600' }}">
+                                        {{ $setting->show_register_button ? 'Pendaftaran DIBUKA' : 'Pendaftaran DITUTUP' }}
+                                    </span>
                                 </div>
-                                <div>
-                                    <p class="font-bold {{ $setting->show_register_button ? 'text-red-800' : 'text-green-800' }}">
-                                        Status: <span class="text-lg">{{ $setting->show_register_button ? 'AKTIF ✓' : 'NONAKTIF ✗' }}</span>
-                                    </p>
-                                    <p class="text-sm {{ $setting->show_register_button ? 'text-red-700' : 'text-green-700' }}">
-                                        {{ $setting->show_register_button ? 'Tombol daftar sedang ditampilkan di halaman utama' : 'Tombol daftar sedang disembunyikan dari halaman utama' }}
-                                    </p>
+                                <p class="text-gray-600 text-sm mb-4">
+                                    {{ $setting->show_register_button
+                                        ? 'Tombol "Daftar Sekarang" sedang aktif dan dapat diakses oleh calon pendaftar'
+                                        : 'Tombol "Daftar Sekarang" tidak ditampilkan di halaman utama' }}
+                                </p>
+                            </div>
+
+                            <form action="{{ route('admin.home_settings.toggle_register_button') }}" method="POST"
+                                class="space-y-3">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full {{ $setting->show_register_button
+                                        ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
+                                        : 'bg-gradient-to-r from-[#31694E] to-[#4a9b6f] hover:from-[#25523a] hover:to-[#3d8560]' }} 
+                                       text-white font-medium px-6 py-3.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg text-sm flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="{{ $setting->show_register_button ? 'M6 18L18 6M6 6l12 12' : 'M13 10V3L4 14h7v7l9-11h-7z' }}" />
+                                    </svg>
+                                    {{ $setting->show_register_button ? 'Tutup Pendaftaran' : 'Buka Pendaftaran' }}
+                                </button>
+                            </form>
+
+                            <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <div class="flex items-start gap-3">
+                                    <div class="flex-shrink-0 mt-0.5">
+                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-600">
+                                            <span class="font-medium">Catatan:</span>
+                                            {{ $setting->show_register_button
+                                                ? 'Jika ditutup, calon pendaftar tidak dapat mengakses formulir pendaftaran'
+                                                : 'Jika dibuka, calon pendaftar dapat langsung mengakses formulir pendaftaran' }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+            {{-- Footer Note --}}
+            <div class="mt-8 text-center">
+                <p class="text-xs text-gray-400">
+                    Perubahan disimpan secara otomatis. Terakhir diperbarui:
+                    <span class="font-medium">{{ \Carbon\Carbon::now()->format('d M Y, H:i') }}</span>
+                </p>
             </div>
         </div>
     </div>
+
+    <style>
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 0.3s ease-out;
+        }
+
+        /* Custom scrollbar */
+        .overflow-y-auto::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+    </style>
 @endsection

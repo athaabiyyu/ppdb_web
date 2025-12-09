@@ -97,7 +97,7 @@
                     <tbody>
                         @foreach ($units as $unit)
                             <tr class="border-t-2 border-r-2 border-l-2">
-                                <td class="py-3 px-6 text-center capitalize border-r-2 border-b-2">{{ $unit->name }}</td>
+                                <td class="py-3 px-6 font-bold text-[#31694E] font-xl capitalize border-r-2 border-b-2">{{ $unit->name }}</td>
                                 <td class="py-3 px-6 text-center border-b-2">
                                     @if ($unit->google_drive_link)
                                         <a href="{{ $unit->google_drive_link }}" target="_blank"
@@ -246,7 +246,7 @@
             <div class="w-full rounded-3xl overflow-hidden shadow-2xl">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.1702272161723!2d112.2163839!3d-7.5332757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e783ff43fed5cb3%3A0x286ef025a0465ae8!2sMamba'ul%20Ma'arif!5e0!3m2!1sen!2sid!4v1702000000000!5m2!1sen!2sid"
-                    class="w-full h-[400px]" style="border:0;" allowfullscreen="" loading="lazy"
+                    class="w-full h-[450px]" style="border:0;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </div>

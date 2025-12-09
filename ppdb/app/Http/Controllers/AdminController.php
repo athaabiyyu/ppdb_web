@@ -111,6 +111,26 @@ class AdminController extends Controller
               return view('admin.data-siswa.data-siswa', compact('lembagaList'));
        }
 
+       private function formatNama($text)
+       {
+              if (!$text) return '';
+              return ucwords(strtolower($text));
+       }
+
+       private function formatNonNama($text)
+       {
+              if (!$text) return '';
+              $text = strtolower($text);
+              return ucfirst($text);
+       }
+
+       private function formatRupiah($value)
+       {
+              if (!$value || !is_numeric($value)) return $value;
+              return number_format($value, 0, ',', '.');
+       }
+
+
        public function exportCSV($lembaga)
        {
               // Ambil semua siswa untuk lembaga tertentu, sekaligus eager load parentInfo & guardian
@@ -160,7 +180,7 @@ class AdminController extends Controller
                             'Sekolah Asal',
                             'Alamat Sekolah Asal',
                             'NPSN/NSM',
-                            'Foto',
+
                             // Data Ayah
                             'Nama Ayah',
                             'NIK Ayah',
@@ -212,73 +232,75 @@ class AdminController extends Controller
                             $w = $s->guardian;   // Bisa null
 
                             fputcsv($handle, [
-                                   // Siswa
                                    $s->id,
-                                   $s->registration_number,
-                                   $s->jenjang,
-                                   $selected,
-                                   $s->nama,
-                                   $s->jenis_kelamin,
-                                   $s->agama,
+                                   $this->formatNonNama($s->registration_number),
+                                   $this->formatNonNama($s->jenjang),
+                                   $this->formatNonNama($selected),
+                                   $this->formatNama($s->nama),
+                                   $this->formatNonNama($s->jenis_kelamin),
+                                   $this->formatNonNama($s->agama),
                                    $s->nisn,
-                                   $s->hobi,
-                                   $s->cita_cita,
+                                   $this->formatNonNama($s->hobi),
+                                   $this->formatNonNama($s->cita_cita),
                                    $s->no_kk,
                                    $s->nik,
-                                   $s->tempat_lahir,
+                                   $this->formatNonNama($s->tempat_lahir),
                                    $s->tanggal_lahir?->format('d-m-Y') ?? '',
                                    $s->anak_ke,
                                    $s->jumlah_saudara,
-                                   $s->tinggal_dengan,
-                                   $s->rencana_tinggal,
-                                   $s->jarak_tempat_tinggal,
-                                   $s->sekolah_asal,
-                                   $s->alamat_sekolah_asal,
+                                   $this->formatNonNama($s->tinggal_dengan),
+                                   $this->formatNonNama($s->rencana_tinggal),
+                                   $this->formatNonNama($s->jarak_tempat_tinggal),
+                                   $this->formatNonNama($s->sekolah_asal),
+                                   $this->formatNonNama($s->alamat_sekolah_asal),
                                    $s->npsn_nsm,
-                                   $s->foto,
-                                   // Parent Ayah
-                                   $p?->nama_ayah ?? '',
+
+                                   // Ayah
+                                   $this->formatNama($p?->nama_ayah ?? ''),
                                    $p?->nik_ayah ?? '',
-                                   $p?->tempat_lahir_ayah ?? '',
+                                   $this->formatNonNama($p?->tempat_lahir_ayah ?? ''),
                                    $p?->tanggal_lahir_ayah?->format('d-m-Y') ?? '',
-                                   $p?->pendidikan_ayah ?? '',
-                                   $p?->pekerjaan_ayah ?? '',
-                                   $p?->penghasilan_ayah ?? '',
-                                   $p?->status_ayah ?? '',
+                                   $this->formatNonNama($p?->pendidikan_ayah ?? ''),
+                                   $this->formatNonNama($p?->pekerjaan_ayah ?? ''),
+                                   $this->formatRupiah($p?->penghasilan_ayah ?? ''),
+                                   $this->formatNonNama($p?->status_ayah ?? ''),
                                    $p?->hp_ayah ?? '',
-                                   // Parent Ibu
-                                   $p?->nama_ibu ?? '',
+
+                                   // Ibu
+                                   $this->formatNama($p?->nama_ibu ?? ''),
                                    $p?->nik_ibu ?? '',
-                                   $p?->tempat_lahir_ibu ?? '',
+                                   $this->formatNonNama($p?->tempat_lahir_ibu ?? ''),
                                    $p?->tanggal_lahir_ibu?->format('d-m-Y') ?? '',
-                                   $p?->pendidikan_ibu ?? '',
-                                   $p?->pekerjaan_ibu ?? '',
-                                   $p?->penghasilan_ibu ?? '',
-                                   $p?->status_ibu ?? '',
+                                   $this->formatNonNama($p?->pendidikan_ibu ?? ''),
+                                   $this->formatNonNama($p?->pekerjaan_ibu ?? ''),
+                                   $this->formatRupiah($p?->penghasilan_ibu ?? ''),
+                                   $this->formatNonNama($p?->status_ibu ?? ''),
                                    $p?->hp_ibu ?? '',
+
                                    // Alamat parent
-                                   $p?->alamat_kk ?? '',
-                                   $p?->alamat ?? '',
-                                   $p?->desa ?? '',
-                                   $p?->kecamatan ?? '',
-                                   $p?->kabupaten ?? '',
-                                   $p?->provinsi ?? '',
+                                   $this->formatNonNama($p?->alamat_kk ?? ''),
+                                   $this->formatNonNama($p?->alamat ?? ''),
+                                   $this->formatNonNama($p?->desa ?? ''),
+                                   $this->formatNonNama($p?->kecamatan ?? ''),
+                                   $this->formatNonNama($p?->kabupaten ?? ''),
+                                   $this->formatNonNama($p?->provinsi ?? ''),
                                    $p?->kode_pos ?? '',
-                                   // Guardian / Wali
-                                   $w?->nama_wali ?? '',
+
+                                   // Wali
+                                   $this->formatNama($w?->nama_wali ?? ''),
                                    $w?->nik_wali ?? '',
-                                   $w?->tempat_lahir_wali ?? '',
+                                   $this->formatNonNama($w?->tempat_lahir_wali ?? ''),
                                    $w?->tanggal_lahir_wali?->format('d-m-Y') ?? '',
-                                   $w?->pendidikan_wali ?? '',
-                                   $w?->pekerjaan_wali ?? '',
-                                   $w?->penghasilan_wali ?? '',
+                                   $this->formatNonNama($w?->pendidikan_wali ?? ''),
+                                   $this->formatNonNama($w?->pekerjaan_wali ?? ''),
+                                   $this->formatRupiah($w?->penghasilan_wali ?? ''),
                                    $w?->hp_wali ?? '',
                                    // Alamat wali
-                                   $w?->alamat ?? '',
-                                   $w?->desa ?? '',
-                                   $w?->kecamatan ?? '',
-                                   $w?->kabupaten ?? '',
-                                   $w?->provinsi ?? '',
+                                   $this->formatNonNama($w?->alamat ?? ''),
+                                   $this->formatNonNama($w?->desa ?? ''),
+                                   $this->formatNonNama($w?->kecamatan ?? ''),
+                                   $this->formatNonNama($w?->kabupaten ?? ''),
+                                   $this->formatNonNama($w?->provinsi ?? ''),
                                    $w?->kode_pos ?? '',
                             ]);
                      }
@@ -289,28 +311,6 @@ class AdminController extends Controller
                      'Cache-Control' => 'no-store, no-cache, must-revalidate',
                      'Pragma' => 'no-cache',
               ]);
-       }
-
-       // List unit
-       public function units()
-       {
-              $units = Unit::orderBy('name')->get();
-              return view('admin.units', compact('units'));
-       }
-
-       // Tambah unit baru
-       public function storeUnit(Request $request)
-       {
-              $request->validate([
-                     'name' => 'required|string|max:255',
-              ]);
-
-              Unit::create([
-                     'name' => $request->name,
-                     'google_drive_link' => null,
-              ]);
-
-              return redirect()->back()->with('success', 'Unit pendidikan berhasil ditambahkan!');
        }
 
        // Update link drive

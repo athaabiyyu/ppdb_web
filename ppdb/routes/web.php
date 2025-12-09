@@ -18,7 +18,6 @@ Route::post('/pilih-lembaga', [PPDBController::class, 'pilihLembaga']);
 Route::get('/form-data-pribadi/{id}/{jenjang}', [PPDBController::class, 'formDataPribadi'])->name('form.data.pribadi');
 Route::post('/form-data-pribadi/store', [PPDBController::class, 'storeDataPribadi']);
 
-
 Route::get('/form-ortu/{id}', [PPDBController::class, 'formOrtu'])->name('form.ortu');
 Route::post('/form-ortu/store', [PPDBController::class, 'storeOrtu']);
 
@@ -47,21 +46,42 @@ Route::middleware('admin')->group(function () {
         ->name('admin.data_siswa');
     Route::get('/admin/export-csv/{lembaga}', [AdminController::class, 'exportCSV'])
         ->name('admin.export_csv');
-    Route::get('/admin/units', [AdminController::class, 'units'])->name('admin.units');
-    Route::post('/admin/units/store', [AdminController::class, 'storeUnit'])->name('admin.units.store');
-    Route::post('/admin/units/{id}/update-link', [AdminController::class, 'updateUnitLink'])->name('admin.units.updateLink');
 });
 
-Route::prefix('admin')->group(function () {
-    Route::get('/home-settings', [AdminHomeSettingController::class, 'index'])
-        ->name('admin.home_settings');
-    Route::post('/home-settings/slider', [AdminHomeSettingController::class, 'storeSlider']);
-    Route::delete('/home-settings/slider/{id}', [AdminHomeSettingController::class, 'deleteSlider']);
-    Route::post('/home-settings/requirement', [AdminHomeSettingController::class, 'storeRequirement']);
-    Route::delete('/home-settings/requirement/{id}', [AdminHomeSettingController::class, 'deleteRequirement']);
-    Route::post('/home-settings/flow', [AdminHomeSettingController::class, 'storeFlow']);
-    Route::delete('/home-settings/flow/{id}', [AdminHomeSettingController::class, 'deleteFlow']);
-    Route::post('/home-settings/toggle-register-button', [AdminHomeSettingController::class, 'toggleRegisterButton']);
+// ROUTE HOME SETTINGS
+Route::middleware('admin')->prefix('admin/home-settings')->name('admin.home_settings.')->group(function () {
+    Route::get('/', [AdminHomeSettingController::class, 'index'])
+        ->name('index');
+
+    // Slider
+    Route::post('/slider', [AdminHomeSettingController::class, 'storeSlider'])
+        ->name('slider.store');
+    Route::delete('/slider/{id}', [AdminHomeSettingController::class, 'deleteSlider'])
+        ->name('slider.destroy');
+
+    // Requirements
+    Route::post('/requirement', [AdminHomeSettingController::class, 'storeRequirement'])
+        ->name('requirement.store');
+    Route::delete('/requirement/{id}', [AdminHomeSettingController::class, 'deleteRequirement'])
+        ->name('requirement.destroy');
+
+    // Flow
+    Route::post('/flow', [AdminHomeSettingController::class, 'storeFlow'])
+        ->name('flow.store');
+    Route::delete('/flow/{id}', [AdminHomeSettingController::class, 'deleteFlow'])
+        ->name('flow.destroy');
+
+    // Toggle Button
+    Route::post('/toggle-register-button', [AdminHomeSettingController::class, 'toggleRegisterButton'])
+        ->name('toggle_register_button');
+
+    // Units
+    Route::post('/units', [AdminHomeSettingController::class, 'storeUnit'])
+        ->name('units.store');
+    Route::post('/units/{id}/update-link', [AdminHomeSettingController::class, 'updateUnitLink'])
+        ->name('units.updateLink');
+    Route::delete('/units/{id}', [AdminHomeSettingController::class, 'destroyUnit'])
+        ->name('units.destroy');
 });
 
 // Rute untuk User (Public)

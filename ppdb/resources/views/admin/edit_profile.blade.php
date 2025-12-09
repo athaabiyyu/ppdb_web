@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile Admin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100">
+@extends('layouts.app_admin')
 
+@section('title', 'Edit Profile Admin')
+
+@section('content')
 <div class="max-w-xl mx-auto mt-20 p-6 bg-white rounded-xl shadow-lg">
     <h2 class="text-2xl font-bold mb-6 text-center">Edit Profile Admin</h2>
 
@@ -51,6 +46,4 @@
         </button>
     </form>
 </div>
-
-</body>
-</html>
+@endsection
