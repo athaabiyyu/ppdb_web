@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.app_user')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Bukti Pendaftaran</title>
-</head>
+@section('title', 'Cetak Bukti Pendaftaran')
 
-<body class="bg-gray-100 p-8">
-
-    <div class="max-w-lg mx-auto bg-white border border-green-700 rounded-2xl shadow-xl p-6">
+@section('content')
+    <div class="max-w-lg mx-auto bg-[#31694E]/10 border border-[#31694E]/30 rounded-2xl shadow-xl p-6 mt-12">
         <!-- Judul -->
-        <h1 class="text-3xl font-extrabold text-center mb-2">Bukti Pendaftaran</h1>
-        <p class="text-center mb-6 font-semibold">PPDB Online</p>
+        <h1 class="text-3xl font-extrabold text-center mb-2 text-[#31694E]">Bukti Pendaftaran</h1>
+        <p class="text-center mb-6 font-semibold text-[#31694E]">PPDB Online</p>
 
         <!-- Foto Siswa -->
         <div class="text-center mb-6">
@@ -25,20 +18,20 @@
 
         <!-- Informasi Siswa -->
         <div class="mb-6 space-y-2">
-            <div class="flex justify-between bg-gray-200 p-3 rounded shadow-sm">
-                <span class="font-semibold ">No Registrasi:</span>
+            <div class="flex justify-between bg-white p-3 rounded shadow-sm">
+                <span class="font-semibold ">No Registrasi</span>
                 <span class="font-semibold ">{{ $student->registration_number }}</span>
             </div>
-            <div class="flex justify-between bg-gray-200 p-3 rounded shadow-sm">
-                <span class="font-semibold ">Nama:</span>
+            <div class="flex justify-between bg-white p-3 rounded shadow-sm">
+                <span class="font-semibold ">Nama</span>
                 <span class="font-semibold ">{{ $student->nama }}</span>
             </div>
-            <div class="flex justify-between bg-gray-200 p-3 rounded shadow-sm">
-                <span class="font-semibold ">Jenjang:</span>
+            <div class="flex justify-between bg-white p-3 rounded shadow-sm">
+                <span class="font-semibold ">Jenjang</span>
                 <span class="font-semibold ">{{ $student->jenjang }}</span>
             </div>
-            <div class="flex justify-between bg-gray-200 p-3 rounded shadow-sm">
-                <span class="font-semibold ">Pilihan Lembaga:</span>
+            <div class="flex justify-between bg-white p-3 rounded shadow-sm">
+                <span class="font-semibold ">Pilihan Lembaga</span>
                 <span class="font-semibold ">{{ implode(', ', $student->selected_schools ?? []) }}</span>
             </div>
         </div>
@@ -60,11 +53,8 @@
 
 
         <!-- Footer -->
-        <p class="text-center text-gray-500 text-sm mt-6">
+        <p class="text-center text-[#31694E] text-sm mt-12">
             © 2024 Sistem PPDB Online - Simpan bukti ini untuk keperluan administrasi
         </p>
     </div>
-
-</body>
-
-</html>
+@endsection

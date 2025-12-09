@@ -22,7 +22,8 @@
         .card {
             max-width: 600px;
             margin: 0 auto;
-            background: #ffffff;
+            background: rgba(49, 105, 78, 0.1);
+            /* bg-[#31694E]/10 */
             border: 1px solid #15803d;
             /* border-green-700 */
             border-radius: 18px;
@@ -40,12 +41,14 @@
             font-weight: 800;
             /* font-extrabold */
             margin-bottom: 4px;
+            color: #31694E;
         }
 
         p.subtitle {
             text-align: center;
             font-weight: 600;
             margin-bottom: 20px;
+            color: #31694E;
         }
 
         /* ====== FOTO SISWA ====== */
@@ -68,7 +71,7 @@
         .info-item {
             display: flex;
             justify-content: space-between;
-            background: #e5e7eb;
+            background: white;
             /* bg-gray-200 */
             padding: 12px;
             border-radius: 8px;

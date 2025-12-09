@@ -106,7 +106,6 @@
         @endif
 
         <div class="section-card bg-white rounded-2xl shadow-lg p-8 mb-6">
-
             <!-- Heading -->
             <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-green-100">
                 <!-- ICON + TEXT -->
@@ -123,8 +122,7 @@
                 </div>
 
                 <!-- BUTTONS -->
-                <div class="flex items-center gap-3">
-
+                <div class="flex items-center gap-3 pb-4">
                     <!-- EDIT DOKUMEN -->
                     <button onclick="openEditDokumenModal()"
                         class="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 font-semibold py-3 px-5 rounded-xl shadow-lg transition flex items-center gap-2">
@@ -157,10 +155,7 @@
                         </svg>
                         <span class="hidden md:block">Cetak</span>
                     </a>
-
                 </div>
-
-
             </div>
 
             <!-- FOTO + DATA UTAMA -->
@@ -1643,7 +1638,7 @@
     <!-- Footer -->
     <div class="text-center py-8 text-gray-600 text-sm">
         <p>© 2024 Sistem Informasi Pendaftaran Siswa</p>
-        <p class="mt-1">Terima kasih atas kepercayaan Anda 🙏</p>
+        <p class="mt-1">Terima kasih atas kepercayaan Anda</p>
     </div>
 @endsection
 
