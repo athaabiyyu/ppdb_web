@@ -105,12 +105,10 @@
             </div>
         @endif
 
-        <!-- Main Card -->
         <div class="section-card bg-white rounded-2xl shadow-lg p-8 mb-6">
 
             <!-- Heading -->
             <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-green-100">
-
                 <!-- ICON + TEXT -->
                 <div class="flex items-center">
                     <div
@@ -129,7 +127,7 @@
 
                     <!-- EDIT DOKUMEN -->
                     <button onclick="openEditDokumenModal()"
-                        class="bg-lime-600 hover:bg-lime-700 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transition flex items-center gap-2">
+                        class="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 font-semibold py-3 px-5 rounded-xl shadow-lg transition flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
@@ -140,7 +138,7 @@
 
                     <!-- EDIT BIODATA -->
                     <button onclick="openEditModal()"
-                        class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transition flex items-center gap-2">
+                        class="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 font-semibold py-3 px-5 rounded-xl shadow-lg transition flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
@@ -151,7 +149,7 @@
 
                     <!-- CETAK -->
                     <a href="/cetak/{{ $student->id }}"
-                        class="bg-green-700 hover:bg-green-800 text-white px-5 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
+                        class="bg-orange-100 hover:bg-orange-200 text-orange-700 px-5 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
@@ -165,7 +163,7 @@
 
             </div>
 
-            <!-- FOTO + IDENTITAS UTAMA -->
+            <!-- FOTO + DATA UTAMA -->
             <div class="flex flex-col gap-6 mb-8">
 
                 <h1 class="text-4xl font-bold text-gray-800 mb-2 text-center">Detail Data Diri</h1>
@@ -187,12 +185,20 @@
                 </div>
 
                 <!-- Data Utama -->
-                <div class="flex-1">
-                    <h6 class="text-xl font-bold text-gray-800 mb-12 text-center">{{ $student->nama }}</h6>
+                <div class="flex-1 ">
+                    <h6 class="text-xl font-bold text-gray-800 mb-12 text-center capitalize">{{ $student->nama }}</h6>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg gradient-bg text-white flex items-center justify-center shadow-md">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
 
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Data Utama</h3>
+                        <h3 class="text-xl font-bold text-gray-800">Data Utama</h3>
+                    </div>
 
-                    <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
+                    <div class="bg-[#31694E]/10 p-6 rounded-xl border border-[#31694E]/30 mb-10">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                             <div class="bg-white rounded-xl p-4">
@@ -202,19 +208,19 @@
 
                             <div class="bg-white rounded-xl p-4">
                                 <p class="text-xs text-gray-500">Jenis Kelamin</p>
-                                <p class="text-lg font-semibold">{{ $student->jenis_kelamin ?? '-' }}</p>
+                                <p class="text-lg font-semibold capitalize">{{ $student->jenis_kelamin ?? '-' }}</p>
                             </div>
 
                             <div class="bg-white rounded-xl p-4">
                                 <p class="text-xs text-gray-500">Agama</p>
-                                <p class="text-lg font-semibold">{{ $student->agama ?? '-' }}</p>
+                                <p class="text-lg font-semibold capitalize">{{ $student->agama ?? '-' }}</p>
                             </div>
 
                             <div class="bg-white rounded-xl p-4">
                                 <p class="text-xs text-gray-500">Tanggal Lahir</p>
                                 <p class="text-lg font-semibold">
                                     @if ($student->tempat_lahir && $student->tanggal_lahir)
-                                        {{ $student->tempat_lahir }},
+                                        {{ ucfirst(strtolower($student->tempat_lahir)) }},
                                         {{ \Carbon\Carbon::parse($student->tanggal_lahir)->format('d F Y') }}
                                     @else
                                         -
@@ -224,12 +230,12 @@
 
                             <div class="bg-white rounded-xl p-4">
                                 <p class="text-xs text-gray-500">Hobi</p>
-                                <p class="text-lg font-semibold">{{ $student->hobi ?? '-' }}</p>
+                                <p class="text-lg font-semibold">{{ ucfirst(strtolower($student->hobi)) ?? '-' }}</p>
                             </div>
 
                             <div class="bg-white rounded-xl p-4">
                                 <p class="text-xs text-gray-500">Cita-Cita</p>
-                                <p class="text-lg font-semibold">{{ $student->cita_cita ?? '-' }}</p>
+                                <p class="text-lg font-semibold">{{ ucfirst(strtolower($student->cita_cita)) ?? '-' }}</p>
                             </div>
 
                             <div class="bg-white rounded-xl p-4 md:col-span-2">
@@ -238,18 +244,24 @@
                                     {{ is_array($student->selected_schools) ? implode(', ', $student->selected_schools) : $student->selected_schools ?? '-' }}
                                 </p>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- DATA DIRI LENGKAP -->
-            <h3 class="text-xl font-bold text-gray-800 mb-4">Data Diri Lengkap</h3>
-            <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg gradient-bg text-white flex items-center justify-center shadow-md">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
 
+                <h3 class="text-xl font-bold text-gray-800">Data Diri Lengkap</h3>
+            </div>
+            <div class="bg-[#31694E]/10 p-6 rounded-xl border border-[#31694E]/30 mb-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
                     @php
                         $fields = [
                             'no_kk' => 'Nomor KK',
@@ -268,7 +280,7 @@
                     @foreach ($fields as $key => $label)
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">{{ $label }}</p>
-                            <p class="font-semibold">{{ $student->$key ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->$key)) ?? '-' }}</p>
                         </div>
                     @endforeach
 
@@ -277,14 +289,23 @@
 
             <!-- DATA WALI (Jika Tinggal dengan Wali) -->
             @if ($student->tinggal_dengan === 'Wali' && $student->guardian)
-                <h3 class="text-xl font-bold text-gray-800 mb-4">Data Wali</h3>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg gradient-bg text-white flex items-center justify-center shadow-md">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
 
-                <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
+                    <h3 class="text-xl font-bold text-gray-800">Data Wali</h3>
+                </div>
+
+                <div class="bg-[#31694E]/10 p-6 rounded-xl border border-[#31694E]/30 mb-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Nama Lengkap Wali</p>
-                            <p class="font-semibold text-lg">{{ $student->guardian->nama_wali ?? '-' }}</p>
+                            <p class="font-semibold text-lg capitalize">{{ $student->guardian->nama_wali ?? '-' }}</p>
                         </div>
 
                         <div class="bg-white rounded-lg p-4">
@@ -296,7 +317,7 @@
                             <p class="text-xs text-gray-600">Tempat, Tanggal Lahir</p>
                             <p class="font-semibold">
                                 @if ($student->guardian->tempat_lahir_wali && $student->guardian->tanggal_lahir_wali)
-                                    {{ $student->guardian->tempat_lahir_wali }},
+                                    {{ ucfirst(strtolower($student->guardian->tempat_lahir_wali)) }},
                                     {{ \Carbon\Carbon::parse($student->guardian->tanggal_lahir_wali)->format('d F Y') }}
                                 @else
                                     -
@@ -311,12 +332,19 @@
 
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Pekerjaan</p>
-                            <p class="font-semibold">{{ $student->guardian->pekerjaan_wali ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->guardian->pekerjaan_wali)) ?? '-' }}
+                            </p>
                         </div>
 
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Penghasilan per Bulan</p>
-                            <p class="font-semibold">{{ $student->guardian->penghasilan_wali ?? '-' }}</p>
+                            <p class="font-semibold">
+                                @if ($student->guardian->penghasilan_wali)
+                                    Rp {{ number_format($student->guardian->penghasilan_wali, 0, ',', '.') }}
+                                @else
+                                    -
+                                @endif
+                            </p>
                         </div>
 
                         <div class="bg-white rounded-lg p-4">
@@ -326,27 +354,27 @@
 
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Alamat Lengkap Wali</p>
-                            <p class="font-semibold">{{ $student->guardian->alamat ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->guardian->alamat)) ?? '-' }}</p>
                         </div>
 
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Desa/Kelurahan</p>
-                            <p class="font-semibold">{{ $student->guardian->desa ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->guardian->desa)) ?? '-' }}</p>
                         </div>
 
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Kecamatan</p>
-                            <p class="font-semibold">{{ $student->guardian->kecamatan ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->guardian->kecamatan)) ?? '-' }}</p>
                         </div>
 
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Kabupaten/Kota</p>
-                            <p class="font-semibold">{{ $student->guardian->kabupaten ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->guardian->kabupaten)) ?? '-' }}</p>
                         </div>
 
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Provinsi</p>
-                            <p class="font-semibold">{{ $student->guardian->provinsi ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->guardian->provinsi)) ?? '-' }}</p>
                         </div>
 
                         <div class="bg-white rounded-lg p-4 md:col-span-2">
@@ -360,56 +388,77 @@
 
             <!-- DATA ORANG TUA -->
             @if ($student->parentInfo)
-                <h3 class="text-xl font-bold text-gray-800 mb-4">
-                    @if ($student->tinggal_dengan === 'Wali')
-                        Data Orang Tua Kandung
-                    @else
-                        Data Orang Tua
-                    @endif
-                </h3>
-                <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg gradient-bg text-white flex items-center justify-center shadow-md">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-gray-800">
+                        @if ($student->tinggal_dengan === 'Wali')
+                            Data Orang Tua Kandung
+                        @else
+                            Data Orang Tua
+                        @endif
+                    </h3>
+                </div>
+
+                <div class="bg-[#31694E]/10 p-6 rounded-xl border border-[#31694E]/30 mb-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- AYAH -->
-                        <div class="bg-white rounded-lg p-4">
-                            <h4 class="font-bold text-lg mb-3">Ayah</h4>
-                            <div class="space-y-3">
-                                <div>
+                        <div class="col-span-1 md:col-span-2">
+                            <h4 class="font-bold text-lg text-gray-800 mb-4 pb-3 border-b-2 border-[#31694E]/30">Ayah</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Nama Lengkap</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->nama_ayah ?? '-' }}</p>
+                                    <p class="font-semibold capitalize">{{ $student->parentInfo->nama_ayah ?? '-' }}</p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">NIK</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->nik_ayah ?? '-' }}</p>
+                                    <p class="font-semibold">{{ $student->parentInfo->nik_ayah ?? '-' }}</p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Tempat, Tanggal Lahir</p>
-                                    <p class="font-semibold mb-5">
+                                    <p class="font-semibold">
                                         @if ($student->parentInfo->tempat_lahir_ayah && $student->parentInfo->tanggal_lahir_ayah)
-                                            {{ $student->parentInfo->tempat_lahir_ayah }},
+                                            {{ ucfirst(strtolower($student->parentInfo->tempat_lahir_ayah)) }},
                                             {{ \Carbon\Carbon::parse($student->parentInfo->tanggal_lahir_ayah)->format('d F Y') }}
                                         @else
                                             -
                                         @endif
                                     </p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Pendidikan Terakhir</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->pendidikan_ayah ?? '-' }}
-                                    </p>
+                                    <p class="font-semibold">{{ $student->parentInfo->pendidikan_ayah ?? '-' }}</p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Pekerjaan</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->pekerjaan_ayah ?? '-' }}
+                                    <p class="font-semibold">
+                                        {{ ucfirst(strtolower($student->parentInfo->pekerjaan_ayah)) ?? '-' }}
                                     </p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Penghasilan per Bulan</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->penghasilan_ayah ?? '-' }}
+                                    <p class="font-semibold">
+                                        @if ($student->parentInfo->penghasilan_ayah)
+                                            Rp {{ number_format($student->parentInfo->penghasilan_ayah, 0, ',', '.') }}
+                                        @else
+                                            -
+                                        @endif
                                     </p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Status</p>
-                                    <p class="font-semibold mb-5">
+                                    <p class="font-semibold">
                                         @if ($student->parentInfo->status_ayah == 'Hidup')
                                             Masih Hidup
                                         @elseif($student->parentInfo->status_ayah == 'Meninggal')
@@ -419,53 +468,66 @@
                                         @endif
                                     </p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">No. HP</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->hp_ayah ?? '-' }}</p>
+                                    <p class="font-semibold">{{ $student->parentInfo->hp_ayah ?? '-' }}</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- IBU -->
-                        <div class="bg-white rounded-lg p-4">
-                            <h4 class="font-bold text-lg mb-3">Ibu</h4>
-                            <div class="space-y-3">
-                                <div>
+                        <div class="col-span-1 md:col-span-2">
+                            <h4 class="font-bold text-lg text-gray-800 mb-4 pb-3 border-b-2 border-[#31694E]/30">Ibu</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Nama Lengkap</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->nama_ibu ?? '-' }}</p>
+                                    <p class="font-semibold capitalize">{{ $student->parentInfo->nama_ibu ?? '-' }}</p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">NIK</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->nik_ibu ?? '-' }}</p>
+                                    <p class="font-semibold">{{ $student->parentInfo->nik_ibu ?? '-' }}</p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Tempat, Tanggal Lahir</p>
-                                    <p class="font-semibold mb-5">
+                                    <p class="font-semibold">
                                         @if ($student->parentInfo->tempat_lahir_ibu && $student->parentInfo->tanggal_lahir_ibu)
-                                            {{ $student->parentInfo->tempat_lahir_ibu }},
+                                            {{ ucfirst(strtolower($student->parentInfo->tempat_lahir_ibu)) ?? '-' }},
                                             {{ \Carbon\Carbon::parse($student->parentInfo->tanggal_lahir_ibu)->format('d F Y') }}
                                         @else
                                             -
                                         @endif
                                     </p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Pendidikan Terakhir</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->pendidikan_ibu ?? '-' }}
-                                    </p>
+                                    <p class="font-semibold">{{ $student->parentInfo->pendidikan_ibu ?? '-' }}</p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Pekerjaan</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->pekerjaan_ibu ?? '-' }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-gray-600">Penghasilan per Bulan</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->penghasilan_ibu ?? '-' }}
+                                    <p class="font-semibold">
+                                        {{ ucfirst(strtolower($student->parentInfo->pekerjaan_ibu)) ?? '-' }}
                                     </p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
+                                    <p class="text-xs text-gray-600">Penghasilan per Bulan</p>
+                                    <p class="font-semibold">
+                                        @if ($student->parentInfo->penghasilan_ibu)
+                                            Rp {{ number_format($student->parentInfo->penghasilan_ibu, 0, ',', '.') }}
+                                        @else
+                                            -
+                                        @endif
+                                    </p>
+                                </div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Status</p>
-                                    <p class="font-semibold mb-5">
+                                    <p class="font-semibold">
                                         @if ($student->parentInfo->status_ibu == 'Hidup')
                                             Masih Hidup
                                         @elseif($student->parentInfo->status_ibu == 'Meninggal')
@@ -475,9 +537,10 @@
                                         @endif
                                     </p>
                                 </div>
-                                <div>
+
+                                <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">No. HP</p>
-                                    <p class="font-semibold mb-5">{{ $student->parentInfo->hp_ibu ?? '-' }}</p>
+                                    <p class="font-semibold">{{ $student->parentInfo->hp_ibu ?? '-' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -485,33 +548,51 @@
                 </div>
 
                 <!-- Alamat Orang Tua -->
-                <h3 class="text-xl font-bold text-gray-800 mb-4">Alamat Orang Tua</h3>
-                <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg gradient-bg text-white flex items-center justify-center shadow-md">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-gray-800">Alamat Orang Tua</h3>
+                </div>
+
+                <div class="bg-[#31694E]/10 p-6 rounded-xl border border-[#31694E]/30 mb-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="bg-white rounded-lg p-4 md:col-span-2">
                             <p class="text-xs text-gray-600">Alamat Sesuai KK</p>
-                            <p class="font-semibold">{{ $student->parentInfo->alamat_kk ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->parentInfo->alamat_kk)) ?? '-' }}</p>
                         </div>
+
                         <div class="bg-white rounded-lg p-4 md:col-span-2">
                             <p class="text-xs text-gray-600">Alamat Domisili Saat Ini</p>
-                            <p class="font-semibold">{{ $student->parentInfo->alamat ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->parentInfo->alamat)) ?? '-' }}</p>
                         </div>
+
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Desa/Kelurahan</p>
-                            <p class="font-semibold">{{ $student->parentInfo->desa ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->parentInfo->desa)) ?? '-' }}</p>
                         </div>
+
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Kecamatan</p>
-                            <p class="font-semibold">{{ $student->parentInfo->kecamatan ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->parentInfo->kecamatan)) ?? '-' }}</p>
                         </div>
+
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Kabupaten/Kota</p>
-                            <p class="font-semibold">{{ $student->parentInfo->kabupaten ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->parentInfo->kabupaten)) ?? '-' }}</p>
                         </div>
+
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">Provinsi</p>
-                            <p class="font-semibold">{{ $student->parentInfo->provinsi ?? '-' }}</p>
+                            <p class="font-semibold">{{ ucfirst(strtolower($student->parentInfo->provinsi)) ?? '-' }}</p>
                         </div>
+
                         <div class="bg-white rounded-lg p-4 md:col-span-2">
                             <p class="text-xs text-gray-600">Kode Pos</p>
                             <p class="font-semibold">{{ $student->parentInfo->kode_pos ?? '-' }}</p>
@@ -522,11 +603,21 @@
 
             <!-- DOCUMENT SECTION -->
             @if ($student->documents)
-                <h3 class="text-xl font-bold text-gray-800 mb-3">Dokumen Upload</h3>
-                <div class="bg-gray-200 p-6 rounded-xl border border-gray-400 mb-10">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg gradient-bg text-white flex items-center justify-center shadow-md">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 3h8l4 4v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                        </svg>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-gray-800">Dokumen</h3>
+                </div>
+
+                <div class="bg-[#31694E]/10 p-6 rounded-xl border border-[#31694E]/30 mb-10">
 
                     <!-- Dokumen Umum -->
-                    <h4 class="font-semibold text-gray-700 mb-3">Dokumen Umum</h4>
+                    <h4 class="font-semibold mb-3">Dokumen Umum</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                         @php
                             $docsUmum = [
@@ -568,7 +659,7 @@
                         $student->documents->transkrip_semester &&
                             is_array($student->documents->transkrip_semester) &&
                             count($student->documents->transkrip_semester) > 0)
-                        <h4 class="font-semibold text-gray-700 mb-3 mt-6">Transkrip Nilai Per Semester</h4>
+                        <h4 class="font-semibold mb-3 mt-6">Transkrip Nilai Per Semester</h4>
                         <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-lg mb-4">
                             <div class="flex items-start">
                                 <svg class="w-5 h-5 text-orange-500 mr-2 flex-shrink-0" fill="none"
@@ -638,7 +729,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
