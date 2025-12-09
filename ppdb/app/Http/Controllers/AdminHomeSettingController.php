@@ -99,7 +99,7 @@ class AdminHomeSettingController extends Controller
             'google_drive_link' => null,
         ]);
 
-        return redirect()->route('admin.home_settings')->with('success', 'Unit pendidikan berhasil ditambahkan!');
+        return redirect()->route('admin.home_settings.index')->with('success', 'Unit pendidikan berhasil ditambahkan!');
     }
 
     public function updateUnitLink(Request $request, $id)
@@ -113,7 +113,7 @@ class AdminHomeSettingController extends Controller
             'google_drive_link' => $request->google_drive_link,
         ]);
 
-        return redirect()->route('admin.home_settings')->with('success', 'Link Google Drive berhasil diperbarui!');
+        return redirect()->route('admin.home_settings.index')->with('success', 'Link Google Drive berhasil diperbarui!');
     }
 
     public function destroyUnit($id)
@@ -121,6 +121,6 @@ class AdminHomeSettingController extends Controller
         $unit = Unit::findOrFail($id);
         $unit->delete();
 
-        return redirect()->route('admin.home_settings')->with('success', 'Unit pendidikan berhasil dihapus!');
+        return redirect()->route('admin.home_settings.index')->with('success', 'Unit pendidikan berhasil dihapus!');
     }
 }

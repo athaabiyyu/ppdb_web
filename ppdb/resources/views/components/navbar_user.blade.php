@@ -61,6 +61,13 @@
                 </li>
 
                 <li>
+                    <a href="{{ route('home') }}#lokasi"
+                        class="px-4 py-2 rounded-lg hover:bg-white/10 transition-colors font-medium text-base tracking-widest">
+                        Lokasi
+                    </a>
+                </li>
+
+                <li>
                     <a href="#kontak"
                         class="px-4 py-2 rounded-lg hover:bg-white/10 transition-colors font-medium text-base tracking-widest">
                         Contact Us
@@ -125,6 +132,13 @@
                     <a href="{{ route('announcements.index') }}"
                         class="block px-4 py-3 rounded-lg hover:bg-white/10 transition-colors font-medium text-base tracking-widest">
                         Pengumuman
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('home') }}#lokasi"
+                        class="px-4 py-2 rounded-lg hover:bg-white/10 transition-colors font-medium text-base tracking-widest">
+                        Lokasi
                     </a>
                 </li>
 

@@ -1,6 +1,6 @@
 @extends('layouts.app_user', ['noNavbar' => true])
 
-@section('title', 'Formulir Upload Dokumen Persyaratan')
+@section('title', 'Detail Biodata')
 
 @push('styles')
     <style>
@@ -105,11 +105,12 @@
             </div>
         @endif
 
+        <!-- SECTION CARD -->
         <div class="section-card bg-white rounded-2xl shadow-lg p-8 mb-6">
             <!-- Heading -->
             <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-green-100">
                 <!-- ICON + TEXT -->
-                <div class="flex items-center">
+                <div class="flex items-center flex-wrap">
                     <div
                         class="w-10 h-10 rounded-lg gradient-bg text-white flex items-center justify-center mr-3 shadow-md">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,8 +118,9 @@
                                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                     </div>
-
-                    <h2 class="text-2xl font-bold text-gray-800">Detail Biodata</h2>
+                    <h2 class="font-bold text-gray-800 text-xl sm:text-2xl md:text-3xl">
+                        Detail Biodata
+                    </h2>
                 </div>
 
                 <!-- BUTTONS -->
@@ -335,7 +337,17 @@
                             <p class="text-xs text-gray-600">Penghasilan per Bulan</p>
                             <p class="font-semibold">
                                 @if ($student->guardian->penghasilan_wali)
-                                    Rp {{ number_format($student->guardian->penghasilan_wali, 0, ',', '.') }}
+                                    @php
+                                        $income = $student->guardian->penghasilan_wali;
+                                        // Hapus semua karakter non-digit
+                                        $numeric = preg_replace('/[^\d]/', '', $income);
+
+                                        if (is_numeric($numeric) && $numeric > 0) {
+                                            echo 'Rp ' . number_format((float) $numeric, 0, ',', '.');
+                                        } else {
+                                            echo '-';
+                                        }
+                                    @endphp
                                 @else
                                     -
                                 @endif
@@ -443,8 +455,18 @@
                                 <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Penghasilan per Bulan</p>
                                     <p class="font-semibold">
-                                        @if ($student->parentInfo->penghasilan_ayah)
-                                            Rp {{ number_format($student->parentInfo->penghasilan_ayah, 0, ',', '.') }}
+                                        @if ($student->guardian->penghasilan_ayah)
+                                            @php
+                                                $income = $student->guardian->penghasilan_ayah;
+                                                // Hapus semua karakter non-digit
+                                                $numeric = preg_replace('/[^\d]/', '', $income);
+
+                                                if (is_numeric($numeric) && $numeric > 0) {
+                                                    echo 'Rp ' . number_format((float) $numeric, 0, ',', '.');
+                                                } else {
+                                                    echo '-';
+                                                }
+                                            @endphp
                                         @else
                                             -
                                         @endif
@@ -512,8 +534,18 @@
                                 <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Penghasilan per Bulan</p>
                                     <p class="font-semibold">
-                                        @if ($student->parentInfo->penghasilan_ibu)
-                                            Rp {{ number_format($student->parentInfo->penghasilan_ibu, 0, ',', '.') }}
+                                        @if ($student->guardian->penghasilan_ibu)
+                                            @php
+                                                $income = $student->guardian->penghasilan_ibu;
+                                                // Hapus semua karakter non-digit
+                                                $numeric = preg_replace('/[^\d]/', '', $income);
+
+                                                if (is_numeric($numeric) && $numeric > 0) {
+                                                    echo 'Rp ' . number_format((float) $numeric, 0, ',', '.');
+                                                } else {
+                                                    echo '-';
+                                                }
+                                            @endphp
                                         @else
                                             -
                                         @endif
@@ -725,7 +757,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- ================== MODAL EDIT ================== -->

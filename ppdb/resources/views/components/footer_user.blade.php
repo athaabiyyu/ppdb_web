@@ -11,8 +11,10 @@
                 <ul class="space-y-2 text-sm">
                     <li><a href="{{ route('home') }}#home" class="text-white">Home</a></li>
                     <li><a href="{{ route('home') }}#info-alur" class="text-white">Informasi & Alur Pendaftaran</a></li>
+                    <li><a href="{{ route('home') }}#info-unit-pendidikan" class="text-white">Informasi Unit Pendidikan</a></li>
                     <li><a href="{{ route('home') }}#pendaftaran" class="text-white">Pendaftaran</a></li>
                     <li><a href="{{ route('announcements.index') }}" class="text-white">Pengumuman</a></li>
+                    <li><a href="{{ route('home') }}#lokasi" class="text-white">Lokasi</a></li>
                     <li><a href="{{ route('home') }}#kontak" class="text-white">Contact Us</a></li>
                 </ul>
             </div>

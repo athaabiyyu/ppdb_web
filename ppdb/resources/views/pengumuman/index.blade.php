@@ -2,11 +2,95 @@
 
 @section('title', 'Pengumuman')
 
+@push('styles')
+    <style>
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .announcement-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .announcement-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .read-more-btn {
+            transition: all 0.3s ease;
+        }
+
+        .modal-backdrop.active {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .content-modal p {
+            margin-bottom: 1rem;
+        }
+
+        .content-modal strong {
+            color: #31694E;
+            font-weight: 600;
+        }
+
+        /* Scrollbar styling */
+        .modal-backdrop #announcementModal::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-backdrop #announcementModal::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .modal-backdrop #announcementModal::-webkit-scrollbar-thumb {
+            background: #31694E;
+            border-radius: 4px;
+        }
+
+        .modal-backdrop #announcementModal::-webkit-scrollbar-thumb:hover {
+            background: #2a5840;
+        }
+    </style>
+@endpush
+
 @section('content')
     <!-- ================== PENGUMUMAN HEADER ================== -->
     <div
         class="header-section bg-gradient-to-br from-[#31694E] via-[#2a5840] to-[#1f4230] py-12 md:py-20 relative overflow-hidden">
-        <!-- Decorative Background Elements -->
         <div class="absolute top-0 right-0 w-96 h-96 bg-white opacity-5 rounded-full -mr-48 -mt-48"></div>
         <div class="absolute bottom-0 left-0 w-80 h-80 bg-white opacity-5 rounded-full -ml-40 -mb-40"></div>
 
@@ -236,95 +320,23 @@
         </div>
     </div>
 
-    <style>
-        @keyframes bounce {
+@endsection
 
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .announcement-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .announcement-card:hover {
-            transform: translateY(-8px);
-        }
-
-        .read-more-btn {
-            transition: all 0.3s ease;
-        }
-
-        .modal-backdrop.active {
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content {
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .content-modal p {
-            margin-bottom: 1rem;
-        }
-
-        .content-modal strong {
-            color: #31694E;
-            font-weight: 600;
-        }
-
-        /* Scrollbar styling */
-        .modal-backdrop #announcementModal::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .modal-backdrop #announcementModal::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        .modal-backdrop #announcementModal::-webkit-scrollbar-thumb {
-            background: #31694E;
-            border-radius: 4px;
-        }
-
-        .modal-backdrop #announcementModal::-webkit-scrollbar-thumb:hover {
-            background: #2a5840;
-        }
-    </style>
-
+@push('scripts')
     <script>
+        function ucfirst(str) {
+            if (!str) return '';
+            str = str.toLowerCase();
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+
         function openModal(announcement) {
             const modal = document.getElementById('announcementModal');
-            document.getElementById('modalTitle').textContent = announcement.title;
-            document.getElementById('modalTitleFull').textContent = announcement.title;
-            document.getElementById('modalDescription').textContent = announcement.description;
+
+            document.getElementById('modalTitle').textContent = ucfirst(announcement.title);
+            document.getElementById('modalTitleFull').textContent = ucfirst(announcement.title);
+            document.getElementById('modalDescription').textContent = ucfirst(announcement.description);
             document.getElementById('modalPublished').textContent = announcement.published_at;
 
             // Parse content dan replace newline dengan paragraph
@@ -362,4 +374,4 @@
             }
         });
     </script>
-@endsection
+@endpush

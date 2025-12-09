@@ -8,13 +8,13 @@
     <div class="max-w-7xl mx-auto px-6 py-12">
 
         {{-- Header Section --}}
-            <div class="mb-12">
-                <div class="flex items-center gap-3 mb-3">
-                    <div class="h-10 w-1 bg-gradient-to-b from-[#31694E] to-[#4a9b6f] rounded-full"></div>
-                    <h1 class="text-4xl font-bold text-[#31694E]">Dashboard Admin</h1>
-                </div>
-                <p class="text-gray-600 ml-4">Selamat datang di panel administrasi PPDB Online</p>
+        <div class="mb-12">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="h-10 w-1 bg-gradient-to-b from-[#31694E] to-[#4a9b6f] rounded-full"></div>
+                <h1 class="text-4xl font-bold text-[#31694E]">Dashboard Admin</h1>
             </div>
+            <p class="text-gray-600 ml-4">Selamat datang di panel administrasi PPDB Online</p>
+        </div>
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -149,7 +149,7 @@
                         </div>
                     </a>
 
-                    <a href="{{ route('admin.home_settings') }}"
+                    <a href="{{ route('admin.home_settings.index') }}"
                         class="flex items-center gap-3 p-3 bg-green-50 hover:bg-green-100 rounded-lg transition group">
                         <div class="bg-green-500 p-2 rounded-lg group-hover:scale-110 transition">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -165,7 +165,7 @@
                         </div>
                     </a>
 
-                    <a href="{{ route('admin.home_settings') }}"
+                    <a href="{{ route('admin.home_settings.index') }}"
                         class="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition group">
                         <div class="bg-gray-500 p-2 rounded-lg group-hover:scale-110 transition">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -207,11 +207,11 @@
                         @php
                             $color = '';
                             if (strpos($lembaga, 'SD') !== false) {
-                                $color = 'rgb(125, 211, 252)';
+                                $color = 'rgb(37, 99, 235)';
                             } elseif (preg_match('/MTS|SMP|MTSN/i', $lembaga)) {
-                                $color = 'rgb(134, 239, 172)';
+                                $color = 'rgb(22, 163, 74)';
                             } elseif (preg_match('/MA|SMK|MAN/i', $lembaga)) {
-                                $color = 'rgb(216, 180, 254)';
+                                $color = 'rgb(147, 51, 234)';
                             } else {
                                 $color = 'rgba(100, 100, 100, 0.8)';
                             }
@@ -228,11 +228,11 @@
                         @php
                             $color = '';
                             if (strpos($lembaga, 'SD') !== false) {
-                                $color = 'rgb(125, 211, 252)';
+                                $color = 'rgb(37, 99, 235)';
                             } elseif (preg_match('/MTS|SMP|MTSN/i', $lembaga)) {
-                                $color = 'rgb(134, 239, 172)';
+                                $color = 'rgb(22, 163, 74)';
                             } elseif (preg_match('/MA|SMK|MAN/i', $lembaga)) {
-                                $color = 'rgb(216, 180, 254)';
+                                $color = 'rgb(147, 51, 234)';
                             } else {
                                 $color = 'rgba(100, 100, 100, 0.8)';
                             }
@@ -292,9 +292,14 @@
                             font: {
                                 size: 12
                             },
+                            // Perbaikan: Tambahkan stepSize dan callback untuk menghindari desimal
+                            stepSize: 1,
                             callback: function(value) {
-                                return value;
-                            } // tanpa koma
+                                if (Number.isInteger(value)) {
+                                    return value;
+                                }
+                                return '';
+                            }
                         }
                     },
                     x: {

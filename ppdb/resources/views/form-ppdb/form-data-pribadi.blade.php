@@ -68,15 +68,12 @@
     </div>
 
     <!-- ================== HEADER ================== -->
-    <div class="max-w-5xl mx-auto px-4 relative z-10 pt-16">
-        <div class="flex flex-col gap-6 mb-8">
-            <!-- Header Text -->
-            <div class="w-full text-center">
-                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-gray-800 drop-shadow-sm">
-                    Langkah 1 dari 4
-                </h1>
-            </div>
+    <div class="max-w-5xl mx-auto px-4 relative z-10 py-16">
+        <div class="flex items-center gap-3 mb-3">
+            <div class="h-10 w-1 bg-gradient-to-b from-[#31694E] to-[#4a9b6f] rounded-full"></div>
+            <h1 class="text-4xl font-bold text-[#31694E]">Formulir Data Siswa</h1>
         </div>
+        <p class="text-gray-600 ml-4">Mohon lengkapi formulir berikut dengan informasi yang akurat</p>
     </div>
 
     <!-- ================== MAIN CONTENT ================== -->
