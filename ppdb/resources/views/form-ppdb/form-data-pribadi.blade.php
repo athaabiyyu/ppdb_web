@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.app_user', ['noNavbar' => true])
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Form Data Pribadi</title>
+@section('title', 'Formulir Data Pribadi')
+
+@push('styles')
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -43,41 +40,48 @@
             display: none;
         }
     </style>
-</head>
+@endpush
 
-<body class="min-h-screen  bg-gray-100">
-
-    <!-- Navbar -->
-    <div class="gradient-bg text-white py-8 shadow-lg">
-        <div class="w-full px-4">
-            <div class="flex flex-col md:flex-row items-center md:justify-between relative">
+@section('content')
+    <!-- ================== NAVBAR ================== -->
+    <div class="sticky top-0 z-50 bg-gradient-to-br from-[#31694E] via-[#2a5840] to-[#1f4230] text-white py-3 md:py-3">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
                 <!-- Logo dan Nama Yayasan -->
-                <div class="flex items-center gap-2">
-                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16">
+                <div class="flex items-center gap-3 flex-shrink-0">
+                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
                     <div>
-                        <span class="text-2xl font-bold block">PPDB Online</span>
-                        <span class="text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
+                        <span class="text-xl md:text-xl font-bold block">PPDB Online</span>
+                        <span class="text-sm md:text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
                     </div>
                 </div>
-                <!-- Judul Form -->
-                <h1 class="text-3xl font-bold text-center mt-6 md:mt-0 md:text-left w-full md:w-auto">
-                    Form Data Pribadi
-                </h1>
                 <!-- Progress Info -->
-                <div class="hidden md:block">
-                    <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+                <div class="hidden md:block flex-shrink-0">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl px-6 py-3 shadow-inner">
                         <p class="text-sm text-green-100">Langkah 1 dari 4</p>
-                        <p class="text-xl font-bold">Data Siswa</p>
+                        <p class="text-xl md:text-2xl font-bold">Data Siswa</p>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-    <!-- End Navbar -->
 
-    <div class="max-w-5xl mx-auto px-4 py-8">
+    <!-- ================== HEADER ================== -->
+    <div class="max-w-5xl mx-auto px-4 relative z-10 pt-16">
+        <div class="flex flex-col gap-6 mb-8">
+            <!-- Header Text -->
+            <div class="w-full text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-gray-800 drop-shadow-sm">
+                    Langkah 1 dari 4
+                </h1>
+            </div>
+        </div>
+    </div>
 
-        <!-- Progress Indicator -->
+    <!-- ================== MAIN CONTENT ================== -->
+    <div class="max-w-5xl mx-auto px-4 py-2">
+        <!-- Progress Indikator -->
         <div class="mb-8">
             <div class="flex justify-between items-center max-w-3xl mx-auto">
                 <div class="flex flex-col items-center relative z-10">
@@ -110,6 +114,7 @@
             </div>
         </div>
 
+        <!-- Formulir -->
         <form action="/form-data-pribadi/store" method="POST">
             @csrf
             <input type="hidden" name="id" value="{{ $id ?? '' }}">
@@ -190,8 +195,8 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Tempat Lahir <span
                                 class="text-red-500">*</span></label>
-                        <input type="text" name="tempat_lahir"
-                            value="{{ old('tempat_lahir', $tempat_lahir ?? '') }}" placeholder="Contoh: Bali"
+                        <input type="text" name="tempat_lahir" value="{{ old('tempat_lahir', $tempat_lahir ?? '') }}"
+                            placeholder="Contoh: Bali"
                             class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
                         @error('tempat_lahir')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -216,8 +221,7 @@
 
                         <div class="relative">
                             <!-- Custom Arrow -->
-                            <span
-                                class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                            <span class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -352,8 +356,7 @@
 
                         <div class="relative">
                             <!-- Custom Arrow -->
-                            <span
-                                class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                            <span class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -437,8 +440,7 @@
 
                         <div class="relative">
                             <!-- Custom Arrow -->
-                            <span
-                                class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                            <span class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -526,8 +528,7 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">No. HP Wali <span
                             class="text-red-500">*</span></label>
-                    <input type="text" name="hp_wali" value="{{ old('hp_wali') }}"
-                        placeholder="Contoh: 08123456789"
+                    <input type="text" name="hp_wali" value="{{ old('hp_wali') }}" placeholder="Contoh: 08123456789"
                         class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
                     @error('hp_wali')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -657,8 +658,7 @@
                         <!-- Panah Dropdown -->
                         <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
 
                         @error('rencana_tinggal')
@@ -694,8 +694,7 @@
                         <!-- Panah Dropdown -->
                         <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
 
                         @error('jarak_tempat_tinggal')
@@ -729,8 +728,7 @@
                     <div class="md:col-span-2">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Sekolah Asal <span
                                 class="text-red-500">*</span></label>
-                        <input type="text" name="sekolah_asal"
-                            value="{{ old('sekolah_asal', $sekolah_asal ?? '') }}"
+                        <input type="text" name="sekolah_asal" value="{{ old('sekolah_asal', $sekolah_asal ?? '') }}"
                             placeholder="Contoh: SD Negeri 1 Malang"
                             class="input-focus w-full px-4 py-3 border-2 border-gray-200 rounded-xl transition-all">
                         @error('sekolah_asal')
@@ -761,8 +759,7 @@
             </div>
 
             <!-- Submit Button -->
-            <div
-                class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white rounded-2xl shadow-lg p-6">
+            <div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white rounded-2xl shadow-lg p-6">
                 <div class="text-sm text-gray-600">
                     <p class="font-medium">💡 Tips: Pastikan semua data terisi dengan benar</p>
                     <p class="text-xs mt-1">Field bertanda <span class="text-red-500">*</span> wajib diisi</p>
@@ -779,11 +776,14 @@
         </form>
     </div>
 
-    <!-- Footer -->
+    <!-- ================== FOOTER ================== -->
     <div class="text-center py-8 text-gray-600 text-sm">
         <p>© 2024 Sistem Informasi Pendaftaran Siswa</p>
     </div>
 
+@endsection
+
+@push('scripts')
     <script>
         // Toggle form wali berdasarkan pilihan "Tinggal Dengan"
         const tinggalDengan = document.getElementById('tinggal_dengan');
@@ -803,6 +803,4 @@
         // Check on page load (untuk old value)
         window.addEventListener('DOMContentLoaded', toggleWaliSection);
     </script>
-</body>
-
-</html>
+@endpush

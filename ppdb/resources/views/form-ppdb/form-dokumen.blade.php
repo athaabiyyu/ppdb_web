@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.app_user', ['noNavbar' => true])
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Upload Dokumen</title>
+@section('title', 'Formulir Upload Dokumen Persyaratan')
+
+@push('styles')
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -75,36 +72,26 @@
             color: #9ca3af;
         }
     </style>
-</head>
+@endpush
 
-<body class="min-h-screen bg-gray-100">
-
-    <!-- Header -->
-    <div class="gradient-bg text-white py-8 shadow-lg">
-        <div class="w-full px-4">
-            <div class="flex flex-col md:flex-row items-center md:justify-between relative">
-
+@section('content')
+    <!-- ================== NAVBAR ================== -->
+    <div class="sticky top-0 z-50 bg-gradient-to-br from-[#31694E] via-[#2a5840] to-[#1f4230] text-white py-3 md:py-3">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
                 <!-- Logo dan Nama Yayasan -->
-                <div class="flex items-center gap-2">
-                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16">
+                <div class="flex items-center gap-3 flex-shrink-0">
+                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
                     <div>
-                        <span class="text-2xl font-bold block">PPDB Online</span>
-                        <span class="text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
+                        <span class="text-xl md:text-xl font-bold block">PPDB Online</span>
+                        <span class="text-sm md:text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
                     </div>
                 </div>
-
-                <div>
-                    <h1 class="text-3xl font-bold text-center mt-6 md:mt-0 md:text-left w-full md:w-auto">
-                        Upload Dokumen Persyaratan
-                    </h1>
-                    <p class="text-green-100">Ukuran maksimal: <span class="font-semibold">5MB per file</span></p>
-                </div>
-
                 <!-- Progress Info -->
-                <div class="hidden md:block">
-                    <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+                <div class="hidden md:block flex-shrink-0">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl px-6 py-3 shadow-inner">
                         <p class="text-sm text-green-100">Langkah 3 dari 4</p>
-                        <p class="text-xl font-bold">Upload Dokumen</p>
+                        <p class="text-xl md:text-2xl font-bold">Upload Dokumen</p>
                     </div>
                 </div>
 
@@ -112,6 +99,19 @@
         </div>
     </div>
 
+    <!-- ================== HEADER ================== -->
+    <div class="max-w-5xl mx-auto px-4 relative z-10 pt-16">
+        <div class="flex flex-col gap-6 mb-8">
+            <!-- Header Text -->
+            <div class="w-full text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-gray-800 drop-shadow-sm">
+                    Langkah 2 dari 4
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================== MAIN CONTENT ================== -->
     <div class="max-w-5xl mx-auto px-4 py-8">
 
         <!-- Progress Indicator -->
@@ -201,8 +201,7 @@
                             <input type="file" name="kk" id="kk" accept=".pdf,.jpg,.jpeg,.png"
                                 onchange="updateFileName(this)" required>
                             <label for="kk" class="file-input-label">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
                                     </path>
@@ -224,8 +223,7 @@
                             <input type="file" name="akte" id="akte" accept=".pdf,.jpg,.jpeg,.png"
                                 onchange="updateFileName(this)" required>
                             <label for="akte" class="file-input-label">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
                                     </path>
@@ -376,59 +374,68 @@
                     </div>
 
                     <!-- Transkrip Nilai Per Semester (Conditional) -->
-                    @if($semesterCount > 0)
-                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg mb-4">
-                        <div class="flex items-start">
-                            <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <div>
-                                <h4 class="font-semibold text-blue-900 text-sm">Upload Transkrip Nilai Per Semester</h4>
-                                <p class="text-xs text-blue-800 mt-1">
-                                    Untuk jenjang <strong>{{ $student->jenjang }}</strong>, Anda perlu mengupload transkrip nilai dari Semester 1 sampai {{ $semesterCount }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    @for($i = 1; $i <= $semesterCount; $i++)
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Transkrip Nilai Semester {{ $i }} <span class="text-red-500">*</span>
-                        </label>
-                        <div class="file-input-wrapper">
-                            <input type="file" name="transkrip_semester_{{ $i }}" id="transkrip_semester_{{ $i }}" 
-                                accept=".pdf,.jpg,.jpeg,.png" onchange="updateFileName(this)" required>
-                            <label for="transkrip_semester_{{ $i }}" class="file-input-label">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    @if ($semesterCount > 0)
+                        <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-lg mb-4">
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 text-orange-500 mr-2 flex-shrink-0" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
-                                    </path>
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                <span class="file-name placeholder">Pilih file PDF, JPG, atau PNG</span>
-                            </label>
-                        </div>
-                        @error("transkrip_semester_{$i}")
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    @endfor
-
-                    @else
-                    <!-- Info untuk SD -->
-                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
-                        <div class="flex items-start">
-                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <div>
-                                <h4 class="font-semibold text-green-900 text-sm">Transkrip Nilai Tidak Diperlukan</h4>
-                                <p class="text-xs text-green-800 mt-1">
-                                    Untuk pendaftaran jenjang <strong>{{ $student->jenjang }}</strong>, Anda tidak perlu mengupload transkrip nilai.
-                                </p>
+                                <div>
+                                    <h4 class="font-semibold text-orange-900 text-sm">Upload Transkrip Nilai Per Semester
+                                    </h4>
+                                    <p class="text-xs text-orange-800 mt-1">
+                                        Untuk jenjang <strong>{{ $student->jenjang }}</strong>, Anda perlu mengupload
+                                        transkrip nilai dari Semester 1 sampai {{ $semesterCount }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+
+                        @for ($i = 1; $i <= $semesterCount; $i++)
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Transkrip Nilai Semester {{ $i }} <span class="text-red-500">*</span>
+                                </label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" name="transkrip_semester_{{ $i }}"
+                                        id="transkrip_semester_{{ $i }}" accept=".pdf,.jpg,.jpeg,.png"
+                                        onchange="updateFileName(this)" required>
+                                    <label for="transkrip_semester_{{ $i }}" class="file-input-label">
+                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                            </path>
+                                        </svg>
+                                        <span class="file-name placeholder">Pilih file PDF, JPG, atau PNG</span>
+                                    </label>
+                                </div>
+                                @error("transkrip_semester_{$i}")
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endfor
+                    @else
+                        <!-- Info untuk SD -->
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <div>
+                                    <h4 class="font-semibold text-green-900 text-sm">Transkrip Nilai Tidak Diperlukan
+                                    </h4>
+                                    <p class="text-xs text-green-800 mt-1">
+                                        Untuk pendaftaran jenjang <strong>{{ $student->jenjang }}</strong>, Anda tidak
+                                        perlu mengupload transkrip nilai.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     @endif
                 </div>
             </div>
@@ -513,8 +520,9 @@
                             <li>Format file yang diterima: PDF, JPG, atau PNG</li>
                             <li>Ukuran maksimal per file adalah 5MB</li>
                             <li>Dokumen bertanda <span class="text-red-500 font-semibold">*</span> wajib diupload</li>
-                            @if($semesterCount > 0)
-                            <li>Upload transkrip nilai untuk setiap semester secara terpisah (Semester 1 sampai {{ $semesterCount }})</li>
+                            @if ($semesterCount > 0)
+                                <li>Upload transkrip nilai untuk setiap semester secara terpisah (Semester 1 sampai
+                                    {{ $semesterCount }})</li>
                             @endif
                         </ul>
                     </div>
@@ -522,8 +530,7 @@
             </div>
 
             <!-- Submit Button -->
-            <div
-                class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white rounded-2xl shadow-lg p-6">
+            <div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white rounded-2xl shadow-lg p-6">
                 <div class="text-sm text-gray-600">
                     <p class="font-medium">🎉 Langkah terakhir! Upload dokumen untuk menyelesaikan pendaftaran</p>
                     <p class="text-xs mt-1">Anda akan melihat ringkasan data setelah submit</p>
@@ -545,6 +552,9 @@
         <p>© 2024 Sistem Informasi Pendaftaran Siswa</p>
     </div>
 
+@endsection
+
+@push('scripts')
     <script>
         function updateFileName(input) {
             const label = input.nextElementSibling;
@@ -572,7 +582,4 @@
             }
         }
     </script>
-
-</body>
-
-</html>
+@endpush

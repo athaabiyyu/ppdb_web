@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.app_user', ['noNavbar' => true])
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Form Biodata Orang Tua</title>
+@section('title', 'Formulir Data Orang Tua')
+
+@push('styles')
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -38,34 +35,31 @@
             transform: scale(1.01);
             transition: all 0.2s ease;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
-</head>
+@endpush
 
-<body class="min-h-screen bg-gray-100">
-    <!-- Header -->
-    <div class="gradient-bg text-white py-8 shadow-lg">
-        <div class="w-full px-4">
-            <div class="flex flex-col md:flex-row items-center md:justify-between relative">
-
+@section('content')
+    <!-- ================== NAVBAR ================== -->
+    <div class="sticky top-0 z-50 bg-gradient-to-br from-[#31694E] via-[#2a5840] to-[#1f4230] text-white py-3 md:py-3">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
                 <!-- Logo dan Nama Yayasan -->
-                <div class="flex items-center gap-2">
-                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16">
+                <div class="flex items-center gap-3 flex-shrink-0">
+                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
                     <div>
-                        <span class="text-2xl font-bold block">PPDB Online</span>
-                        <span class="text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
+                        <span class="text-xl md:text-xl font-bold block">PPDB Online</span>
+                        <span class="text-sm md:text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
                     </div>
                 </div>
-
-                <!-- Judul Form -->
-                <h1 class="text-3xl font-bold text-center mt-6 md:mt-0 md:text-left w-full md:w-auto">
-                    Form Data Orangtua
-                </h1>
-
                 <!-- Progress Info -->
-                <div class="hidden md:block">
-                    <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+                <div class="hidden md:block flex-shrink-0">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl px-6 py-3 shadow-inner">
                         <p class="text-sm text-green-100">Langkah 2 dari 4</p>
-                        <p class="text-xl font-bold">Data Orang Tua</p>
+                        <p class="text-xl md:text-2xl font-bold">Data Orang Tua</p>
                     </div>
                 </div>
 
@@ -73,6 +67,19 @@
         </div>
     </div>
 
+    <!-- ================== HEADER ================== -->
+    <div class="max-w-5xl mx-auto px-4 relative z-10 pt-16">
+        <div class="flex flex-col gap-6 mb-8">
+            <!-- Header Text -->
+            <div class="w-full text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-gray-800 drop-shadow-sm">
+                    Langkah 2 dari 4
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================== MAIN CONTENT ================== -->
     <div class="max-w-5xl mx-auto px-4 py-8">
 
         <!-- Progress Indicator -->
@@ -119,18 +126,17 @@
 
             <!-- Info Jika Tinggal dengan Wali -->
             @if ($student->tinggal_dengan === 'Wali')
-                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-lg">
+                <div class="bg-orange-50 border-l-4 border-orange-500 p-4 mb-6 rounded-lg">
                     <div class="flex items-center">
-                        <svg class="w-6 h-6 text-blue-500 mr-3" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-orange-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         <div>
-                            <p class="text-sm font-medium text-blue-800">
+                            <p class="text-sm font-medium text-orange-800">
                                 Anda sebelumnya memilih <strong>"Tinggal dengan Wali"</strong>
                             </p>
-                            <p class="text-xs text-blue-700 mt-1">
+                            <p class="text-xs text-orange-700 mt-1">
                                 Data wali sudah tersimpan. Silakan lengkapi data orang tua kandung di bawah ini.
                             </p>
                         </div>
@@ -228,8 +234,7 @@
                         </select>
                         <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                         @error('pendidikan_ayah')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -252,8 +257,7 @@
                         </select>
                         <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                         @error('status_ayah')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -397,8 +401,7 @@
                         </select>
                         <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                         @error('pendidikan_ibu')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -421,8 +424,7 @@
                         </select>
                         <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                         @error('status_ibu')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -496,8 +498,7 @@
                     <!-- Alamat KK -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat Sesuai Kartu Keluarga
-                            (KK)<span
-                                class="text-red-500">*</span></label>
+                            (KK)<span class="text-red-500">*</span></label>
                         <textarea name="alamat_kk" rows="2" placeholder="Tuliskan alamat lengkap sesuai Kartu Keluarga"
                             class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('alamat_kk') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all resize-none">{{ old('alamat_kk', $student->alamat_kk ?? '') }}</textarea>
                         @if ($errors->has('alamat_kk'))
@@ -520,7 +521,7 @@
                         <!-- Desa / Kelurahan -->
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Desa / Kelurahan<span
-                                class="text-red-500">*</span></label>
+                                    class="text-red-500">*</span></label>
                             <input type="text" name="desa" value="{{ old('desa', $student->desa ?? '') }}"
                                 placeholder="Tuliskan desa/kelurahan"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('desa') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
@@ -532,7 +533,7 @@
                         <!-- Kecamatan -->
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Kecamatan<span
-                                class="text-red-500">*</span></label>
+                                    class="text-red-500">*</span></label>
                             <input type="text" name="kecamatan"
                                 value="{{ old('kecamatan', $student->kecamatan ?? '') }}"
                                 placeholder="Tuliskan kecamatan"
@@ -545,7 +546,7 @@
                         <!-- Kabupaten / Kota -->
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Kabupaten / Kota<span
-                                class="text-red-500">*</span></label>
+                                    class="text-red-500">*</span></label>
                             <input type="text" name="kabupaten"
                                 value="{{ old('kabupaten', $student->kabupaten ?? '') }}"
                                 placeholder="Tuliskan kabupaten/kota"
@@ -558,7 +559,7 @@
                         <!-- Provinsi -->
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Provinsi<span
-                                class="text-red-500">*</span></label>
+                                    class="text-red-500">*</span></label>
                             <input type="text" name="provinsi"
                                 value="{{ old('provinsi', $student->provinsi ?? '') }}" placeholder="Tuliskan provinsi"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('provinsi') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
@@ -570,10 +571,10 @@
                         <!-- Kode Pos -->
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Kode Pos<span
-                                class="text-red-500">*</span></label>
+                                    class="text-red-500">*</span></label>
                             <input type="text" name="kode_pos"
-                                value="{{ old('kode_pos', $student->kode_pos ?? '') }}"
-                                placeholder="Tuliskan kode pos" maxlength="5"
+                                value="{{ old('kode_pos', $student->kode_pos ?? '') }}" placeholder="Tuliskan kode pos"
+                                maxlength="5"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('kode_pos') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                             @if ($errors->has('kode_pos'))
                                 <p class="text-red-500 text-sm mt-1">{{ $errors->first('kode_pos') }}</p>
@@ -585,8 +586,7 @@
 
 
             <!-- Submit Button -->
-            <div
-                class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white rounded-2xl shadow-lg p-6">
+            <div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white rounded-2xl shadow-lg p-6">
                 <div class="text-sm text-gray-600">
                     <p class="font-medium">💡 Tips: Pastikan data orang tua terisi dengan lengkap dan benar</p>
                     <p class="text-xs mt-1">Data ini akan digunakan untuk keperluan administrasi sekolah</p>
@@ -603,11 +603,31 @@
         </form>
     </div>
 
-    <!-- Footer -->
+    <!-- ================== FOOTER ================== -->
     <div class="text-center py-8 text-gray-600 text-sm">
         <p>© 2024 Sistem Informasi Pendaftaran Siswa</p>
     </div>
+@endsection
 
-</body>
 
-</html>
+@push('scripts')
+    <script>
+        // Toggle form wali berdasarkan pilihan "Tinggal Dengan"
+        const tinggalDengan = document.getElementById('tinggal_dengan');
+        const sectionWali = document.getElementById('section_wali');
+
+        function toggleWaliSection() {
+            if (tinggalDengan.value === 'Wali') {
+                sectionWali.classList.remove('hidden');
+            } else {
+                sectionWali.classList.add('hidden');
+            }
+        }
+
+        // Event listener
+        tinggalDengan.addEventListener('change', toggleWaliSection);
+
+        // Check on page load (untuk old value)
+        window.addEventListener('DOMContentLoaded', toggleWaliSection);
+    </script>
+@endpush

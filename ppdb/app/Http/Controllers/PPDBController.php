@@ -258,11 +258,9 @@ class PPDBController extends Controller
               return redirect()->route('form.dokumen', ['id' => $req['student_id']]);
        }
 
-
        public function formDokumen($id)
        {
               $student = Student::findOrFail($id);
-
               // Tentukan jumlah semester berdasarkan jenjang
               $semesterCount = 0;
               if ($student->jenjang === 'SMP') {

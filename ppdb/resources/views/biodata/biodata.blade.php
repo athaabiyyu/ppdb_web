@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.app_user', ['noNavbar' => true])
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Ringkasan Biodata</title>
+@section('title', 'Formulir Upload Dokumen Persyaratan')
+
+@push('styles')
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -30,37 +27,69 @@
             max-height: 90vh;
             overflow-y: auto;
         }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slideUp {
+            animation: slideUp 0.3s ease-out;
+        }
+
+        /* Custom Scrollbar */
+        .overflow-y-auto::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 10px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+            background: #059669;
+        }
+
+        /* Input Focus Glow Effect */
+        .group input:focus,
+        .group select:focus,
+        .group textarea:focus {
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
     </style>
-</head>
+@endpush
 
-<body class="min-h-screen bg-gray-100">
-
-    <!-- Header -->
-    <div class="gradient-bg text-white py-8 shadow-lg">
-        <div class="w-full px-4">
-            <div class="flex flex-col md:flex-row items-center md:justify-between relative">
-
+@section('content')
+    <!-- ================== NAVBAR ================== -->
+    <div class="sticky top-0 z-50 bg-gradient-to-br from-[#31694E] via-[#2a5840] to-[#1f4230] text-white py-3 md:py-3">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
                 <!-- Logo dan Nama Yayasan -->
-                <div class="flex items-center gap-2">
-                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16">
+                <div class="flex items-center gap-3 flex-shrink-0">
+                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
                     <div>
-                        <span class="text-2xl font-bold block">PPDB Online</span>
-                        <span class="text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
+                        <span class="text-xl md:text-xl font-bold block">PPDB Online</span>
+                        <span class="text-sm md:text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
                     </div>
                 </div>
-
-                <div>
-                    <h1 class="text-3xl font-bold text-center mt-6 md:mt-0 md:text-left w-full md:w-auto">
-                        Pendaftaran Berhasil!
-                    </h1>
-                    <p class="text-green-100">Selamat! Data Anda telah tersimpan dengan baik</p>
-                </div>
-
                 <!-- Progress Info -->
-                <div class="hidden md:block">
-                    <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+                <div class="hidden md:block flex-shrink-0">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl px-6 py-3 shadow-inner">
                         <p class="text-sm text-green-100">Langkah 4 dari 4</p>
-                        <p class="text-xl font-bold">Pendaftaran Berhasil</p>
+                        <p class="text-xl md:text-2xl font-bold">Pendaftaran Berhasil</p>
                     </div>
                 </div>
 
@@ -68,6 +97,7 @@
         </div>
     </div>
 
+    <!-- ================== MAIN CONTENT ================== -->
     <div class="max-w-5xl mx-auto px-4 py-8">
         @if (session('success'))
             <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-lg">
@@ -91,13 +121,13 @@
                         </svg>
                     </div>
 
-                    <h2 class="text-2xl font-bold text-gray-800">Ringkasan Biodata</h2>
+                    <h2 class="text-2xl font-bold text-gray-800">Detail Biodata</h2>
                 </div>
 
                 <!-- BUTTONS -->
                 <div class="flex items-center gap-3">
 
-                     <!-- EDIT DOKUMEN -->
+                    <!-- EDIT DOKUMEN -->
                     <button onclick="openEditDokumenModal()"
                         class="bg-lime-600 hover:bg-lime-700 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transition flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -518,8 +548,7 @@
                                     <button
                                         onclick="openModal('{{ asset('storage/' . $student->documents->$key) }}', '{{ $label }}')"
                                         class="text-blue-600 font-semibold hover:text-blue-700 flex items-center gap-2">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -540,14 +569,14 @@
                             is_array($student->documents->transkrip_semester) &&
                             count($student->documents->transkrip_semester) > 0)
                         <h4 class="font-semibold text-gray-700 mb-3 mt-6">Transkrip Nilai Per Semester</h4>
-                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg mb-4">
+                        <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-lg mb-4">
                             <div class="flex items-start">
-                                <svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none"
+                                <svg class="w-5 h-5 text-orange-500 mr-2 flex-shrink-0" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                <p class="text-sm text-blue-800">
+                                <p class="text-sm text-orange-800">
                                     Total <strong>{{ count($student->documents->transkrip_semester) }}
                                         semester</strong> transkrip nilai telah diupload
                                 </p>
@@ -565,8 +594,7 @@
                                     <button
                                         onclick="openModal('{{ asset('storage/' . $path) }}', 'Transkrip Nilai Semester {{ $semesterNumber }}')"
                                         class="text-blue-600 font-semibold hover:text-blue-700 flex items-center gap-2">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -615,7 +643,7 @@
 
     </div>
 
-    <!-- MODAL EDIT (Improved Styling) -->
+    <!-- ================== MODAL EDIT ================== -->
     <div id="editModal" class="fixed inset-0 hidden items-center justify-center z-50 p-4">
         <div class="absolute inset-0 bg-gradient-to-br from-black/60 to-black/40 backdrop-blur-md"
             onclick="closeEditModal()"></div>
@@ -907,8 +935,7 @@
                                     </div>
 
                                     <div class="group">
-                                        <label
-                                            class="block text-sm font-semibold text-gray-700 mb-2">Pendidikan</label>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pendidikan</label>
                                         <input type="text" name="pendidikan_ayah"
                                             value="{{ $student->parentInfo->pendidikan_ayah }}"
                                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-blue-300">
@@ -922,8 +949,7 @@
                                     </div>
 
                                     <div class="group">
-                                        <label
-                                            class="block text-sm font-semibold text-gray-700 mb-2">Penghasilan</label>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Penghasilan</label>
                                         <input type="text" name="penghasilan_ayah"
                                             value="{{ $student->parentInfo->penghasilan_ayah }}"
                                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-blue-300">
@@ -938,8 +964,7 @@
 
                                     <div class="group">
                                         <label class="block text-sm font-semibold text-gray-700 mb-2">No HP</label>
-                                        <input type="text" name="hp_ayah"
-                                            value="{{ $student->parentInfo->hp_ayah }}"
+                                        <input type="text" name="hp_ayah" value="{{ $student->parentInfo->hp_ayah }}"
                                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-blue-300">
                                     </div>
                                 </div>
@@ -965,8 +990,7 @@
 
                                     <div class="group">
                                         <label class="block text-sm font-semibold text-gray-700 mb-2">NIK Ibu</label>
-                                        <input type="text" name="nik_ibu"
-                                            value="{{ $student->parentInfo->nik_ibu }}"
+                                        <input type="text" name="nik_ibu" value="{{ $student->parentInfo->nik_ibu }}"
                                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all hover:border-pink-300">
                                     </div>
 
@@ -987,8 +1011,7 @@
                                     </div>
 
                                     <div class="group">
-                                        <label
-                                            class="block text-sm font-semibold text-gray-700 mb-2">Pendidikan</label>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pendidikan</label>
                                         <input type="text" name="pendidikan_ibu"
                                             value="{{ $student->parentInfo->pendidikan_ibu }}"
                                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all hover:border-pink-300">
@@ -1002,8 +1025,7 @@
                                     </div>
 
                                     <div class="group">
-                                        <label
-                                            class="block text-sm font-semibold text-gray-700 mb-2">Penghasilan</label>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-2">Penghasilan</label>
                                         <input type="text" name="penghasilan_ibu"
                                             value="{{ $student->parentInfo->penghasilan_ibu }}"
                                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all hover:border-pink-300">
@@ -1018,8 +1040,7 @@
 
                                     <div class="group">
                                         <label class="block text-sm font-semibold text-gray-700 mb-2">No HP</label>
-                                        <input type="text" name="hp_ibu"
-                                            value="{{ $student->parentInfo->hp_ibu }}"
+                                        <input type="text" name="hp_ibu" value="{{ $student->parentInfo->hp_ibu }}"
                                             class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all hover:border-pink-300">
                                     </div>
                                 </div>
@@ -1062,8 +1083,7 @@
                                         </div>
 
                                         <div class="group">
-                                            <label
-                                                class="block text-sm font-semibold text-gray-700 mb-2">Kecamatan</label>
+                                            <label class="block text-sm font-semibold text-gray-700 mb-2">Kecamatan</label>
                                             <input type="text" name="kecamatan_ortu"
                                                 value="{{ $student->parentInfo->kecamatan }}"
                                                 class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-blue-300">
@@ -1078,8 +1098,7 @@
                                         </div>
 
                                         <div class="group">
-                                            <label
-                                                class="block text-sm font-semibold text-gray-700 mb-2">Provinsi</label>
+                                            <label class="block text-sm font-semibold text-gray-700 mb-2">Provinsi</label>
                                             <input type="text" name="provinsi_ortu"
                                                 value="{{ $student->parentInfo->provinsi }}"
                                                 class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all hover:border-blue-300">
@@ -1116,30 +1135,25 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Nama Wali
                                     </label>
-                                    <input type="text" name="nama_wali"
-                                        value="{{ $student->guardian->nama_wali }}"
+                                    <input type="text" name="nama_wali" value="{{ $student->guardian->nama_wali }}"
                                         class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all hover:border-purple-300">
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         NIK Wali
                                     </label>
-                                    <input type="text" name="nik_wali"
-                                        value="{{ $student->guardian->nik_wali }}"
+                                    <input type="text" name="nik_wali" value="{{ $student->guardian->nik_wali }}"
                                         class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all hover:border-purple-300">
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Tempat Lahir
                                     </label>
@@ -1149,8 +1163,7 @@
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Tanggal Lahir
                                     </label>
@@ -1160,8 +1173,7 @@
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Pendidikan
                                     </label>
@@ -1171,8 +1183,7 @@
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Pekerjaan
                                     </label>
@@ -1182,8 +1193,7 @@
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Penghasilan
                                     </label>
@@ -1193,8 +1203,7 @@
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         No HP
                                     </label>
@@ -1203,19 +1212,16 @@
                                 </div>
 
                                 <div class="group md:col-span-2">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Alamat
                                     </label>
-                                    <input type="text" name="alamat_wali"
-                                        value="{{ $student->guardian->alamat }}"
+                                    <input type="text" name="alamat_wali" value="{{ $student->guardian->alamat }}"
                                         class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all hover:border-purple-300">
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Desa
                                     </label>
@@ -1224,8 +1230,7 @@
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Kecamatan
                                     </label>
@@ -1235,8 +1240,7 @@
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Kabupaten
                                     </label>
@@ -1246,8 +1250,7 @@
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Provinsi
                                     </label>
@@ -1257,8 +1260,7 @@
                                 </div>
 
                                 <div class="group">
-                                    <label
-                                        class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
                                         <span class="w-2 h-2 bg-purple-600 rounded-full"></span>
                                         Kode Pos
                                     </label>
@@ -1285,8 +1287,8 @@
                         <button type="submit"
                             class="px-8 py-3 bg-[#31694E] text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 flex items-center gap-2 shadow-lg">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
+                                </path>
                             </svg>
                             Simpan Perubahan
                         </button>
@@ -1296,72 +1298,10 @@
         </div>
     </div>
 
-    <!-- CUSTOM CSS for Animation -->
-    <style>
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-slideUp {
-            animation: slideUp 0.3s ease-out;
-        }
-
-        /* Custom Scrollbar */
-        .overflow-y-auto::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .overflow-y-auto::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        .overflow-y-auto::-webkit-scrollbar-thumb {
-            background: #10b981;
-            border-radius: 10px;
-        }
-
-        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-            background: #059669;
-        }
-
-        /* Input Focus Glow Effect */
-        .group input:focus,
-        .group select:focus,
-        .group textarea:focus {
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
-        }
-    </style>
-
-    <script>
-        function closeEditModal() {
-            document.getElementById('editModal').classList.add('hidden');
-            document.getElementById('editModal').classList.remove('flex');
-            document.body.style.overflow = 'auto';
-        }
-
-        function openEditModal() {
-            document.getElementById('editModal').classList.remove('hidden');
-            document.getElementById('editModal').classList.add('flex');
-            document.body.style.overflow = 'hidden';
-        }
-    </script>
-
-    
-
     <!-- MODAL EDIT DOKUMEN -->
     <div id="editDokumenModal" class="fixed inset-0 hidden items-center justify-center z-50">
         <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" onclick="closeEditDokumenModal()"></div>
-        <div
-            class="relative bg-white rounded-2xl shadow-2xl w-[95%] max-w-6xl max-h-[90vh] overflow-y-auto modal-content">
+        <div class="relative bg-white rounded-2xl shadow-2xl w-[95%] max-w-6xl max-h-[90vh] overflow-y-auto modal-content">
             <div class="sticky top-0 bg-[#31694E] p-6 z-10 shadow-lg">
                 <div class="flex items-center justify-between text-white">
                     <div>
@@ -1599,8 +1539,8 @@
                 <h3 id="documentTitle" class="text-xl font-bold text-gray-800"></h3>
                 <button onclick="closeDocumentPreview()" class="text-gray-500 hover:text-gray-800">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
                     </svg>
                 </button>
             </div>
@@ -1610,7 +1550,27 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <div class="text-center py-8 text-gray-600 text-sm">
+        <p>© 2024 Sistem Informasi Pendaftaran Siswa</p>
+        <p class="mt-1">Terima kasih atas kepercayaan Anda 🙏</p>
+    </div>
+@endsection
+
+@push('scripts')
     <script>
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+            document.getElementById('editModal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openEditModal() {
+            document.getElementById('editModal').classList.remove('hidden');
+            document.getElementById('editModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
         function openEditDokumenModal() {
             document.getElementById('editDokumenModal').classList.remove('hidden');
             document.getElementById('editDokumenModal').classList.add('flex');
@@ -1666,15 +1626,7 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
-    </script>
 
-    <!-- Footer -->
-    <div class="text-center py-8 text-gray-600 text-sm">
-        <p>© 2024 Sistem Informasi Pendaftaran Siswa</p>
-        <p class="mt-1">Terima kasih atas kepercayaan Anda 🙏</p>
-    </div>
-
-    <script>
         function openEditModal() {
             document.getElementById('editModal').classList.remove('hidden');
             document.getElementById('editModal').classList.add('flex');
@@ -1696,9 +1648,7 @@
             document.getElementById('docModal').classList.add('hidden');
             document.getElementById('docModal').classList.remove('flex');
         }
-    </script>
 
-    <script>
         function openModal(src, title = '') {
             const modal = document.getElementById('docModal');
             const img = document.getElementById('modalImage');
@@ -1723,6 +1673,4 @@
             modal.classList.remove('flex');
         }
     </script>
-</body>
-
-</html>
+@endpush

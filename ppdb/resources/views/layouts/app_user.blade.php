@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" href="/assets/logo_yayasan.png">
 
     <title>@yield('title', 'PPDB - Penerimaan Peserta Didik Baru')</title>
-    
+
     <style>
         html {
             scroll-behavior: smooth;
@@ -23,7 +23,9 @@
 
 <body class="bg-gradient-to-br from-gray-50 to-gray-100">
     <!-- ================== NAVBAR ================== -->
-    @include('components.navbar_user')
+    @if (!isset($noNavbar) || !$noNavbar)
+        @include('components.navbar_user')
+    @endif
     <!-- ================== END NAVBAR ================== -->
 
     <!-- ================== MAIN CONTENT ================== -->
