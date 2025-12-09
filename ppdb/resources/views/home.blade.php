@@ -1,9 +1,16 @@
 @extends('layouts.app_user')
 
 @section('title', 'PPDB')
+@push('styles')
+    <style>
+        .swiper-slide img {
+            object-fit: fill;
+        }
+    </style>
+@endpush
 
 @section('content')
-    <!-- ================== HERO ================== -->
+    <!-- ================== SLIDER ================== -->
     <section class="relative w-full h-screen" id="home">
         <div class="swiper mySwiper w-full h-full">
             <div class="swiper-wrapper w-full h-full">
@@ -11,7 +18,7 @@
                     @if ($slide->image_path)
                         <div class="swiper-slide w-full h-full flex justify-center items-center bg-[#DDF4E7]">
                             <img src="{{ asset('storage/' . $slide->image_path) }}"
-                                class="w-full mh-full object-cover rounded-lg shadow-lg" alt="Slider Image">
+                                class="w-full h-full object-contain rounded-lg shadow-lg" alt="Slider Image">
                         </div>
                     @endif
                 @endforeach
@@ -21,7 +28,7 @@
             <div class="swiper-pagination" style="--swiper-pagination-color: #31694E;"></div>
         </div>
     </section>
-    <!-- ================== END HERO ================== -->
+    <!-- ================== END SLIDER ================== -->
 
     <div class="max-w-7xl mx-auto px-6 py-16">
         <!-- ================== INFO & ALUR ================== -->
@@ -32,32 +39,19 @@
                 <p class="text-gray-600 text-lg">Panduan lengkap untuk mendaftar PPDB</p>
             </div>
             <div class="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-[#31694E]">
-                <div class="flex items-start gap-4 mb-6">
-                    <div class="bg-green-100 p-3 rounded-lg">
-                        <svg class="w-8 h-8 text-[#31694E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <div class="flex-1">
-                        <h2 class="text-3xl font-bold text-gray-800 mb-2">Informasi & Alur Pendaftaran</h2>
-                        <p class="text-gray-600">Panduan lengkap untuk mendaftar PPDB</p>
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-8 mt-8">
+                <div class="grid md:grid-cols-2 gap-8 mt-2">
                     <div>
-                        <h3 class="font-bold text-lg text-[#31694E] mb-4">Syarat Pendaftaran:</h3>
-                        <ul class="space-y-3 text-gray-700">
+                        <h3 class="font-bold text-2xl text-[#31694E] mb-7">Syarat Pendaftaran:</h3>
+                        <ul class="space-y-5 text-gray-700 pl-1 mr-12">
                             @foreach ($requirements as $req)
-                                <li class="flex items-start gap-2">
+                                <li class="flex items-start gap-3">
                                     <svg class="w-5 h-5 text-[#31694E] mt-1 flex-shrink-0" fill="currentColor"
                                         viewBox="0 0 20 20">
                                         <path fill-rule="evenodd"
                                             d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                             clip-rule="evenodd"></path>
                                     </svg>
-                                    <span>{{ $req->text }}</span>
+                                    <span class="text-base">{{ ucfirst(strtolower($req->text)) }}</span>
                                 </li>
                             @endforeach
                         </ul>
@@ -65,54 +59,51 @@
                     </div>
 
                     <div>
-                        <h3 class="font-bold text-lg text-[#31694E] mb-4">Alur Pendaftaran:</h3>
-                        <ol class="space-y-3 text-gray-700">
-                            <li class="flex items-start gap-3">
-                                <span
-                                    class="bg-[#31694E] text-white w-7 h-7 rounded-full flex items-center justify-center font-bold flex-shrink-0">1</span>
-                                <span>Pilih jenjang pendidikan yang diinginkan</span>
-                            </li>
+                        <h3 class="font-bold text-2xl text-[#31694E] mb-7">Alur Pendaftaran:</h3>
+                        <ol class="space-y-5 text-gray-700 pl-1 mr-5">
                             @foreach ($flows as $flow)
                                 <li class="flex items-start gap-3">
                                     <span
-                                        class="bg-[#31694E] text-white w-7 h-7 rounded-full flex items-center justify-center">
+                                        class="bg-[#31694E] text-white w-5 h-5 rounded-full flex items-center justify-center text-sm flex-shrink-0">
                                         {{ $flow->step_number }}
                                     </span>
-                                    <span>{{ $flow->text }}</span>
+                                    <span class="text-base">{{ ucfirst(strtolower($flow->text)) }}</span>
                                 </li>
                             @endforeach
-
                         </ol>
+
                     </div>
                 </div>
             </div>
         </section>
-        <!-- ================== END INFO ================== -->
+        <!-- ================== END INFO & ALUR ================== -->
 
-        <!-- ================== UNIT PENDIDIKAN ================== -->
-        <section class="mb-32">
+        <!-- ================== INFO UNIT PENDIDIKAN ================== -->
+        <section class="mb-20">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800 mb-3 scroll-mt-32" id="unit-pendidikan">Informasi Unit
+                <h2 class="text-4xl font-bold text-gray-800 mb-3 scroll-mt-32" id="info-unit-pendidikan">Informasi Unit
                     Pendidikan</h2>
                 <p class="text-gray-600 text-lg">Klik tombol Detail untuk melihat informasi lengkap tiap lembaga</p>
             </div>
 
             <div class="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-[#31694E]">
-                <table class="w-full table-auto border border-gray-200 rounded-lg overflow-hidden">
+                <table class="w-full table-auto border-collapse rounded-lg overflow-hidden">
                     <thead>
-                        <tr class="bg-gray-100">
-                            <th class="py-3 px-4 text-left">Unit Pendidikan</th>
-                            <th class="py-3 px-4 text-left">Aksi</th>
+                        <tr class="bg-[#31694E] text-white">
+                            <th class="w-1/2 py-3 px-4 text-center border-b-2 border-r-2 border-white">Unit Pendidikan</th>
+                            <th class="w-1/2 py-3 px-4 text-center border-b-2 border-white">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($units as $unit)
-                            <tr class="border-t">
-                                <td class="py-3 px-4">{{ $unit->name }}</td>
-                                <td class="py-3 px-4">
+                            <tr class="border-t-2 border-r-2 border-l-2">
+                                <td class="py-3 px-6 text-center capitalize border-r-2 border-b-2">{{ $unit->name }}</td>
+                                <td class="py-3 px-6 text-center border-b-2">
                                     @if ($unit->google_drive_link)
                                         <a href="{{ $unit->google_drive_link }}" target="_blank"
-                                            class="bg-green-600 text-white px-4 py-2 rounded-lg">Detail</a>
+                                            class="bg-green-100 text-green-700 hover:bg-green-200 px-3 sm:px-4 py-2 sm:py-2 rounded-lg transition text-sm sm:text-base inline-block text-center w-full sm:w-auto">
+                                            Detail
+                                        </a>
                                     @else
                                         <span class="text-gray-400">Belum ada</span>
                                     @endif
@@ -123,7 +114,7 @@
                 </table>
             </div>
         </section>
-        <!-- ================== END UNIT ================== -->
+        <!-- ================== END INFO UNIT PENDIDIK ================== -->
 
         <!-- ================== JENJANG PENDIDIKAN ================== -->
         <section class="mb-20">
@@ -133,7 +124,7 @@
                 </h2>
                 <p class="text-gray-600 text-lg">Silakan pilih jenjang pendidikan yang ingin Anda daftarkan</p>
             </div>
-
+            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- SD Card -->
                 <a href="/daftar/sd"
@@ -259,7 +250,6 @@
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </div>
-
         </section>
         <!-- ================== END MAP ================== -->
     </div>
