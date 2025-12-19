@@ -12,7 +12,7 @@
                 <div class="blob"></div>
 
                 <!-- Logo -->
-                <img src="/assets/logo_yayasan.png" class="w-32 md:w-52 mx-auto mb-4 md:mb-6 relative z-10 opacity-95">
+                <img src="{{ asset('assets/logo_yayasan.png') }}" class="w-32 md:w-52 mx-auto mb-4 md:mb-6 relative z-10 opacity-95">
 
                 <!-- Title -->
                 <h1 class="text-3xl md:text-5xl font-bold leading-tight relative z-10 drop-shadow-lg">
@@ -36,7 +36,7 @@
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Pilih Lembaga</h2>
                 <p class="text-gray-500 mb-6 md:mb-8 text-sm md:text-base">Silakan pilih lembaga yang ingin Anda tuju.</p>
 
-                <form action="/pilih-lembaga" method="POST">
+                <form action="{{ route('pilih.lembaga') }}" method="POST">
                     @csrf
                     <input type="hidden" name="jenjang" value="{{ $jenjang }}">
 

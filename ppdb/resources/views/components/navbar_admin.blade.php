@@ -3,17 +3,17 @@
         <div class="flex items-center justify-between">
             <!-- Left Logo -->
             <div class="flex items-center space-x-4">
-                <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16 rounded-lg">
+                <img src="{{ asset('assets/logo_yayasan.png') }}" alt="Logo" class="w-16 h-16 rounded-lg">
                 <div>
                     <span class="text-xl font-bold block">PPDB Admin</span>
-                    <span class="text-xl opacity-90">Yayasan Mambaul Maarif</span>
+                    <span class="text-xl opacity-90">Yayasan Mamba'ul Ma'arif</span>
                 </div>
             </div>
 
             <!-- Desktop Menu -->
             <ul class="hidden lg:flex items-center gap-2">
                 <li>
-                    <a href="/admin/dashboard"
+                    <a href="{{ route('admin.dashboard') }}"
                         class="px-4 py-2 rounded-lg hover:bg-white/10 transition-colors font-medium text-base tracking-widest">
                         Dashboard
                     </a>
@@ -99,7 +99,7 @@
         <div id="mobile-menu" class="hidden lg:hidden border-t border-white/20 mt-4 pt-4">
             <ul class="flex flex-col gap-1">
                 <li>
-                    <a href="/admin/dashboard"
+                    <a href="{{ route('admin.dashboard') }}"
                         class="block px-4 py-3 rounded-lg hover:bg-white/10 transition-colors font-medium text-base tracking-widest">
                         Dashboard
                     </a>

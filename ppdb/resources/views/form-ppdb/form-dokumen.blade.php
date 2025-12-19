@@ -81,10 +81,10 @@
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
                 <!-- Logo dan Nama Yayasan -->
                 <div class="flex items-center gap-3 flex-shrink-0">
-                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
+                    <img src="{{ asset('assets/logo_yayasan.png') }}" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
                     <div>
                         <span class="text-xl md:text-xl font-bold block">PPDB Online</span>
-                        <span class="text-sm md:text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
+                        <span class="text-sm md:text-sm opacity-90">Yayasan Mamba'ul Ma'arif Denanyar Jombang</span>
                     </div>
                 </div>
                 <!-- Progress Info -->
@@ -100,7 +100,7 @@
     </div>
 
     <!-- ================== HEADER ================== -->
-    <div class="max-w-5xl mx-auto px-4 relative z-10 py-16">
+    <div class="max-w-5xl mx-auto px-4 relative z-10 py-16 mb-6">
         <div class="flex items-center gap-3 mb-3">
             <div class="h-10 w-1 bg-gradient-to-b from-[#31694E] to-[#4a9b6f] rounded-full"></div>
             <h1 class="text-4xl font-bold text-[#31694E]">Formulir Dokumen</h1>
@@ -166,10 +166,35 @@
             </div>
         </div>
 
+        <!-- Info Box -->
+        <div class="bg-orange-50 border-l-4 border-orange-500 p-6 rounded-xl my-12">
+            <div class="flex items-start">
+                <svg class="w-6 h-6 text-orange-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div>
+                    <h3 class="font-semibold text-orange-900 mb-2">Informasi Penting:</h3>
+                    <ul class="text-sm text-orange-800 space-y-1 list-disc list-inside">
+                        <li>Pastikan semua dokumen yang di-upload jelas dan dapat dibaca</li>
+                        <li>Format file yang diterima: PDF, JPG, atau PNG</li>
+                        <li>Ukuran maksimal per file adalah 1MB</li>
+                        <li>Jika file terlalu besar, gunakan <a href="https://www.iloveimg.com/compress-image"
+                                target="_blank" class="text-blue-600 underline">tools compress gratis di sini</a></li>
+                        <li>Dokumen bertanda <span class="text-red-500 font-semibold">*</span> wajib diupload</li>
+                        @if ($semesterCount > 0)
+                            <li>Upload transkrip nilai untuk setiap semester secara terpisah (Semester 1 sampai
+                                {{ $semesterCount }})</li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </div>
 
         <form action="{{ route('form.dokumen.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <input type="hidden" name="student_id" value="{{ $student->id }}">
+            <input type="hidden" name="session_id" value="{{ $id }}">
 
             <!-- Section 1: Dokumen Wajib -->
             <div class="section-card bg-white rounded-2xl shadow-lg p-8 mb-6">
@@ -220,7 +245,8 @@
                             <input type="file" name="akte" id="akte" accept=".pdf,.jpg,.jpeg,.png"
                                 onchange="updateFileName(this)" required>
                             <label for="akte" class="file-input-label">
-                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
                                     </path>
@@ -383,7 +409,7 @@
                                     <h4 class="font-semibold text-orange-900 text-sm">Upload Transkrip Nilai Per Semester
                                     </h4>
                                     <p class="text-xs text-orange-800 mt-1">
-                                        Untuk jenjang <strong>{{ $student->jenjang }}</strong>, Anda perlu mengupload
+                                        Untuk jenjang <strong>{{ session('ppdb_registration.jenjang') }}</strong>, Anda perlu mengupload
                                         transkrip nilai dari Semester 1 sampai {{ $semesterCount }}
                                     </p>
                                 </div>
@@ -427,7 +453,7 @@
                                     <h4 class="font-semibold text-green-900 text-sm">Transkrip Nilai Tidak Diperlukan
                                     </h4>
                                     <p class="text-xs text-green-800 mt-1">
-                                        Untuk pendaftaran jenjang <strong>{{ $student->jenjang }}</strong>, Anda tidak
+                                        Untuk pendaftaran jenjang <strong>{{ session('ppdb_registration.jenjang') }}</strong>, Anda tidak
                                         perlu mengupload transkrip nilai.
                                     </p>
                                 </div>
@@ -502,30 +528,6 @@
                 </div>
             </div>
 
-            <!-- Info Box -->
-            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-xl mb-6">
-                <div class="flex items-start">
-                    <svg class="w-6 h-6 text-blue-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <div>
-                        <h3 class="font-semibold text-blue-900 mb-2">Informasi Penting:</h3>
-                        <ul class="text-sm text-blue-800 space-y-1 list-disc list-inside">
-                            <li>Pastikan semua dokumen yang di-upload jelas dan dapat dibaca</li>
-                            <li>Format file yang diterima: PDF, JPG, atau PNG</li>
-                            <li>Ukuran maksimal per file adalah 5MB</li>
-                            <li>Dokumen bertanda <span class="text-red-500 font-semibold">*</span> wajib diupload</li>
-                            @if ($semesterCount > 0)
-                                <li>Upload transkrip nilai untuk setiap semester secara terpisah (Semester 1 sampai
-                                    {{ $semesterCount }})</li>
-                            @endif
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
             <!-- Submit Button -->
             <div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white rounded-2xl shadow-lg p-6">
                 <div class="text-sm text-gray-600">
@@ -556,23 +558,55 @@
         function updateFileName(input) {
             const label = input.nextElementSibling;
             const fileNameSpan = label.querySelector('.file-name');
+            const maxSizeMB = 1; // Ubah dari 5 menjadi 1 MB
+            const maxSizeBytes = maxSizeMB * 1024 * 1024;
 
             if (input.files && input.files[0]) {
                 const fileName = input.files[0].name;
                 const fileSize = (input.files[0].size / 1024 / 1024).toFixed(2);
 
-                fileNameSpan.textContent = fileName + ' (' + fileSize + ' MB)';
-                fileNameSpan.classList.remove('placeholder');
-                label.classList.add('has-file');
+                // Cek ukuran file
+                if (input.files[0].size > maxSizeBytes) {
+                    // Tampilkan error message dengan link compress
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mt-2 flex items-start gap-3';
+                    errorDiv.innerHTML = `
+                <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4v2m0 0v2m0-2h2m-2 0h-2m8-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div>
+                    <p class="text-red-800 font-semibold text-sm">Ukuran file terlalu besar!</p>
+                    <p class="text-red-700 text-xs mt-1">File "${fileName}" (${fileSize} MB) melebihi batas maksimal ${maxSizeMB}MB.</p>
+                    <p class="text-red-700 text-xs mt-2">Silakan compress file Anda terlebih dahulu: <a href="https://www.iloveimg.com/compress-image" target="_blank" class="underline font-semibold hover:text-red-900">Compress Image di sini</a></p>
+                </div>
+            `;
 
-                if (input.files[0].size > 5 * 1024 * 1024) {
-                    alert('Ukuran file terlalu besar! Maksimal 5MB per file.');
+                    // Hapus error sebelumnya jika ada
+                    const oldError = label.parentElement.querySelector('.error-message');
+                    if (oldError) oldError.remove();
+
+                    label.parentElement.appendChild(errorDiv);
+                    errorDiv.classList.add('error-message');
+
+                    // Reset input dan label
                     input.value = '';
                     fileNameSpan.textContent = 'Pilih file PDF, JPG, atau PNG';
                     fileNameSpan.classList.add('placeholder');
                     label.classList.remove('has-file');
+                } else {
+                    // File valid - hapus error jika ada
+                    const oldError = label.parentElement.querySelector('.error-message');
+                    if (oldError) oldError.remove();
+
+                    fileNameSpan.textContent = fileName + ' (' + fileSize + ' MB)';
+                    fileNameSpan.classList.remove('placeholder');
+                    label.classList.add('has-file');
                 }
             } else {
+                // Hapus error jika user membatalkan pemilihan file
+                const oldError = label.parentElement.querySelector('.error-message');
+                if (oldError) oldError.remove();
+
                 fileNameSpan.textContent = 'Pilih file PDF, JPG, atau PNG';
                 fileNameSpan.classList.add('placeholder');
                 label.classList.remove('has-file');

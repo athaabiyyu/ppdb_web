@@ -25,13 +25,7 @@
                     @endif
                 @endforeach
             </div>
-
-            <!-- Pagination -->
             <div class="swiper-pagination" style="--swiper-pagination-color: #31694E;"></div>
-
-            <!-- Optional: Navigation buttons -->
-            <div class="swiper-button-next" style="--swiper-navigation-color: #31694E;"></div>
-            <div class="swiper-button-prev" style="--swiper-navigation-color: #31694E;"></div>
         </div>
     </section>
 
@@ -161,14 +155,6 @@
                                                 <span class="text-xs text-gray-400">Langkah {{ $flow->step_number }}</span>
                                             </div>
                                         </div>
-                                        <div
-                                            class="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <svg class="w-5 h-5 text-[#31694E]" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                            </svg>
-                                        </div>
                                     </div>
                                 </li>
                             @empty
@@ -182,10 +168,8 @@
                                     <p class="text-gray-400 text-sm mt-1">Admin sedang menyiapkan informasi</p>
                                 </div>
                             @endforelse
-
                         </ol>
                     </div>
-
                 </div>
 
                 {{-- Note Section --}}
@@ -261,7 +245,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- SD Card -->
-                <a href="/daftar/sd"
+                <a href="{{ route('pilih.jenjang', ['jenjang' => 'SD']) }}"
                     class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
                     <div class="bg-gradient-to-br from-[#2A5B47] to-[#3A7D65] p-8 text-white text-center">
                         <svg class="w-16 h-16 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
@@ -294,7 +278,7 @@
                 </a>
 
                 <!-- SMP Card -->
-                <a href="/daftar/smp"
+                <a href="{{ route('pilih.jenjang', ['jenjang' => 'SMP']) }}"
                     class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
                     <div class="bg-gradient-to-br from-[#31694E] to-[#418A6B] p-8 text-white text-center">
                         <svg class="w-16 h-16 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
@@ -330,7 +314,7 @@
                 </a>
 
                 <!-- SMA Card -->
-                <a href="/daftar/sma"
+                <a href="{{ route('pilih.jenjang', ['jenjang' => 'SMA']) }}"
                     class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
                     <div class="bg-gradient-to-br from-[#418A6B] to-[#519B7D] p-8 text-white text-center">
                         <svg class="w-16 h-16 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
@@ -368,10 +352,10 @@
         <section class="max-w-7xl mx-auto px-6 pt-12">
             <!-- Judul Section -->
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-extrabold text-gray-800 mb-3 scroll-mt-32" id="lokasi">Lokasi Yayasan Mambaul
-                    Maarif Denanyar Jombang
+                <h2 class="text-4xl font-extrabold text-gray-800 mb-3 scroll-mt-32" id="lokasi">Lokasi Yayasan Mamba'ul
+                    Ma'arif Denanyar Jombang
                 </h2>
-                <p class="text-gray-600 text-lg">Lihat peta lokasi Yayasan Mambaul Maarif Denanyar Jombang</p>
+                <p class="text-gray-600 text-lg">Lihat peta lokasi Yayasan Mamba'ul Ma'arif Denanyar Jombang</p>
             </div>
 
             <!-- Maps Embed -->

@@ -49,10 +49,10 @@
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
                 <!-- Logo dan Nama Yayasan -->
                 <div class="flex items-center gap-3 flex-shrink-0">
-                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
+                    <img src="{{ asset('assets/logo_yayasan.png') }}" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
                     <div>
                         <span class="text-xl md:text-xl font-bold block">PPDB Online</span>
-                        <span class="text-sm md:text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
+                        <span class="text-sm md:text-sm opacity-90">Yayasan Mamba'ul Ma'arif Denanyar Jombang</span>
                     </div>
                 </div>
                 <!-- Progress Info -->
@@ -112,7 +112,7 @@
         </div>
 
         <!-- Formulir -->
-        <form action="/form-data-pribadi/store" method="POST">
+        <form action="{{ route('form.data.pribadi.store') }}" method="POST">
             @csrf
             <input type="hidden" name="id" value="{{ $id ?? '' }}">
             <input type="hidden" name="jenjang" value="{{ $jenjang }}">

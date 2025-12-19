@@ -6,15 +6,15 @@ use App\Models\Student;
 use App\Models\ParentInfo;
 use App\Models\Guardian;
 use App\Models\Document;
-use App\Models\Choice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use App\Models\RegistrationRequirement;
 use App\Models\HomeSetting;
 use App\Models\RegistrationFlow;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\SliderImage;
-use App\Models\RegistrationStage;
 use App\Models\Unit;
 
 class PPDBController extends Controller
@@ -61,34 +61,49 @@ class PPDBController extends Controller
                      $selected = $data['pilihan'] ?? [];
               }
 
-              // SIMPAN DATA STUDENT
-              $student = Student::create([
+              // SIMPAN KE SESSION (BUKAN KE DATABASE)
+              $sessionId = Str::uuid()->toString();
+              Session::put('ppdb_registration', [
+                     'session_id' => $sessionId,
                      'jenjang' => strtoupper($data['jenjang']),
                      'selected_schools' => $selected,
                      'source_info' => $data['sumber_informasi'],
                      'source_info_other' => $data['informasi_lainnya'],
-                     'nama' => 'DUMMY' // nanti di-update di form data diri
+                     'data_pribadi' => null,
+                     'data_ortu' => null,
+                     'data_wali' => null,
+                     'dokumen' => null,
               ]);
 
-              // redirect ke form pribadi
               return redirect()->route('form.data.pribadi', [
-                     'id' => $student->id,
-                     'jenjang' => $student->jenjang
+                     'id' => $sessionId,
+                     'jenjang' => strtoupper($data['jenjang'])
               ]);
        }
-
 
        public function formDataPribadi($id, $jenjang)
        {
               $pendidikanOptions = Guardian::PENDIDIKAN_OPTIONS;
+
+              // Validasi session
+              if (!Session::has('ppdb_registration') || Session::get('ppdb_registration.session_id') !== $id) {
+                     return redirect()->route('home')->with('error', 'Session expired');
+              }
+
               return view('form-ppdb.form-data-pribadi', compact('jenjang', 'id', 'pendidikanOptions'));
        }
 
        public function storeDataPribadi(Request $request)
        {
-              // RULES DASAR
+              $sessionId = $request->id;
+
+              // Validasi session
+              if (!Session::has('ppdb_registration') || Session::get('ppdb_registration.session_id') !== $sessionId) {
+                     return redirect()->route('home')->with('error', 'Session expired');
+              }
+
               $rules = [
-                     'id' => 'required|exists:students,id',
+                     'id' => 'required|string',
                      'jenjang' => 'string',
                      'nama' => 'required|string|max:255',
                      'jenis_kelamin' => 'required|string',
@@ -110,7 +125,6 @@ class PPDBController extends Controller
                      'npsn_nsm' => 'required|string',
               ];
 
-              // RULES TAMBAHAN JIKA MILIH WALI
               if ($request->tinggal_dengan === 'Wali') {
                      $rules = array_merge($rules, [
                             'nama_wali' => 'required|string|max:255',
@@ -130,7 +144,6 @@ class PPDBController extends Controller
                      ]);
               }
 
-              // PESAN ERROR (MODEL STORE ORTU)
               $messages = [
                      'required' => ':attribute wajib diisi.',
                      'string' => ':attribute harus berupa teks.',
@@ -139,18 +152,14 @@ class PPDBController extends Controller
                      'date' => ':attribute harus tanggal yang valid.',
                      'min' => ':attribute minimal :min.',
                      'in' => ':attribute pilihan tidak valid.',
-                     'exists' => 'Data siswa tidak ditemukan.',
               ];
 
-              // VALIDASI
               $req = $request->validate($rules, $messages);
 
-
-              // SIMPAN DATA SISWA
-              $student = Student::find($req['id']);
-              $studentData = [
+              // SIMPAN KE SESSION
+              $ppdb = Session::get('ppdb_registration');
+              $ppdb['data_pribadi'] = [
                      'nama' => $req['nama'],
-                     'jenjang' => $req['jenjang'],
                      'jenis_kelamin' => $req['jenis_kelamin'],
                      'agama' => $req['agama'],
                      'nisn' => $req['nisn'],
@@ -170,48 +179,50 @@ class PPDBController extends Controller
                      'npsn_nsm' => $req['npsn_nsm'],
               ];
 
-              $student ? $student->update($studentData) : $student = Student::create($studentData);
-
-              // SIMPAN DATA WALI (HANYA JIKA DIPILIH)
               if ($req['tinggal_dengan'] === 'Wali') {
-                     Guardian::updateOrCreate(
-                            ['student_id' => $student->id],
-                            [
-                                   'student_id' => $student->id,
-                                   'nama_wali' => $req['nama_wali'],
-                                   'nik_wali' => $req['nik_wali'],
-                                   'tempat_lahir_wali' => $req['tempat_lahir_wali'],
-                                   'tanggal_lahir_wali' => $req['tanggal_lahir_wali'],
-                                   'pendidikan_wali' => $req['pendidikan_wali'],
-                                   'pekerjaan_wali' => $req['pekerjaan_wali'],
-                                   'penghasilan_wali' => $req['penghasilan_wali'],
-                                   'hp_wali' => $req['hp_wali'],
-                                   'alamat' => $req['alamat_wali'],
-                                   'desa' => $req['desa_wali'],
-                                   'kecamatan' => $req['kecamatan_wali'],
-                                   'kabupaten' => $req['kabupaten_wali'],
-                                   'provinsi' => $req['provinsi_wali'],
-                                   'kode_pos' => $req['kode_pos_wali'],
-                            ]
-                     );
+                     $ppdb['data_wali'] = [
+                            'nama_wali' => $req['nama_wali'],
+                            'nik_wali' => $req['nik_wali'],
+                            'tempat_lahir_wali' => $req['tempat_lahir_wali'],
+                            'tanggal_lahir_wali' => $req['tanggal_lahir_wali'],
+                            'pendidikan_wali' => $req['pendidikan_wali'],
+                            'pekerjaan_wali' => $req['pekerjaan_wali'],
+                            'penghasilan_wali' => $req['penghasilan_wali'],
+                            'hp_wali' => $req['hp_wali'],
+                            'alamat' => $req['alamat_wali'],
+                            'desa' => $req['desa_wali'],
+                            'kecamatan' => $req['kecamatan_wali'],
+                            'kabupaten' => $req['kabupaten_wali'],
+                            'provinsi' => $req['provinsi_wali'],
+                            'kode_pos' => $req['kode_pos_wali'],
+                     ];
               }
 
-              return redirect()->route('form.ortu', ['id' => $student->id]);
+              Session::put('ppdb_registration', $ppdb);
+
+              return redirect()->route('form.ortu', ['id' => $sessionId]);
        }
 
        public function formOrtu($id)
        {
-              $student = Student::findOrFail($id);
+              if (!Session::has('ppdb_registration') || Session::get('ppdb_registration.session_id') !== $id) {
+                     return redirect()->route('home')->with('error', 'Session expired');
+              }
+
               $pendidikanOptions = ParentInfo::PENDIDIKAN_OPTIONS;
-              return view('form-ppdb.form-ortu', compact('student', 'pendidikanOptions'));
+              return view('form-ppdb.form-ortu', compact('id', 'pendidikanOptions'));
        }
 
        public function storeOrtu(Request $request)
        {
-              $student = Student::findOrFail($request->student_id);
+              $sessionId = $request->session_id;
+
+              if (!Session::has('ppdb_registration') || Session::get('ppdb_registration.session_id') !== $sessionId) {
+                     return redirect()->route('home')->with('error', 'Session expired');
+              }
 
               $rules = [
-                     'student_id' => 'required|exists:students,id',
+                     'session_id' => 'required|string',
                      'nama_ayah' => 'required|string|max:255',
                      'nama_ibu' => 'required|string|max:255',
                      'alamat_kk' => 'required|string',
@@ -245,81 +256,135 @@ class PPDBController extends Controller
                      'size' => ':attribute harus 16 karakter.',
                      'date' => ':attribute harus format tanggal yang valid.',
                      'in' => ':attribute pilihan tidak valid.',
-                     'exists' => 'Data siswa tidak ditemukan.',
               ];
 
               $req = $request->validate($rules, $messages);
 
-              ParentInfo::updateOrCreate(
-                     ['student_id' => $req['student_id']],
-                     $req
-              );
+              // SIMPAN KE SESSION
+              $ppdb = Session::get('ppdb_registration');
+              $ppdb['data_ortu'] = $req;
+              unset($ppdb['data_ortu']['session_id']);
+              Session::put('ppdb_registration', $ppdb);
 
-              return redirect()->route('form.dokumen', ['id' => $req['student_id']]);
+              return redirect()->route('form.dokumen', ['id' => $sessionId]);
        }
 
        public function formDokumen($id)
        {
-              $student = Student::findOrFail($id);
-              // Tentukan jumlah semester berdasarkan jenjang
-              $semesterCount = 0;
-              if ($student->jenjang === 'SMP') {
-                     $semesterCount = 11; // Semester 1-11
-              } elseif ($student->jenjang === 'SMA') {
-                     $semesterCount = 5; // Semester 1-5
+              if (!Session::has('ppdb_registration') || Session::get('ppdb_registration.session_id') !== $id) {
+                     return redirect()->route('home')->with('error', 'Session expired');
               }
-              // SD tidak perlu transkrip (semesterCount = 0)
 
-              return view('form-ppdb.form-dokumen', compact('student', 'semesterCount'));
+              $ppdb = Session::get('ppdb_registration');
+              $jenjang = $ppdb['jenjang'];
+
+              $semesterCount = 0;
+              if ($jenjang === 'SMP') {
+                     $semesterCount = 11;
+              } elseif ($jenjang === 'SMA') {
+                     $semesterCount = 5;
+              }
+
+              return view('form-ppdb.form-dokumen', compact('id', 'jenjang', 'semesterCount'));
        }
 
        public function storeDokumen(Request $request)
        {
-              $student = Student::findOrFail($request->student_id);
+              $sessionId = $request->session_id;
 
-              // Base rules untuk semua jenjang
+              if (!Session::has('ppdb_registration') || Session::get('ppdb_registration.session_id') !== $sessionId) {
+                     return redirect()->route('home')->with('error', 'Session expired');
+              }
+
+              $ppdb = Session::get('ppdb_registration');
+              $jenjang = $ppdb['jenjang'];
+
               $rules = [
-                     'student_id' => 'required|exists:students,id',
-                     'kk' => 'required|file|max:5120',
-                     'akte' => 'required|file|max:5120',
-                     'ktp_ayah' => 'required|file|max:5120',
-                     'ktp_ibu' => 'required|file|max:5120',
-                     'surat_aktif' => 'required|file|max:5120',
-                     'prestasi' => 'nullable|file|max:5120',
-                     'kip_pkh' => 'nullable|file|max:5120',
-                     'foto_anak' => 'required|file|image|max:5120',
+                     'session_id' => 'required|string',
+                     'kk' => 'required|file|max:1024',
+                     'akte' => 'required|file|max:1024',
+                     'ktp_ayah' => 'required|file|max:1024',
+                     'ktp_ibu' => 'required|file|max:1024',
+                     'surat_aktif' => 'required|file|max:1024',
+                     'prestasi' => 'nullable|file|max:1024',
+                     'kip_pkh' => 'nullable|file|max:1024',
+                     'foto_anak' => 'required|file|image|max:1024',
               ];
 
-              // Tambah rules untuk transkrip berdasarkan jenjang
-              if ($student->jenjang === 'SMP') {
+              if ($jenjang === 'SMP') {
                      for ($i = 1; $i <= 11; $i++) {
-                            $rules["transkrip_semester_{$i}"] = 'required|file|max:5120';
+                            $rules["transkrip_semester_{$i}"] = 'required|file|max:1024';
                      }
-              } elseif ($student->jenjang === 'SMA') {
+              } elseif ($jenjang === 'SMA') {
                      for ($i = 1; $i <= 5; $i++) {
-                            $rules["transkrip_semester_{$i}"] = 'required|file|max:5120';
+                            $rules["transkrip_semester_{$i}"] = 'required|file|max:1024';
                      }
               }
-              // SD tidak perlu transkrip
 
               $messages = [
                      'required' => ':attribute wajib diisi.',
                      'file' => ':attribute harus berupa file.',
                      'image' => ':attribute harus berupa gambar.',
-                     'max' => ':attribute maksimal 5MB.',
+                     'max' => ':attribute maksimal 1MB.',
                      'exists' => 'Data siswa tidak ditemukan.',
               ];
 
               $req = $request->validate($rules, $messages);
 
-              // Simpan dokumen dasar
-              $data = [];
+              // ===== SEKARANG SIMPAN SEMUA DATA KE DATABASE =====
+
+              // 1. Generate registration number
+              $registrationNumber = 'PPDB-' . $jenjang . '-' . time();
+
+              // 2. Simpan Student
+              $student = Student::create([
+                     'registration_number' => $registrationNumber,
+                     'jenjang' => $ppdb['jenjang'],
+                     'selected_schools' => $ppdb['selected_schools'],
+                     'source_info' => $ppdb['source_info'],
+                     'source_info_other' => $ppdb['source_info_other'],
+                     'nama' => $ppdb['data_pribadi']['nama'],
+                     'jenis_kelamin' => $ppdb['data_pribadi']['jenis_kelamin'],
+                     'agama' => $ppdb['data_pribadi']['agama'],
+                     'nisn' => $ppdb['data_pribadi']['nisn'],
+                     'hobi' => $ppdb['data_pribadi']['hobi'],
+                     'cita_cita' => $ppdb['data_pribadi']['cita_cita'],
+                     'no_kk' => $ppdb['data_pribadi']['no_kk'],
+                     'nik' => $ppdb['data_pribadi']['nik'],
+                     'tempat_lahir' => $ppdb['data_pribadi']['tempat_lahir'],
+                     'tanggal_lahir' => $ppdb['data_pribadi']['tanggal_lahir'],
+                     'anak_ke' => $ppdb['data_pribadi']['anak_ke'],
+                     'jumlah_saudara' => $ppdb['data_pribadi']['jumlah_saudara'],
+                     'tinggal_dengan' => $ppdb['data_pribadi']['tinggal_dengan'],
+                     'rencana_tinggal' => $ppdb['data_pribadi']['rencana_tinggal'],
+                     'jarak_tempat_tinggal' => $ppdb['data_pribadi']['jarak_tempat_tinggal'],
+                     'sekolah_asal' => $ppdb['data_pribadi']['sekolah_asal'],
+                     'alamat_sekolah_asal' => $ppdb['data_pribadi']['alamat_sekolah_asal'],
+                     'npsn_nsm' => $ppdb['data_pribadi']['npsn_nsm'],
+              ]);
+
+              // 3. Simpan ParentInfo
+              ParentInfo::create([
+                     'student_id' => $student->id,
+                     ...$ppdb['data_ortu']
+              ]);
+
+              // 4. Simpan Guardian (jika ada)
+              if ($ppdb['data_wali']) {
+                     Guardian::create([
+                            'student_id' => $student->id,
+                            ...$ppdb['data_wali']
+                     ]);
+              }
+
+              // 5. Simpan Dokumen
+              $docData = ['student_id' => $student->id];
+
               foreach (['kk', 'akte', 'ktp_ayah', 'ktp_ibu', 'surat_aktif', 'prestasi', 'kip_pkh', 'foto_anak'] as $field) {
                      if ($request->hasFile($field)) {
-                            $path = $request->file($field)->store('uploads/' . $student->registration_number, 'public');
-                            $data[$field] = $path;
+                            $path = $request->file($field)->store('uploads/' . $registrationNumber, 'public');
+                            $docData[$field] = $path;
 
-                            // Simpan foto anak di kolom foto student
                             if ($field === 'foto_anak') {
                                    $student->foto = $path;
                                    $student->save();
@@ -327,31 +392,28 @@ class PPDBController extends Controller
                      }
               }
 
-              // Simpan transkrip per semester dalam JSON
               $transkripData = [];
-              $maxSemester = 0;
-
-              if ($student->jenjang === 'SMP') {
-                     $maxSemester = 11;
-              } elseif ($student->jenjang === 'SMA') {
-                     $maxSemester = 5;
-              }
+              $maxSemester = ($jenjang === 'SMP') ? 11 : (($jenjang === 'SMA') ? 5 : 0);
 
               for ($i = 1; $i <= $maxSemester; $i++) {
                      $fieldName = "transkrip_semester_{$i}";
                      if ($request->hasFile($fieldName)) {
-                            $path = $request->file($fieldName)->store('uploads/' . $student->registration_number . '/transkrip', 'public');
+                            $path = $request->file($fieldName)->store('uploads/' . $registrationNumber . '/transkrip', 'public');
                             $transkripData["semester_{$i}"] = $path;
                      }
               }
 
               if (!empty($transkripData)) {
-                     $data['transkrip_semester'] = $transkripData;
+                     $docData['transkrip_semester'] = $transkripData;
               }
 
-              Document::updateOrCreate(['student_id' => $student->id], $data);
+              Document::create($docData);
 
-              return redirect()->route('biodata', ['id' => $student->id]);
+              // 6. Hapus session & redirect
+              Session::forget('ppdb_registration');
+
+              return redirect()->route('biodata', ['id' => $student->id])
+                     ->with('success', 'Pendaftaran berhasil! Data Anda telah tersimpan.');
        }
 
        public function biodata($id)

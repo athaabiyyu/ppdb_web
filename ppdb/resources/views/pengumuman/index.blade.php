@@ -251,7 +251,7 @@
                             Pengumuman akan segera ditampilkan di sini. Silakan kembali lagi nanti atau hubungi kami untuk
                             informasi lebih lanjut.
                         </p>
-                        <a href="/"
+                        <a href="{{ route('home') }}"
                             class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#31694E] to-[#2a5840] hover:from-[#2a5840] hover:to-[#1f4230] text-white font-bold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

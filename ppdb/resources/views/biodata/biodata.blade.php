@@ -69,6 +69,50 @@
         .group textarea:focus {
             box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
         }
+
+        .file-input-wrapper-edit {
+            position: relative;
+            overflow: hidden;
+            display: block;
+            width: 100%;
+        }
+
+        .file-input-wrapper-edit input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label-edit {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: white;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-label-edit:hover {
+            border-color: #2e7d32;
+            background: #f0f9ff;
+        }
+
+        .file-input-label-edit.has-file {
+            border-color: #2e7d32;
+            background: #f1f8f4;
+            border-style: solid;
+        }
+
+        .file-name-edit {
+            font-size: 13px;
+            flex: 1;
+        }
+
+        .file-name-edit.placeholder {
+            color: #9ca3af;
+        }
     </style>
 @endpush
 
@@ -79,7 +123,7 @@
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
                 <!-- Logo dan Nama Yayasan -->
                 <div class="flex items-center gap-3 flex-shrink-0">
-                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
+                    <img src="{{ asset('assets/logo_yayasan.png') }}" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
                     <div>
                         <span class="text-xl md:text-xl font-bold block">PPDB Online</span>
                         <span class="text-sm md:text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
@@ -148,7 +192,7 @@
                     </button>
 
                     <!-- CETAK -->
-                    <a href="/cetak/{{ $student->id }}"
+                    <a href="{{ route('cetak', ['id' => $student->id]) }}"
                         class="bg-orange-100 hover:bg-orange-200 text-orange-700 px-5 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -334,25 +378,24 @@
                         </div>
 
                         <div class="bg-white rounded-lg p-4">
-                            <p class="text-xs text-gray-600">Penghasilan per Bulan</p>
-                            <p class="font-semibold">
-                                @if ($student->guardian->penghasilan_wali)
-                                    @php
-                                        $income = $student->guardian->penghasilan_wali;
-                                        // Hapus semua karakter non-digit
-                                        $numeric = preg_replace('/[^\d]/', '', $income);
+                                    <p class="text-xs text-gray-600">Penghasilan per Bulan</p>
+                                    <p class="font-semibold">
+                                        @if ($student->guardian->penghasilan_wali)
+                                            @php
+                                                $income = $student->guardian->penghasilan_wali;
+                                                $numeric = preg_replace('/[^\d]/', '', $income);
 
-                                        if (is_numeric($numeric) && $numeric > 0) {
-                                            echo 'Rp ' . number_format((float) $numeric, 0, ',', '.');
-                                        } else {
-                                            echo '-';
-                                        }
-                                    @endphp
-                                @else
-                                    -
-                                @endif
-                            </p>
-                        </div>
+                                                if (is_numeric($numeric) && $numeric > 0) {
+                                                    echo 'Rp ' . number_format((float) $numeric, 0, ',', '.');
+                                                } else {
+                                                    echo '-';
+                                                }
+                                            @endphp
+                                        @else
+                                            -
+                                        @endif
+                                    </p>
+                                </div>
 
                         <div class="bg-white rounded-lg p-4">
                             <p class="text-xs text-gray-600">No. HP Wali</p>
@@ -455,9 +498,9 @@
                                 <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Penghasilan per Bulan</p>
                                     <p class="font-semibold">
-                                        @if ($student->guardian->penghasilan_ayah)
+                                        @if ($student->parentInfo && $student->parentInfo->penghasilan_ayah)
                                             @php
-                                                $income = $student->guardian->penghasilan_ayah;
+                                                $income = $student->parentInfo->penghasilan_ayah;
                                                 // Hapus semua karakter non-digit
                                                 $numeric = preg_replace('/[^\d]/', '', $income);
 
@@ -534,9 +577,9 @@
                                 <div class="bg-white rounded-lg p-4">
                                     <p class="text-xs text-gray-600">Penghasilan per Bulan</p>
                                     <p class="font-semibold">
-                                        @if ($student->guardian->penghasilan_ibu)
+                                        @if ($student->parentInfo && $student->parentInfo->penghasilan_ibu)
                                             @php
-                                                $income = $student->guardian->penghasilan_ibu;
+                                                $income = $student->parentInfo->penghasilan_ibu;
                                                 // Hapus semua karakter non-digit
                                                 $numeric = preg_replace('/[^\d]/', '', $income);
 
@@ -791,7 +834,7 @@
             </div>
 
             <!-- FORM CONTENT -->
-            <form action="/biodata/{{ $student->id }}/update" method="POST"
+            <form action="{{ route('biodata.update', ['id' => $student->id]) }}" method="POST"
                 class="overflow-y-auto max-h-[calc(90vh-180px)]">
                 @csrf
                 @method('PUT')
@@ -1415,10 +1458,12 @@
     </div>
 
     <!-- MODAL EDIT DOKUMEN -->
-    <div id="editDokumenModal" class="fixed inset-0 hidden items-center justify-center z-50">
+    <!-- MODAL EDIT DOKUMEN - FIXED INPUT FILE -->
+    <div id="editDokumenModal" class="fixed inset-0 hidden items-center justify-center z-50 p-4">
         <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" onclick="closeEditDokumenModal()"></div>
-        <div class="relative bg-white rounded-2xl shadow-2xl w-[95%] max-w-6xl max-h-[90vh] overflow-y-auto modal-content">
-            <div class="sticky top-0 bg-[#31694E] p-6 z-10 shadow-lg">
+        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+            <!-- Header -->
+            <div class="flex-shrink-0 bg-[#31694E] p-6 z-10 shadow-lg">
                 <div class="flex items-center justify-between text-white">
                     <div>
                         <h3 class="text-2xl font-bold flex items-center gap-3">
@@ -1429,10 +1474,11 @@
                             </svg>
                             Edit Dokumen
                         </h3>
-                        <p class="text-sm text-green-100 mt-2">Upload file baru untuk mengganti dokumen yang ada</p>
+                        <p class="text-sm text-green-100 mt-2">Upload file baru untuk mengganti dokumen yang ada (Maksimal
+                            1MB per file)</p>
                     </div>
-                    <button onclick="closeEditDokumenModal()"
-                        class="hover:bg-white/20 p-2 rounded-full transition-all duration-200">
+                    <button type="button" onclick="closeEditDokumenModal()"
+                        class="hover:bg-white/20 p-2 rounded-full transition-all duration-200 flex-shrink-0">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M6 18L18 6M6 6l12 12"></path>
@@ -1441,10 +1487,33 @@
                 </div>
             </div>
 
-            <form action="/biodata/{{ $student->id }}/update-dokumen" method="POST" enctype="multipart/form-data"
-                class="p-6">
+            <!-- Form Content -->
+            <form id="editDokumenForm" action="{{ route('biodata.update.dokumen', ['id' => $student->id]) }}" method="POST"
+                enctype="multipart/form-data" class="flex-1 overflow-y-auto p-6">
                 @csrf
                 @method('PUT')
+
+                <!-- Info Box -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg mb-6">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <h4 class="font-semibold text-blue-900 text-sm mb-1">Informasi Penting:</h4>
+                            <ul class="text-xs text-blue-800 space-y-1 list-disc list-inside">
+                                <li>Ukuran maksimal per file adalah <strong>1MB</strong></li>
+                                <li>Format file: PDF, JPG, atau PNG</li>
+                                <li>Jika file terlalu besar, <a href="https://www.iloveimg.com/compress-image"
+                                        target="_blank" class="font-semibold underline hover:text-blue-900">compress di
+                                        sini</a></li>
+                                <li>Hanya upload file yang ingin Anda ganti (file lain akan tetap sama)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- DOKUMEN UMUM -->
                 <div class="mb-8">
@@ -1456,16 +1525,25 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Kartu Keluarga (KK)
                                 @if ($student->documents && $student->documents->kk)
-                                    <span class="text-green-600 text-xs">✓ Sudah ada</span>
+                                    <span class="text-green-600 text-xs font-semibold">✓ Sudah ada</span>
                                 @endif
                             </label>
-                            <input type="file" name="kk" accept=".pdf,.jpg,.jpeg,.png"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <input type="file" name="kk" id="edit_kk" accept=".pdf,.jpg,.jpeg,.png"
+                                onchange="validateEditFile(this)" class="hidden">
+                            <label for="edit_kk" class="file-input-label-edit cursor-pointer">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                    </path>
+                                </svg>
+                                <span class="file-name-edit text-gray-500">Pilih file PDF, JPG, atau PNG</span>
+                            </label>
                             @if ($student->documents && $student->documents->kk)
                                 <button type="button"
                                     onclick="viewDocument('{{ Storage::url($student->documents->kk) }}', 'Kartu Keluarga')"
-                                    class="text-xs text-blue-600 hover:underline mt-1 inline-block">Lihat dokumen saat
-                                    ini</button>
+                                    class="text-xs text-blue-600 hover:underline mt-2 inline-block font-medium">👁️ Lihat
+                                    dokumen saat ini</button>
                             @endif
                         </div>
 
@@ -1474,16 +1552,25 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Akta Kelahiran
                                 @if ($student->documents && $student->documents->akte)
-                                    <span class="text-green-600 text-xs">✓ Sudah ada</span>
+                                    <span class="text-green-600 text-xs font-semibold">✓ Sudah ada</span>
                                 @endif
                             </label>
-                            <input type="file" name="akte" accept=".pdf,.jpg,.jpeg,.png"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <input type="file" name="akte" id="edit_akte" accept=".pdf,.jpg,.jpeg,.png"
+                                onchange="validateEditFile(this)" class="hidden">
+                            <label for="edit_akte" class="file-input-label-edit cursor-pointer">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                    </path>
+                                </svg>
+                                <span class="file-name-edit text-gray-500">Pilih file PDF, JPG, atau PNG</span>
+                            </label>
                             @if ($student->documents && $student->documents->akte)
                                 <button type="button"
                                     onclick="viewDocument('{{ Storage::url($student->documents->akte) }}', 'Akta Kelahiran')"
-                                    class="text-xs text-blue-600 hover:underline mt-1 inline-block">Lihat dokumen saat
-                                    ini</button>
+                                    class="text-xs text-blue-600 hover:underline mt-2 inline-block font-medium">👁️ Lihat
+                                    dokumen saat ini</button>
                             @endif
                         </div>
 
@@ -1492,16 +1579,25 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 KTP Ayah
                                 @if ($student->documents && $student->documents->ktp_ayah)
-                                    <span class="text-green-600 text-xs">✓ Sudah ada</span>
+                                    <span class="text-green-600 text-xs font-semibold">✓ Sudah ada</span>
                                 @endif
                             </label>
-                            <input type="file" name="ktp_ayah" accept=".pdf,.jpg,.jpeg,.png"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <input type="file" name="ktp_ayah" id="edit_ktp_ayah" accept=".pdf,.jpg,.jpeg,.png"
+                                onchange="validateEditFile(this)" class="hidden">
+                            <label for="edit_ktp_ayah" class="file-input-label-edit cursor-pointer">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                    </path>
+                                </svg>
+                                <span class="file-name-edit text-gray-500">Pilih file PDF, JPG, atau PNG</span>
+                            </label>
                             @if ($student->documents && $student->documents->ktp_ayah)
                                 <button type="button"
                                     onclick="viewDocument('{{ Storage::url($student->documents->ktp_ayah) }}', 'KTP Ayah')"
-                                    class="text-xs text-blue-600 hover:underline mt-1 inline-block">Lihat dokumen saat
-                                    ini</button>
+                                    class="text-xs text-blue-600 hover:underline mt-2 inline-block font-medium">👁️ Lihat
+                                    dokumen saat ini</button>
                             @endif
                         </div>
 
@@ -1510,16 +1606,25 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 KTP Ibu
                                 @if ($student->documents && $student->documents->ktp_ibu)
-                                    <span class="text-green-600 text-xs">✓ Sudah ada</span>
+                                    <span class="text-green-600 text-xs font-semibold">✓ Sudah ada</span>
                                 @endif
                             </label>
-                            <input type="file" name="ktp_ibu" accept=".pdf,.jpg,.jpeg,.png"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <input type="file" name="ktp_ibu" id="edit_ktp_ibu" accept=".pdf,.jpg,.jpeg,.png"
+                                onchange="validateEditFile(this)" class="hidden">
+                            <label for="edit_ktp_ibu" class="file-input-label-edit cursor-pointer">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                    </path>
+                                </svg>
+                                <span class="file-name-edit text-gray-500">Pilih file PDF, JPG, atau PNG</span>
+                            </label>
                             @if ($student->documents && $student->documents->ktp_ibu)
                                 <button type="button"
                                     onclick="viewDocument('{{ Storage::url($student->documents->ktp_ibu) }}', 'KTP Ibu')"
-                                    class="text-xs text-blue-600 hover:underline mt-1 inline-block">Lihat dokumen saat
-                                    ini</button>
+                                    class="text-xs text-blue-600 hover:underline mt-2 inline-block font-medium">👁️ Lihat
+                                    dokumen saat ini</button>
                             @endif
                         </div>
 
@@ -1528,16 +1633,25 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Surat Keterangan Aktif Sekolah
                                 @if ($student->documents && $student->documents->surat_aktif)
-                                    <span class="text-green-600 text-xs">✓ Sudah ada</span>
+                                    <span class="text-green-600 text-xs font-semibold">✓ Sudah ada</span>
                                 @endif
                             </label>
-                            <input type="file" name="surat_aktif" accept=".pdf,.jpg,.jpeg,.png"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <input type="file" name="surat_aktif" id="edit_surat_aktif" accept=".pdf,.jpg,.jpeg,.png"
+                                onchange="validateEditFile(this)" class="hidden">
+                            <label for="edit_surat_aktif" class="file-input-label-edit cursor-pointer">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                    </path>
+                                </svg>
+                                <span class="file-name-edit text-gray-500">Pilih file PDF, JPG, atau PNG</span>
+                            </label>
                             @if ($student->documents && $student->documents->surat_aktif)
                                 <button type="button"
                                     onclick="viewDocument('{{ Storage::url($student->documents->surat_aktif) }}', 'Surat Keterangan Aktif')"
-                                    class="text-xs text-blue-600 hover:underline mt-1 inline-block">Lihat dokumen saat
-                                    ini</button>
+                                    class="text-xs text-blue-600 hover:underline mt-2 inline-block font-medium">👁️ Lihat
+                                    dokumen saat ini</button>
                             @endif
                         </div>
 
@@ -1546,16 +1660,25 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Foto Anak (3x4)
                                 @if ($student->documents && $student->documents->foto_anak)
-                                    <span class="text-green-600 text-xs">✓ Sudah ada</span>
+                                    <span class="text-green-600 text-xs font-semibold">✓ Sudah ada</span>
                                 @endif
                             </label>
-                            <input type="file" name="foto_anak" accept=".jpg,.jpeg,.png"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <input type="file" name="foto_anak" id="edit_foto_anak" accept=".jpg,.jpeg,.png"
+                                onchange="validateEditFile(this)" class="hidden">
+                            <label for="edit_foto_anak" class="file-input-label-edit cursor-pointer">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                <span class="file-name-edit text-gray-500">Pilih file JPG atau PNG</span>
+                            </label>
                             @if ($student->documents && $student->documents->foto_anak)
                                 <button type="button"
                                     onclick="viewDocument('{{ Storage::url($student->documents->foto_anak) }}', 'Foto Anak')"
-                                    class="text-xs text-blue-600 hover:underline mt-1 inline-block">Lihat dokumen saat
-                                    ini</button>
+                                    class="text-xs text-blue-600 hover:underline mt-2 inline-block font-medium">👁️ Lihat
+                                    dokumen saat ini</button>
                             @endif
                         </div>
 
@@ -1564,16 +1687,25 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Sertifikat Prestasi (Opsional)
                                 @if ($student->documents && $student->documents->prestasi)
-                                    <span class="text-green-600 text-xs">✓ Sudah ada</span>
+                                    <span class="text-green-600 text-xs font-semibold">✓ Sudah ada</span>
                                 @endif
                             </label>
-                            <input type="file" name="prestasi" accept=".pdf,.jpg,.jpeg,.png"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <input type="file" name="prestasi" id="edit_prestasi" accept=".pdf,.jpg,.jpeg,.png"
+                                onchange="validateEditFile(this)" class="hidden">
+                            <label for="edit_prestasi" class="file-input-label-edit cursor-pointer">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                    </path>
+                                </svg>
+                                <span class="file-name-edit text-gray-500">Pilih file PDF, JPG, atau PNG</span>
+                            </label>
                             @if ($student->documents && $student->documents->prestasi)
                                 <button type="button"
                                     onclick="viewDocument('{{ Storage::url($student->documents->prestasi) }}', 'Sertifikat Prestasi')"
-                                    class="text-xs text-blue-600 hover:underline mt-1 inline-block">Lihat dokumen saat
-                                    ini</button>
+                                    class="text-xs text-blue-600 hover:underline mt-2 inline-block font-medium">👁️ Lihat
+                                    dokumen saat ini</button>
                             @endif
                         </div>
 
@@ -1582,16 +1714,25 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Kartu KIP/PKH (Opsional)
                                 @if ($student->documents && $student->documents->kip_pkh)
-                                    <span class="text-green-600 text-xs">✓ Sudah ada</span>
+                                    <span class="text-green-600 text-xs font-semibold">✓ Sudah ada</span>
                                 @endif
                             </label>
-                            <input type="file" name="kip_pkh" accept=".pdf,.jpg,.jpeg,.png"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                            <input type="file" name="kip_pkh" id="edit_kip_pkh" accept=".pdf,.jpg,.jpeg,.png"
+                                onchange="validateEditFile(this)" class="hidden">
+                            <label for="edit_kip_pkh" class="file-input-label-edit cursor-pointer">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                    </path>
+                                </svg>
+                                <span class="file-name-edit text-gray-500">Pilih file PDF, JPG, atau PNG</span>
+                            </label>
                             @if ($student->documents && $student->documents->kip_pkh)
                                 <button type="button"
                                     onclick="viewDocument('{{ Storage::url($student->documents->kip_pkh) }}', 'Kartu KIP/PKH')"
-                                    class="text-xs text-blue-600 hover:underline mt-1 inline-block">Lihat dokumen saat
-                                    ini</button>
+                                    class="text-xs text-blue-600 hover:underline mt-2 inline-block font-medium">👁️ Lihat
+                                    dokumen saat ini</button>
                             @endif
                         </div>
 
@@ -1611,38 +1752,55 @@
                             @endphp
 
                             @for ($i = 1; $i <= $maxSemester; $i++)
-                                <div class="bg-gray-50 p-4 rounded-lg">
+                                <div
+                                    class="bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-lg border border-blue-100">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         Semester {{ $i }}
                                         @if (isset($transkripData["semester_{$i}"]))
-                                            <span class="text-green-600 text-xs">✓ Sudah ada</span>
+                                            <span class="text-green-600 text-xs font-semibold">✓ Ada</span>
                                         @endif
                                     </label>
                                     <input type="file" name="transkrip_semester_{{ $i }}"
-                                        accept=".pdf,.jpg,.jpeg,.png"
-                                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                        id="edit_transkrip_{{ $i }}" accept=".pdf,.jpg,.jpeg,.png"
+                                        onchange="validateEditFile(this)" class="hidden">
+                                    <label for="edit_transkrip_{{ $i }}"
+                                        class="file-input-label-edit !text-sm cursor-pointer">
+                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                            </path>
+                                        </svg>
+                                        <span class="file-name-edit text-gray-500 text-xs">Pilih file</span>
+                                    </label>
                                     @if (isset($transkripData["semester_{$i}"]))
                                         <button type="button"
                                             onclick="viewDocument('{{ Storage::url($transkripData["semester_{$i}"]) }}', 'Transkrip Semester {{ $i }}')"
-                                            class="text-xs text-blue-600 hover:underline mt-1 inline-block">Lihat
-                                            dokumen</button>
+                                            class="text-xs text-blue-600 hover:underline mt-2 inline-block font-medium">👁️
+                                            Lihat</button>
                                     @endif
                                 </div>
                             @endfor
                         </div>
                     </div>
                 @endif
-
-                <div class="flex justify-end gap-4 mt-8 sticky bottom-0 bg-white pt-4 border-t">
-                    <button type="button" onclick="closeEditDokumenModal()"
-                        class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-gray-400">
-                        Batal
-                    </button>
-                    <button type="submit" class="px-6 py-3 bg-[#31694E] text-white rounded-lg hover:bg-[#2a5a42]">
-                        Simpan Perubahan Dokumen
-                    </button>
-                </div>
             </form>
+
+            <!-- Footer Buttons -->
+            <div class="flex-shrink-0 bg-white border-t border-gray-200 p-6 flex justify-end gap-4">
+                <button type="button" onclick="closeEditDokumenModal()"
+                    class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors">
+                    Batal
+                </button>
+                <button type="button" onclick="document.getElementById('editDokumenForm').submit()"
+                    class="px-6 py-3 bg-[#31694E] hover:bg-[#2a5a42] text-white rounded-lg font-medium transition-colors flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
+                        </path>
+                    </svg>
+                    Simpan Perubahan
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1655,7 +1813,8 @@
                 <h3 id="documentTitle" class="text-xl font-bold text-gray-800"></h3>
                 <button onclick="closeDocumentPreview()" class="text-gray-500 hover:text-gray-800">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12">
                         </path>
                     </svg>
                 </button>
@@ -1687,16 +1846,76 @@
             document.body.style.overflow = 'hidden';
         }
 
-        function openEditDokumenModal() {
-            document.getElementById('editDokumenModal').classList.remove('hidden');
-            document.getElementById('editDokumenModal').classList.add('flex');
-            document.body.style.overflow = 'hidden';
+        // Validasi file untuk Edit Dokumen dengan limit 1MB
+        function validateEditFile(input) {
+            const label = input.nextElementSibling;
+            const fileNameSpan = label.querySelector('.file-name-edit');
+            const maxSizeMB = 1;
+            const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+            if (input.files && input.files[0]) {
+                const fileName = input.files[0].name;
+                const fileSize = (input.files[0].size / 1024 / 1024).toFixed(2);
+
+                // Cek ukuran file
+                if (input.files[0].size > maxSizeBytes) {
+                    // Tampilkan error message dengan link compress
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className =
+                        'bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mt-3 flex items-start gap-3 error-message-edit';
+                    errorDiv.innerHTML = `
+                <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4v2m0 0v2m0-2h2m-2 0h-2m8-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div class="flex-1">
+                    <p class="text-red-800 font-semibold text-sm">Ukuran file terlalu besar!</p>
+                    <p class="text-red-700 text-xs mt-1">File "${fileName}" (${fileSize} MB) melebihi batas maksimal ${maxSizeMB}MB.</p>
+                    <p class="text-red-700 text-xs mt-2">Silakan compress file Anda terlebih dahulu: <a href="https://www.iloveimg.com/compress-image" target="_blank" class="underline font-semibold hover:text-red-900">Compress Image di sini</a></p>
+                </div>
+            `;
+
+                    // Hapus error sebelumnya jika ada
+                    const oldError = label.parentElement.querySelector('.error-message-edit');
+                    if (oldError) oldError.remove();
+
+                    label.parentElement.appendChild(errorDiv);
+
+                    // Reset input dan label
+                    input.value = '';
+                    fileNameSpan.textContent = 'Pilih file';
+                    fileNameSpan.classList.add('placeholder');
+                    label.classList.remove('has-file');
+                } else {
+                    // File valid - hapus error jika ada
+                    const oldError = label.parentElement.querySelector('.error-message-edit');
+                    if (oldError) oldError.remove();
+
+                    fileNameSpan.textContent = fileName + ' (' + fileSize + ' MB)';
+                    fileNameSpan.classList.remove('placeholder');
+                    label.classList.add('has-file');
+                }
+            } else {
+                // Hapus error jika user membatalkan pemilihan file
+                const oldError = label.parentElement.querySelector('.error-message-edit');
+                if (oldError) oldError.remove();
+
+                fileNameSpan.textContent = 'Pilih file';
+                fileNameSpan.classList.add('placeholder');
+                label.classList.remove('has-file');
+            }
         }
 
+        // Fungsi modal yang sudah ada
         function closeEditDokumenModal() {
             document.getElementById('editDokumenModal').classList.add('hidden');
             document.getElementById('editDokumenModal').classList.remove('flex');
             document.body.style.overflow = 'auto';
+        }
+
+        function openEditDokumenModal() {
+            document.getElementById('editDokumenModal').classList.remove('hidden');
+            document.getElementById('editDokumenModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
         }
 
         function viewDocument(url, title) {
@@ -1712,25 +1931,25 @@
             if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(extension)) {
                 // Display image
                 contentElement.innerHTML = `
-                <div class="flex justify-center items-center">
-                    <img src="${url}" alt="${title}" class="max-w-full h-auto rounded-lg shadow-lg">
-                </div>
-            `;
+            <div class="flex justify-center items-center">
+                <img src="${url}" alt="${title}" class="max-w-full h-auto rounded-lg shadow-lg">
+            </div>
+        `;
             } else if (extension === 'pdf') {
                 // Display PDF
                 contentElement.innerHTML = `
-                <iframe src="${url}" class="w-full h-[70vh] rounded-lg shadow-lg" frameborder="0"></iframe>
-            `;
+            <iframe src="${url}" class="w-full h-[70vh] rounded-lg shadow-lg" frameborder="0"></iframe>
+        `;
             } else {
                 // Unsupported format
                 contentElement.innerHTML = `
-                <div class="text-center py-8">
-                    <p class="text-gray-600 mb-4">Format file tidak dapat ditampilkan di preview.</p>
-                    <a href="${url}" target="_blank" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                        Download File
-                    </a>
-                </div>
-            `;
+            <div class="text-center py-8">
+                <p class="text-gray-600 mb-4">Format file tidak dapat ditampilkan di preview.</p>
+                <a href="${url}" target="_blank" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Download File
+                </a>
+            </div>
+        `;
             }
 
             modal.classList.remove('hidden');

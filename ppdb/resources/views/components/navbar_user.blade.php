@@ -3,10 +3,10 @@
         <div class="flex items-center justify-between">
             <!-- Left Logo -->
             <div class="flex items-center space-x-4">
-                <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16 rounded-lg">
+                <img src="{{ asset('assets/logo_yayasan.png') }}" alt="Logo" class="w-16 h-16 rounded-lg">
                 <div>
                     <span class="text-xl font-bold block">PPDB Online</span>
-                    <span class="text-xl opacity-90">Yayasan Mambaul Maarif</span>
+                    <span class="text-xl opacity-90">Yayasan Mamba'ul Ma'arif</span>
                 </div>
             </div>
 

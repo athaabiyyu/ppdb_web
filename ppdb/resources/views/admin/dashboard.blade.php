@@ -149,7 +149,7 @@
                         </div>
                     </a>
 
-                    <a href="{{ route('admin.home_settings.index') }}"
+                    <a href="{{ route('admin.announcements.index') }}"
                         class="flex items-center gap-3 p-3 bg-green-50 hover:bg-green-100 rounded-lg transition group">
                         <div class="bg-green-500 p-2 rounded-lg group-hover:scale-110 transition">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">

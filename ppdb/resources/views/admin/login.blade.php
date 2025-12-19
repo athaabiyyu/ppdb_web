@@ -83,16 +83,7 @@
                             placeholder="Masukkan password"
                             required
                         >
-                    </div>
-
-                    <!-- Remember Me -->
-                    <div class="flex items-center justify-between">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
-                            <span class="text-sm text-gray-600">Ingat saya</span>
-                        </label>
-                        <a href="#" class="text-sm text-green-600 hover:text-green-700 font-medium">Lupa password?</a>
-                    </div>
+                    </div>  
 
                     <!-- Submit Button -->
                     <button 
@@ -107,23 +98,6 @@
                 </form>
             </div>
 
-            <!-- Card Footer -->
-            <div class="bg-gray-50 px-8 py-4 border-t border-gray-100">
-                <p class="text-center text-sm text-gray-600">
-                    Butuh bantuan? 
-                    <a href="/kontak" class="text-green-600 hover:text-green-700 font-medium">Hubungi Support</a>
-                </p>
-            </div>
-        </div>
-
-        <!-- Back to Home -->
-        <div class="text-center mt-6">
-            <a href="/" class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 font-medium transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                Kembali ke Halaman Utama
-            </a>
         </div>
 
         <!-- Footer Info -->

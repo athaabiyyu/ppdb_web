@@ -49,10 +49,10 @@
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
                 <!-- Logo dan Nama Yayasan -->
                 <div class="flex items-center gap-3 flex-shrink-0">
-                    <img src="/assets/logo_yayasan.png" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
+                    <img src="{{ asset('assets/logo_yayasan.png') }}" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
                     <div>
                         <span class="text-xl md:text-xl font-bold block">PPDB Online</span>
-                        <span class="text-sm md:text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
+                        <span class="text-sm md:text-sm opacity-90">Yayasan Mamba'ul Ma'arif Denanyar Jombang</span>
                     </div>
                 </div>
                 <!-- Progress Info -->
@@ -117,12 +117,12 @@
             </div>
         </div>
 
-        <form action="/form-ortu/store" method="POST">
+        <form action="{{ route('form.ortu.store') }}" method="POST">
             @csrf
-            <input type="hidden" name="student_id" value="{{ $student->id }}">
+            <input type="hidden" name="session_id" value="{{ $id }}">
 
             <!-- Info Jika Tinggal dengan Wali -->
-            @if ($student->tinggal_dengan === 'Wali')
+            @if (session('ppdb_registration.data_pribadi.tinggal_dengan') === 'Wali')
                 <div class="bg-orange-50 border-l-4 border-orange-500 p-4 mb-6 rounded-lg">
                     <div class="flex items-center">
                         <svg class="w-6 h-6 text-orange-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,7 +161,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="nama_ayah"
-                            value="{{ old('nama_ayah', $student->parentInfo->nama_ayah ?? '') }}"
+                            value="{{ old('nama_ayah') }}"
                             placeholder="Tuliskan nama lengkap"
                             class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('nama_ayah') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                         @error('nama_ayah')
@@ -174,7 +174,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">NIK<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="nik_ayah"
-                            value="{{ old('nik_ayah', $student->parentInfo->nik_ayah ?? '') }}"
+                            value="{{ old('nik_ayah') }}"
                             placeholder="Tuliskan nomor NIK" maxlength="16"
                             class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('nik_ayah') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                         @error('nik_ayah')
@@ -191,7 +191,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Tempat Lahir<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="tempat_lahir_ayah"
-                            value="{{ old('tempat_lahir_ayah', $student->parentInfo->tempat_lahir_ayah ?? '') }}"
+                            value="{{ old('tempat_lahir_ayah') }}"
                             placeholder="Contoh: Jakarta"
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
                         @error('tempat_lahir_ayah')
@@ -204,7 +204,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Lahir<span
                                 class="text-red-500">*</span></label>
                         <input type="date" name="tanggal_lahir_ayah"
-                            value="{{ old('tanggal_lahir_ayah', $student->parentInfo->tanggal_lahir_ayah ?? '') }}"
+                            value="{{ old('tanggal_lahir_ayah') }}"
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
                         @error('tanggal_lahir_ayah')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -224,7 +224,7 @@
                             <option value="">Pilih pendidikan terakhir</option>
                             @foreach ($pendidikanOptions as $value => $label)
                                 <option value="{{ $value }}"
-                                    {{ old('pendidikan_ayah', $student->parentInfo->pendidikan_ayah ?? '') == $value ? 'selected' : '' }}>
+                                    {{ old('pendidikan_ayah') == $value ? 'selected' : '' }}>
                                     {{ $label }}
                                 </option>
                             @endforeach
@@ -246,10 +246,10 @@
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl appearance-none bg-white">
                             <option value="">Pilih status</option>
                             <option value="Hidup"
-                                {{ old('status_ayah', $student->parentInfo->status_ayah ?? '') == 'Hidup' ? 'selected' : '' }}>
+                                {{ old('status_ayah') == 'Hidup' ? 'selected' : '' }}>
                                 Masih Hidup</option>
                             <option value="Meninggal"
-                                {{ old('status_ayah', $student->parentInfo->status_ayah ?? '') == 'Meninggal' ? 'selected' : '' }}>
+                                {{ old('status_ayah') == 'Meninggal' ? 'selected' : '' }}>
                                 Meninggal Dunia</option>
                         </select>
                         <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
@@ -269,7 +269,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Pekerjaan<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="pekerjaan_ayah"
-                            value="{{ old('pekerjaan_ayah', $student->parentInfo->pekerjaan_ayah ?? '') }}"
+                            value="{{ old('pekerjaan_ayah') }}"
                             placeholder="Contoh: Wiraswasta"
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
                         @error('pekerjaan_ayah')
@@ -282,7 +282,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Penghasilan per Bulan<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="penghasilan_ayah"
-                            value="{{ old('penghasilan_ayah', $student->parentInfo->penghasilan_ayah ?? '') }}"
+                            value="{{ old('penghasilan_ayah') }}"
                             placeholder="Contoh: 5.000.000"
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
                         @error('penghasilan_ayah')
@@ -298,7 +298,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">No. HP Ayah<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="hp_ayah"
-                            value="{{ old('hp_ayah', $student->parentInfo->hp_ayah ?? '') }}"
+                            value="{{ old('hp_ayah') }}"
                             placeholder="Contoh: 08123456789"
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
                         @error('hp_ayah')
@@ -330,7 +330,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="nama_ibu"
-                            value="{{ old('nama_ibu', $student->parentInfo->nama_ibu ?? '') }}"
+                            value="{{ old('nama_ibu') }}"
                             placeholder="Tuliskan nama lengkap"
                             class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('nama_ibu') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                         @error('nama_ibu')
@@ -343,7 +343,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">NIK<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="nik_ibu"
-                            value="{{ old('nik_ibu', $student->parentInfo->nik_ibu ?? '') }}"
+                            value="{{ old('nik_ibu') }}"
                             placeholder="Tuliskan nomor NIK" maxlength="16"
                             class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('nik_ibu') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                         @error('nik_ibu')
@@ -359,7 +359,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Tempat Lahir<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="tempat_lahir_ibu"
-                            value="{{ old('tempat_lahir_ibu', $student->parentInfo->tempat_lahir_ibu ?? '') }}"
+                            value="{{ old('tempat_lahir_ibu') }}"
                             placeholder="Contoh: Surabaya"
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
                         @error('tempat_lahir_ibu')
@@ -372,7 +372,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Lahir<span
                                 class="text-red-500">*</span></label>
                         <input type="date" name="tanggal_lahir_ibu"
-                            value="{{ old('tanggal_lahir_ibu', $student->parentInfo->tanggal_lahir_ibu ?? '') }}"
+                            value="{{ old('tanggal_lahir_ibu') }}"
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
                         @error('tanggal_lahir_ibu')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -391,7 +391,7 @@
                             <option value="">Pilih pendidikan terakhir</option>
                             @foreach ($pendidikanOptions as $value => $label)
                                 <option value="{{ $value }}"
-                                    {{ old('pendidikan_ibu', $student->parentInfo->pendidikan_ibu ?? '') == $value ? 'selected' : '' }}>
+                                    {{ old('pendidikan_ibu') == $value ? 'selected' : '' }}>
                                     {{ $label }}
                                 </option>
                             @endforeach
@@ -413,10 +413,10 @@
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl appearance-none bg-white">
                             <option value="">Pilih status</option>
                             <option value="Hidup"
-                                {{ old('status_ibu', $student->parentInfo->status_ibu ?? '') == 'Hidup' ? 'selected' : '' }}>
+                                {{ old('status_ibu') == 'Hidup' ? 'selected' : '' }}>
                                 Masih Hidup</option>
                             <option value="Meninggal"
-                                {{ old('status_ibu', $student->parentInfo->status_ibu ?? '') == 'Meninggal' ? 'selected' : '' }}>
+                                {{ old('status_ibu') == 'Meninggal' ? 'selected' : '' }}>
                                 Meninggal Dunia</option>
                         </select>
                         <svg class="w-5 h-5 text-gray-400 absolute right-4 top-11 pointer-events-none" fill="none"
@@ -436,7 +436,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Pekerjaan<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="pekerjaan_ibu"
-                            value="{{ old('pekerjaan_ibu', $student->parentInfo->pekerjaan_ibu ?? '') }}"
+                            value="{{ old('pekerjaan_ibu') }}"
                             placeholder="Contoh: Guru"
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
                         @error('pekerjaan_ibu')
@@ -449,7 +449,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Penghasilan per Bulan<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="penghasilan_ibu"
-                            value="{{ old('penghasilan_ibu', $student->parentInfo->penghasilan_ibu ?? '') }}"
+                            value="{{ old('penghasilan_ibu') }}"
                             placeholder="Contoh: 3.000.000"
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
                         @error('penghasilan_ibu')
@@ -465,7 +465,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">No. HP Ibu<span
                                 class="text-red-500">*</span></label>
                         <input type="text" name="hp_ibu"
-                            value="{{ old('hp_ibu', $student->parentInfo->hp_ibu ?? '') }}"
+                            value="{{ old('hp_ibu') }}"
                             placeholder="Contoh: 08123456789"
                             class="input-focus w-full px-4 py-3 border-2 rounded-xl transition-all">
                         @error('hp_ibu')
@@ -497,7 +497,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat Sesuai Kartu Keluarga
                             (KK)<span class="text-red-500">*</span></label>
                         <textarea name="alamat_kk" rows="2" placeholder="Tuliskan alamat lengkap sesuai Kartu Keluarga"
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('alamat_kk') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all resize-none">{{ old('alamat_kk', $student->alamat_kk ?? '') }}</textarea>
+                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('alamat_kk') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all resize-none">{{ old('alamat_kk') }}</textarea>
                         @if ($errors->has('alamat_kk'))
                             <p class="text-red-500 text-sm mt-1">{{ $errors->first('alamat_kk') }}</p>
                         @endif
@@ -508,7 +508,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat Domisili Saat Ini<span
                                 class="text-red-500">*</span></label>
                         <textarea name="alamat" rows="2" placeholder="Tuliskan alamat domisili"
-                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('alamat') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all resize-none">{{ old('alamat', $student->alamat ?? '') }}</textarea>
+                            class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('alamat') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all resize-none">{{ old('alamat') }}</textarea>
                         @if ($errors->has('alamat'))
                             <p class="text-red-500 text-sm mt-1">{{ $errors->first('alamat') }}</p>
                         @endif
@@ -519,7 +519,7 @@
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Desa / Kelurahan<span
                                     class="text-red-500">*</span></label>
-                            <input type="text" name="desa" value="{{ old('desa', $student->desa ?? '') }}"
+                            <input type="text" name="desa" value="{{ old('desa') }}"
                                 placeholder="Tuliskan desa/kelurahan"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('desa') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                             @if ($errors->has('desa'))
@@ -532,7 +532,7 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Kecamatan<span
                                     class="text-red-500">*</span></label>
                             <input type="text" name="kecamatan"
-                                value="{{ old('kecamatan', $student->kecamatan ?? '') }}"
+                                value="{{ old('kecamatan') }}"
                                 placeholder="Tuliskan kecamatan"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('kecamatan') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                             @if ($errors->has('kecamatan'))
@@ -545,7 +545,7 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Kabupaten / Kota<span
                                     class="text-red-500">*</span></label>
                             <input type="text" name="kabupaten"
-                                value="{{ old('kabupaten', $student->kabupaten ?? '') }}"
+                                value="{{ old('kabupaten') }}"
                                 placeholder="Tuliskan kabupaten/kota"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('kabupaten') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                             @if ($errors->has('kabupaten'))
@@ -558,7 +558,7 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Provinsi<span
                                     class="text-red-500">*</span></label>
                             <input type="text" name="provinsi"
-                                value="{{ old('provinsi', $student->provinsi ?? '') }}" placeholder="Tuliskan provinsi"
+                                value="{{ old('provinsi') }}" placeholder="Tuliskan provinsi"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('provinsi') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                             @if ($errors->has('provinsi'))
                                 <p class="text-red-500 text-sm mt-1">{{ $errors->first('provinsi') }}</p>
@@ -570,7 +570,7 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Kode Pos<span
                                     class="text-red-500">*</span></label>
                             <input type="text" name="kode_pos"
-                                value="{{ old('kode_pos', $student->kode_pos ?? '') }}" placeholder="Tuliskan kode pos"
+                                value="{{ old('kode_pos') }}" placeholder="Tuliskan kode pos"
                                 maxlength="5"
                                 class="input-focus w-full px-4 py-3 border-2 {{ $errors->has('kode_pos') ? 'border-red-500' : 'border-gray-200' }} rounded-xl transition-all">
                             @if ($errors->has('kode_pos'))
