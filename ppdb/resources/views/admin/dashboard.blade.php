@@ -292,7 +292,6 @@
                             font: {
                                 size: 12
                             },
-                            // Perbaikan: Tambahkan stepSize dan callback untuk menghindari desimal
                             stepSize: 1,
                             callback: function(value) {
                                 if (Number.isInteger(value)) {
