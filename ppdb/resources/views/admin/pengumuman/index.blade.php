@@ -1,6 +1,6 @@
 @extends('layouts.app_admin')
 
-@section('title', 'Pengumuman')
+@section('title', 'Kelola Pengumuman')
 
 @section('content')
     <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4">
@@ -78,7 +78,7 @@
                                     <td class="px-6 py-4">
                                         <span
                                             class="text-gray-600 text-sm">{{ Str::limit(ucfirst(strtolower($announcement->description)), 50) }}
-</span>
+                                        </span>
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if ($announcement->is_active)

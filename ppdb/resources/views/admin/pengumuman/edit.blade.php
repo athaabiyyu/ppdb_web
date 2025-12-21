@@ -3,23 +3,23 @@
 @section('title', 'Edit Pengumuman')
 
 @section('content')
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4">
+    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 sm:py-12 px-4 sm:px-6">
         <div class="max-w-4xl mx-auto">
 
             {{-- Header Section --}}
-            <div class="mb-8">
+            <div class="mb-8 sm:mb-12">
                 <div class="flex items-center gap-3 mb-2">
-                    <h1 class="text-4xl font-bold text-gray-800">Edit Pengumuman</h1>
+                    <h1 class="text-2xl sm:text-4xl font-bold text-gray-800">Edit Pengumuman</h1>
                 </div>
-                <p class="text-gray-600 ml-0">Perbarui informasi pengumuman yang telah dibuat</p>
+                <p class="text-sm sm:text-base text-gray-600 ml-0">Perbarui informasi pengumuman yang telah dibuat</p>
             </div>
 
             {{-- Form Card --}}
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
                 {{-- Form Header --}}
-                <div class="bg-[#31694E] p-6">
-                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-[#31694E] p-4 sm:p-6">
+                    <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                        <svg class="w-5 sm:w-6 h-5 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
@@ -28,7 +28,7 @@
                 </div>
 
                 {{-- Form Body --}}
-                <form action="{{ route('admin.announcements.update', $announcement->id) }}" method="POST" class="p-8">
+                <form action="{{ route('admin.announcements.update', $announcement->id) }}" method="POST" class="p-4 sm:p-8">
                     @csrf
                     @method('PUT')
 
@@ -60,7 +60,7 @@
                             class="w-full border-2 border-gray-300 rounded-lg p-3 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200 transition-all duration-200 resize-none @error('description') border-red-500 @enderror"
                             id="description" name="description" rows="3"
                             placeholder="Ringkasan maksimal 500 karakter - ini akan ditampilkan di daftar pengumuman" required>{{ old('description', $announcement->description) }}</textarea>
-                        <p class="text-gray-500 text-sm mt-2 flex items-center gap-1">
+                        <p class="text-gray-500 text-xs sm:text-sm mt-2 flex items-center gap-1">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -100,18 +100,18 @@
                     </div>
 
                     {{-- Buttons --}}
-                    <div class="flex justify-between mt-6">
+                    <div class="flex flex-col-reverse sm:flex-row sm:justify-between gap-3 sm:gap-4 mt-6">
                         <a href="{{ route('admin.announcements.index') }}"
-                            class="inline-flex items-center gap-2 bg-red-500 text-white font-bold px-8 py-3 rounded-lg hover:bg-red-600 transition-all duration-200 shadow-lg hover:shadow-xl">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="w-full sm:w-auto text-center inline-flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white font-bold px-6 sm:px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base">
+                            <svg class="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M6 18L18 6M6 6l12 12" />
                             </svg>
                             Batal
                         </a>
                         <button type="submit"
-                            class="inline-flex items-center gap-2 bg-[#31694E] text-white font-bold px-8 py-3 rounded-lg hover:bg-[#2a5840] transition-all duration-200 shadow-lg hover:shadow-xl">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#31694E] hover:bg-[#2a5840] text-white font-bold px-6 sm:px-8 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base">
+                            <svg class="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M5 13l4 4L19 7" />
                             </svg>
@@ -127,8 +127,10 @@
         const toggleCheckbox = document.getElementById('is_active');
         const statusText = document.getElementById('status-text');
 
-        toggleCheckbox.addEventListener('change', function() {
-            statusText.textContent = this.checked ? 'Tampilkan' : 'Sembunyikan';
-        });
+        if (toggleCheckbox) {
+            toggleCheckbox.addEventListener('change', function() {
+                statusText.textContent = this.checked ? 'Tampilkan' : 'Sembunyikan';
+            });
+        }
     </script>
 @endsection

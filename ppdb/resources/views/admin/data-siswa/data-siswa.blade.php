@@ -49,7 +49,7 @@
                             </a>
                         </div>
 
-                        <!-- Tabel Siswa dengan Pagination -->
+                        <!-- Tabel Siswa -->
                         <div class="overflow-x-auto rounded-lg mb-4 sm:mb-6">
                             <table class="w-full text-xs sm:text-sm">
                                 <thead>
@@ -134,11 +134,9 @@
     </div>
 
     <script>
-        // Store pagination state untuk setiap lembaga
         const paginationState = {};
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize pagination state untuk semua lembaga
             document.querySelectorAll('[data-lembaga][data-total]').forEach(element => {
                 const lembaga = element.dataset.lembaga;
                 const totalStudents = parseInt(element.dataset.total);
@@ -153,7 +151,6 @@
                 }
             });
 
-            // Setup prev buttons
             document.querySelectorAll('.pagination-prev-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const lembaga = this.dataset.lembaga;
@@ -161,7 +158,6 @@
                 });
             });
 
-            // Setup next buttons
             document.querySelectorAll('.pagination-next-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const lembaga = this.dataset.lembaga;
@@ -169,7 +165,6 @@
                 });
             });
 
-            // Setup page buttons
             document.querySelectorAll('.pagination-page-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const lembaga = this.dataset.lembaga;
@@ -178,7 +173,6 @@
                 });
             });
 
-            // Trigger showPage untuk initialize tampilan pertama
             Object.keys(paginationState).forEach(lembaga => {
                 showPage(lembaga, 1);
             });
@@ -198,10 +192,8 @@
 
             if (page < 1 || page > totalPages) return;
 
-            // Hide semua rows
             allRows.forEach(row => row.style.display = 'none');
 
-            // Show rows untuk halaman saat ini
             const startIdx = (page - 1) * itemsPerPage;
             const endIdx = startIdx + itemsPerPage;
             
@@ -209,14 +201,12 @@
                 allRows[i].style.display = 'table-row';
             }
 
-            // Update pagination info
             const currentDisplay = `${startIdx + 1}-${Math.min(endIdx, allRows.length)}`;
             const currentSpan = document.querySelector(`.pagination-current-${lembaga}`);
             if (currentSpan) {
                 currentSpan.textContent = currentDisplay;
             }
 
-            // Update active page button
             document.querySelectorAll('.pagination-page-btn').forEach(btn => {
                 if (btn.dataset.lembaga === lembaga) {
                     const btnPage = parseInt(btn.dataset.page);
@@ -230,7 +220,6 @@
                 }
             });
 
-            // Update prev/next button state
             const prevBtn = document.querySelector(`.pagination-prev-btn[data-lembaga="${lembaga}"]`);
             const nextBtn = document.querySelector(`.pagination-next-btn[data-lembaga="${lembaga}"]`);
             
