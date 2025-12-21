@@ -189,7 +189,7 @@
                             <p class="text-gray-600 text-sm">
                                 Pastikan semua syarat dan alur pendaftaran dipahami dengan baik.
                                 Jika ada pertanyaan, silakan hubungi panitia PPDB di
-                                <span class="font-medium text-[#31694E]">Yayasan Mambaul Maarif Denanyar Jombang</span>.
+                                <span class="font-medium text-[#31694E]">Yayasan Mamba'ul Ma'arif Denanyar Jombang</span>.
                             </p>
                         </div>
                     </div>
@@ -378,7 +378,7 @@
                 spaceBetween: 0,
                 loop: true,
                 autoplay: {
-                    delay: 7000,
+                    delay: 5000,
                     disableOnInteraction: false,
                 },
                 pagination: {

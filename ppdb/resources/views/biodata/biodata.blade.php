@@ -126,7 +126,7 @@
                     <img src="{{ asset('assets/logo_yayasan.png') }}" alt="Logo" class="w-16 h-16 md:w-16 md:h-16">
                     <div>
                         <span class="text-xl md:text-xl font-bold block">PPDB Online</span>
-                        <span class="text-sm md:text-sm opacity-90">Yayasan Mambaul Maarif Denanyar Jombang</span>
+                        <span class="text-sm md:text-sm opacity-90">Yayasan Mamba'ul Ma'arif Denanyar Jombang</span>
                     </div>
                 </div>
                 <!-- Progress Info -->
