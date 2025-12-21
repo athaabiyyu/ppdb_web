@@ -19,30 +19,9 @@ Route::get('/', [PPDBController::class, 'index'])->name('home');
 Route::get('/daftar/{jenjang}', [PPDBController::class, 'pilihJenjang'])->name('pilih.jenjang');
 Route::post('/pilih-lembaga', [PPDBController::class, 'pilihLembaga'])->name('pilih.lembaga');
 
-// Form Data Pribadi
-Route::get('/form-data-pribadi/{id}/{jenjang}', [PPDBController::class, 'formDataPribadi'])
-    ->name('form.data.pribadi');
-Route::post('/form-data-pribadi/store', [PPDBController::class, 'storeDataPribadi'])->name('form.data.pribadi.store');
-
-Route::get('/form-ortu/{id}', [PPDBController::class, 'formOrtu'])->name('form.ortu');
-Route::post('/form-ortu/store', [PPDBController::class, 'storeOrtu'])->name('form.ortu.store');
-
-Route::get('/form-dokumen/{id}', [PPDBController::class, 'formDokumen'])->name('form.dokumen');
-Route::post('/form-dokumen/store', [PPDBController::class, 'storeDokumen'])->name('form.dokumen.store');
-
-// Biodata
-Route::get('/biodata/{id}', [PPDBController::class, 'biodata'])->name('biodata');
-Route::put('/biodata/{id}/update', [PPDBController::class, 'updateBiodata'])->name('biodata.update');
-Route::put('/biodata/{id}/update-dokumen', [PPDBController::class, 'updateDokumen'])->name('biodata.update.dokumen');
-
-// Cetak & Download
-Route::get('/cetak/{id}', [PPDBController::class, 'cetak'])->name('cetak');
-Route::get('/siswa/{id}/download', [PPDBController::class, 'downloadPdf'])->name('students.download');
-
 // Pengumuman (Public)
 Route::get('/pengumuman', [AnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/pengumuman/{id}', [AnnouncementController::class, 'show'])->name('announcements.show');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -50,37 +29,97 @@ Route::get('/pengumuman/{id}', [AnnouncementController::class, 'show'])->name('a
 |--------------------------------------------------------------------------
 */
 
-Route::get('/admin', [AdminAuthController::class, 'loginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminAuthController::class, 'login']);
-Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
-Route::get('/admin/edit-profile', [AdminAuthController::class, 'editProfile'])->name('admin.editProfile');
-Route::post('/admin/update-profile', [AdminAuthController::class, 'updateProfile'])->name('admin.updateProfile');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'loginForm'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login']);
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
+    Route::middleware('admin')->group(function () {
+        Route::get('/edit-profile', [AdminAuthController::class, 'editProfile'])->name('editProfile');
+        Route::post('/update-profile', [AdminAuthController::class, 'updateProfile'])->name('updateProfile');
+    });
+});
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN ROUTES (MIDDLEWARE ADMIN)
+| STUDENT ROUTES - DENGAN SESSION PROTECTION
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('admin')->group(function () {
+// ✅ Middleware student.session melindungi dari akses tanpa mulai daftar
+Route::middleware(['student.session'])->group(function () {
+
+    // Form Data Pribadi
+    Route::get('/form-data-pribadi/{id}/{jenjang}', [PPDBController::class, 'formDataPribadi'])
+        ->name('form.data.pribadi')
+        ->middleware('student.access:id');
+
+    Route::post('/form-data-pribadi/store', [PPDBController::class, 'storeDataPribadi'])
+        ->name('form.data.pribadi.store');
+
+    // Form Orang Tua
+    Route::get('/form-ortu/{id}', [PPDBController::class, 'formOrtu'])
+        ->name('form.ortu')
+        ->middleware('student.access:id');
+
+    Route::post('/form-ortu/store', [PPDBController::class, 'storeOrtu'])
+        ->name('form.ortu.store');
+
+    // Form Dokumen
+    Route::get('/form-dokumen/{id}', [PPDBController::class, 'formDokumen'])
+        ->name('form.dokumen')
+        ->middleware('student.access:id');
+
+    Route::post('/form-dokumen/store', [PPDBController::class, 'storeDokumen'])
+        ->name('form.dokumen.store');
+
+    // Biodata (Setelah submit dokumen)
+    Route::get('/biodata/{id}', [PPDBController::class, 'biodata'])
+        ->name('biodata')
+        ->middleware('student.access:id');
+
+    Route::put('/biodata/{id}/update', [PPDBController::class, 'updateBiodata'])
+        ->name('biodata.update')
+        ->middleware('student.access:id');
+
+    Route::put('/biodata/{id}/update-dokumen', [PPDBController::class, 'updateDokumen'])
+        ->name('biodata.update.dokumen')
+        ->middleware('student.access:id');
+
+    // Cetak & Download
+    Route::get('/cetak/{id}', [PPDBController::class, 'cetak'])
+        ->name('cetak')
+        ->middleware('student.access:id');
+
+    Route::get('/siswa/{id}/download', [PPDBController::class, 'downloadPdf'])
+        ->name('students.download')
+        ->middleware('student.access:id');
+});
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN ROUTES - MIDDLEWARE ADMIN
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     // Dashboard & Data
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])
-        ->name('admin.dashboard');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])
+        ->name('dashboard');
 
-    Route::get('/admin/data-siswa', [AdminController::class, 'dataSiswa'])
-        ->name('admin.data_siswa');
+    Route::get('/data-siswa', [AdminController::class, 'dataSiswa'])
+        ->name('data_siswa');
 
-    Route::get('/admin/export-csv/{lembaga}', [AdminController::class, 'exportCSV'])
-        ->name('admin.export_csv');
+    Route::get('/export-csv/{lembaga}', [AdminController::class, 'exportCSV'])
+        ->name('export_csv');
 
     /*
     |--------------------------------------------------------------------------
     | ADMIN HOME SETTINGS
     |--------------------------------------------------------------------------
     */
-    Route::prefix('admin/home-settings')->name('admin.home_settings.')->group(function () {
+    Route::prefix('home-settings')->name('home_settings.')->group(function () {
 
         Route::get('/', [AdminHomeSettingController::class, 'index'])
             ->name('index');
@@ -121,15 +160,21 @@ Route::middleware('admin')->group(function () {
     | ADMIN PENGUMUMAN
     |--------------------------------------------------------------------------
     */
-    Route::prefix('admin/pengumuman')->name('admin.announcements.')->group(function () {
+    Route::prefix('pengumuman')->name('announcements.')->group(function () {
 
-        Route::get('/', [AnnouncementController::class, 'adminIndex'])->name('index');
-        Route::get('/create', [AnnouncementController::class, 'create'])->name('create');
-        Route::post('/', [AnnouncementController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [AnnouncementController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [AnnouncementController::class, 'update'])->name('update');
-        Route::delete('/{id}', [AnnouncementController::class, 'destroy'])->name('destroy');
-        Route::patch('/{id}/toggle', [AnnouncementController::class, 'toggleStatus'])->name('toggle');
+        Route::get('/', [AnnouncementController::class, 'adminIndex'])
+            ->name('index');
+        Route::get('/create', [AnnouncementController::class, 'create'])
+            ->name('create');
+        Route::post('/', [AnnouncementController::class, 'store'])
+            ->name('store');
+        Route::get('/{id}/edit', [AnnouncementController::class, 'edit'])
+            ->name('edit');
+        Route::put('/{id}', [AnnouncementController::class, 'update'])
+            ->name('update');
+        Route::delete('/{id}', [AnnouncementController::class, 'destroy'])
+            ->name('destroy');
+        Route::patch('/{id}/toggle', [AnnouncementController::class, 'toggleStatus'])
+            ->name('toggle');
     });
-
 });

@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Models\Unit;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Response;
+
 
 class AdminController extends Controller
 {

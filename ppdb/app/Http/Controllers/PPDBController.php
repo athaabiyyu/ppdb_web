@@ -6,16 +6,18 @@ use App\Models\Student;
 use App\Models\ParentInfo;
 use App\Models\Guardian;
 use App\Models\Document;
+use App\Models\Choice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 use App\Models\RegistrationRequirement;
 use App\Models\HomeSetting;
 use App\Models\RegistrationFlow;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\SliderImage;
+use App\Models\RegistrationStage;
 use App\Models\Unit;
+use Illuminate\Support\Str;
 
 class PPDBController extends Controller
 {
@@ -54,14 +56,12 @@ class PPDBController extends Controller
 
               // logic pemilihan lembaga
               if (strtoupper($data['jenjang']) === 'SD') {
-                     // lembaga otomatis SD
                      $selected = ['SD'];
               } else {
-                     // lembaga berdasarkan pilihan user
                      $selected = $data['pilihan'] ?? [];
               }
 
-              // SIMPAN KE SESSION (BUKAN KE DATABASE)
+              // SIMPAN KE SESSION
               $sessionId = Str::uuid()->toString();
               Session::put('ppdb_registration', [
                      'session_id' => $sessionId,
@@ -75,6 +75,9 @@ class PPDBController extends Controller
                      'dokumen' => null,
               ]);
 
+              // ✅ SIMPAN SESSION_ID KE SESSION (untuk middleware)
+              session(['ppdb_session_id' => $sessionId]);
+
               return redirect()->route('form.data.pribadi', [
                      'id' => $sessionId,
                      'jenjang' => strtoupper($data['jenjang'])
@@ -84,7 +87,7 @@ class PPDBController extends Controller
        public function formDataPribadi($id, $jenjang)
        {
               $pendidikanOptions = Guardian::PENDIDIKAN_OPTIONS;
-
+              
               // Validasi session
               if (!Session::has('ppdb_registration') || Session::get('ppdb_registration.session_id') !== $id) {
                      return redirect()->route('home')->with('error', 'Session expired');
@@ -326,12 +329,11 @@ class PPDBController extends Controller
                      'file' => ':attribute harus berupa file.',
                      'image' => ':attribute harus berupa gambar.',
                      'max' => ':attribute maksimal 1MB.',
-                     'exists' => 'Data siswa tidak ditemukan.',
               ];
 
               $req = $request->validate($rules, $messages);
 
-              // ===== SEKARANG SIMPAN SEMUA DATA KE DATABASE =====
+              // ===== SIMPAN SEMUA DATA KE DATABASE HANYA SAAT SUBMIT DOKUMEN =====
 
               // 1. Generate registration number
               $registrationNumber = 'PPDB-' . $jenjang . '-' . time();
@@ -362,6 +364,9 @@ class PPDBController extends Controller
                      'alamat_sekolah_asal' => $ppdb['data_pribadi']['alamat_sekolah_asal'],
                      'npsn_nsm' => $ppdb['data_pribadi']['npsn_nsm'],
               ]);
+
+              // ✅ SIMPAN STUDENT_ID KE SESSION (untuk proteksi middleware)
+              session(['ppdb_student_id' => $student->id]);
 
               // 3. Simpan ParentInfo
               ParentInfo::create([
@@ -409,8 +414,9 @@ class PPDBController extends Controller
 
               Document::create($docData);
 
-              // 6. Hapus session & redirect
+              // 6. Hapus session registration & redirect
               Session::forget('ppdb_registration');
+              Session::forget('ppdb_session_id');
 
               return redirect()->route('biodata', ['id' => $student->id])
                      ->with('success', 'Pendaftaran berhasil! Data Anda telah tersimpan.');
@@ -440,7 +446,6 @@ class PPDBController extends Controller
        {
               $student = Student::findOrFail($id);
 
-              // Validasi data siswa
               $rules = [
                      'nama' => 'nullable|string|max:255',
                      'jenis_kelamin' => 'nullable|string',
@@ -460,8 +465,6 @@ class PPDBController extends Controller
                      'sekolah_asal' => 'nullable|string',
                      'alamat_sekolah_asal' => 'nullable|string',
                      'npsn_nsm' => 'nullable|string',
-
-                     // Data orang tua
                      'nama_ayah' => 'nullable|string|max:255',
                      'nama_ibu' => 'nullable|string|max:255',
                      'alamat_kk' => 'nullable|string',
@@ -487,8 +490,6 @@ class PPDBController extends Controller
                      'status_ibu' => 'nullable|string',
                      'hp_ayah' => 'nullable|string',
                      'hp_ibu' => 'nullable|string',
-
-                     // Data wali (jika ada)
                      'nama_wali' => 'nullable|string',
                      'nik_wali' => 'nullable|string',
                      'tempat_lahir_wali' => 'nullable|string',
@@ -507,7 +508,6 @@ class PPDBController extends Controller
 
               $validated = $request->validate($rules);
 
-              // Update data siswa
               $studentData = array_filter([
                      'nama' => $validated['nama'] ?? null,
                      'jenis_kelamin' => $validated['jenis_kelamin'] ?? null,
@@ -535,7 +535,6 @@ class PPDBController extends Controller
                      $student->update($studentData);
               }
 
-              // Update data orang tua
               if ($student->parentInfo) {
                      $parentData = array_filter([
                             'nama_ayah' => $validated['nama_ayah'] ?? null,
@@ -572,7 +571,6 @@ class PPDBController extends Controller
                      }
               }
 
-              // Update data wali (jika ada)
               if ($student->guardian && $student->tinggal_dengan === 'Wali') {
                      $guardianData = array_filter([
                             'nama_wali' => $validated['nama_wali'] ?? null,
@@ -606,7 +604,6 @@ class PPDBController extends Controller
        {
               $student = Student::findOrFail($id);
 
-              // Base rules untuk semua jenjang
               $rules = [
                      'kk' => 'nullable|file|max:5120',
                      'akte' => 'nullable|file|max:5120',
@@ -618,7 +615,6 @@ class PPDBController extends Controller
                      'foto_anak' => 'nullable|file|image|max:5120',
               ];
 
-              // Tambah rules untuk transkrip berdasarkan jenjang
               if ($student->jenjang === 'SMP') {
                      for ($i = 1; $i <= 11; $i++) {
                             $rules["transkrip_semester_{$i}"] = 'nullable|file|max:5120';
@@ -643,19 +639,15 @@ class PPDBController extends Controller
                      $document = new Document(['student_id' => $student->id]);
               }
 
-              // Update dokumen dasar
               foreach (['kk', 'akte', 'ktp_ayah', 'ktp_ibu', 'surat_aktif', 'prestasi', 'kip_pkh', 'foto_anak'] as $field) {
                      if ($request->hasFile($field)) {
-                            // Hapus file lama jika ada
                             if ($document->$field && Storage::disk('public')->exists($document->$field)) {
                                    Storage::disk('public')->delete($document->$field);
                             }
 
-                            // Upload file baru
                             $path = $request->file($field)->store('uploads/' . $student->registration_number, 'public');
                             $document->$field = $path;
 
-                            // Update foto student jika foto_anak diupload
                             if ($field === 'foto_anak') {
                                    if ($student->foto && Storage::disk('public')->exists($student->foto)) {
                                           Storage::disk('public')->delete($student->foto);
@@ -666,7 +658,6 @@ class PPDBController extends Controller
                      }
               }
 
-              // Update transkrip semester
               $maxSemester = 0;
               if ($student->jenjang === 'SMP') {
                      $maxSemester = 11;
@@ -680,12 +671,10 @@ class PPDBController extends Controller
                      for ($i = 1; $i <= $maxSemester; $i++) {
                             $fieldName = "transkrip_semester_{$i}";
                             if ($request->hasFile($fieldName)) {
-                                   // Hapus file lama jika ada
                                    if (isset($transkripData["semester_{$i}"]) && Storage::disk('public')->exists($transkripData["semester_{$i}"])) {
                                           Storage::disk('public')->delete($transkripData["semester_{$i}"]);
                                    }
 
-                                   // Upload file baru
                                    $path = $request->file($fieldName)->store('uploads/' . $student->registration_number . '/transkrip', 'public');
                                    $transkripData["semester_{$i}"] = $path;
                             }
