@@ -125,7 +125,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            © 2024 Sistem PPDB Online - Simpan bukti ini untuk keperluan administrasi
+            © Sistem PPDB Online - Simpan bukti ini untuk keperluan administrasi
         </div>
 
     </div>

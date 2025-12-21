@@ -54,7 +54,7 @@
 
         <!-- Footer -->
         <p class="text-center text-[#31694E] text-sm mt-12">
-            © 2024 Sistem PPDB Online - Simpan bukti ini untuk keperluan administrasi
+            © Sistem PPDB Online - Simpan bukti ini untuk keperluan administrasi
         </p>
     </div>
 @endsection

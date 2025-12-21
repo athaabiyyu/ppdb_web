@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="border-t border-white mt-8 pt-8 text-center text-sm">
-            <p class="text-white">&copy; 2024 PPDB Online. All rights reserved.</p>
+            <p class="text-white">&copy; PPDB Online. All rights reserved.</p>
         </div>
     </div>
 </footer>

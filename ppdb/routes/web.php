@@ -25,7 +25,7 @@ Route::get('/pengumuman/{id}', [AnnouncementController::class, 'show'])->name('a
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN AUTH ROUTES (TANPA MIDDLEWARE)
+| ADMIN AUTH ROUTES
 |--------------------------------------------------------------------------
 */
 
@@ -42,11 +42,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| STUDENT ROUTES - DENGAN SESSION PROTECTION
+| STUDENT ROUTES
 |--------------------------------------------------------------------------
 */
 
-// ✅ Middleware student.session melindungi dari akses tanpa mulai daftar
 Route::middleware(['student.session'])->group(function () {
 
     // Form Data Pribadi
@@ -73,7 +72,7 @@ Route::middleware(['student.session'])->group(function () {
     Route::post('/form-dokumen/store', [PPDBController::class, 'storeDokumen'])
         ->name('form.dokumen.store');
 
-    // Biodata (Setelah submit dokumen)
+    // Biodata 
     Route::get('/biodata/{id}', [PPDBController::class, 'biodata'])
         ->name('biodata')
         ->middleware('student.access:id');
@@ -98,7 +97,7 @@ Route::middleware(['student.session'])->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN ROUTES - MIDDLEWARE ADMIN
+| ADMIN ROUTES 
 |--------------------------------------------------------------------------
 */
 

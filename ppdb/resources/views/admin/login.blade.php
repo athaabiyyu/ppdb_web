@@ -123,7 +123,7 @@
 
         <!-- Footer -->
         <p class="text-center text-xs text-gray-500 mt-6">
-            © 2024 PPDB Online System
+            © PPDB Online System
         </p>
 
     </div>

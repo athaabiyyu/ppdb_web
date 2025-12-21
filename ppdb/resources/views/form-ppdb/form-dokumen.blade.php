@@ -548,7 +548,7 @@
 
     <!-- Footer -->
     <div class="text-center py-8 text-gray-600 text-sm">
-        <p>© 2024 Sistem Informasi Pendaftaran Siswa</p>
+        <p>© Sistem Informasi Pendaftaran Siswa</p>
     </div>
 
 @endsection
